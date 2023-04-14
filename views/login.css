@@ -1,0 +1,40 @@
+html, body {
+    height: 100%;
+  }
+
+#background_img{
+    background: url(/images/background.png) !important;
+    height: 100%;
+}
+.bg-image-vertical {
+    position: relative;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: auto 100%;
+    }
+    
+    @media (min-width: 1025px) {
+    .h-custom-2 {
+    height: 100%;
+    }
+    }
+
+.logo img {
+    height: 200px;
+    width: 200px;
+    margin: auto;
+}
+
+.form-label{
+    border:10px;
+    border-color: aqua;
+    font-size:20px;
+    font-weight: bold !important;
+}
+
+h3{
+    text-align: center;
+    font-weight: bolder;
+    color: blue;
+}
