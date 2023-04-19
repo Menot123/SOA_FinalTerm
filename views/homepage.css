@@ -2,11 +2,6 @@ html, body {
     height: 100%;
   }
 
-#background_home{
-    background: url(/images/background_chutro.png) ;
-    position: relative;
-    height: 100%;
-}
 
 @media only screen and (max-width: 600px) {
     body {
@@ -15,10 +10,147 @@ html, body {
 
 }
 
+.top{
+  background-color: aqua;
+}
+
 /* Logo */
 
 .top img {
     height: 150px;
     width: 150px;
     margin-left: 45%;
+}
+
+/* Background Image */
+
+
+/* Color Navbar Text */
+.nav-link{
+  color:#fff;
+}
+
+.nav-link:hover{
+  color: black;
+}
+
+/* Guide Feature */
+.vct {
+  position: relative;
+  height: 100%;
+}
+
+.vct1 {
+  background-color: #fff;
+  height: 400px;
+}
+
+.vct2 {
+  background-color: #16b478;
+  height: 500px;
+}
+
+.img_vct1 {
+  height: 300px;
+  width: 300px;
+  position: absolute;
+  right: 150px;
+  top: 60%;
+  border-radius: 10px;
+}
+
+.title_vct {
+  position: absolute;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 50px;
+  left: 250px;
+  top: 30%;
+}
+
+.content_vct {
+  width: 500px;
+  position: absolute;
+  left: 250px;
+  top: 60%;
+}
+
+div.fixed {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 3;
+}
+
+.camket {
+  height: 1000px;
+  background-color: #A0DB87;
+  position: relative;
+}
+
+.img_camket {
+  height: 600px;
+  width: 600px;
+  position: absolute;
+  left: 300px;
+  top: 100px;
+  border-radius: 10px;
+}
+
+.content_camket {
+  width: 500px;
+  position: absolute;
+  right: 350px;
+  top: 450px;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #16b478;
+}
+
+.details_content_camket {
+  font-size: 18px;
+  color: #fff;
+}
+
+.tamnhin_doingu {
+  height: 1000px;
+  background-color: #16b478;
+  position: relative;
+}
+
+.img_tamnhin {
+  height: 500px;
+  width: 500px;
+  position: absolute;
+  left: 200px;
+  top: 100px;
+  border-radius: 10px;
+}
+
+.img_doingu {
+  height: 700px;
+  width: 700px;
+  position: absolute;
+  right: 80px;
+  bottom: 50px;
+  /* border-radius: 10px; */
+}
+
+.details_tamnhin {
+  font-size: 18px;
+  color: #fff;
+}
+
+.content_tamnhin {
+  width: 600px;
+  position: absolute;
+  right: 200px;
+  top: 150px;
+}
+
+.content_doingu {
+  width: 500px;
+  position: absolute;
+  left: 200px;
+  bottom: 50px;
 }
