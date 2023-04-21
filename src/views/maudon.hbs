@@ -49,7 +49,7 @@
     }
 </style>
 
-<body>
+<body id="target">
 
     <div class="top my-2">
         <p>Mẫu CT01 ban hành theo TT số 56/2021/TT-BCA ngày 15/5/2021</p>
@@ -183,10 +183,15 @@
 
 </body>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.1.135/jspdf.umd.min.js"></script>
+<script>
+    const btn__download = document.getElementById("download-pdf")
+    console.log(btn__download)
     document.getElementById("download-pdf").addEventListener("click", function () {
+        window.print()
+        console.log('hi')
         // Lấy nội dung của trang HTML
-        var html = document.documentElement.outerHTML;
+        var html = document.getElementById('target');
 
         // Tạo một đối tượng PDF từ nội dung HTML
         var pdf = new jsPDF();
