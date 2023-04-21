@@ -1,0 +1,38 @@
+<style>
+    header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgb(196, 207, 124);
+        color: #fff;
+        padding: 10px;
+        position: relative;
+    }
+
+    .logo img {
+        height: 100px;
+        width: 100px;
+        position: relative;
+    }
+
+    #img__back{
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        left: 8px;
+        bottom: 8px;
+        cursor: pointer;
+    }
+
+    #img__back:hover {
+        opacity: 0.8;
+    }
+</style>
+
+<header>
+    <div class="logo w-100 text-center">
+        <a href="/"><img src="/img/Logo.png" alt="Logo"></a>
+        <img onclick="history.back()" id="img__back" src="/img/back-button.png" alt="backpage">
+
+    </div>
+</header>

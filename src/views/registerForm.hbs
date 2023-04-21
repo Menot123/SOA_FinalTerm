@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/registerForm.css">
+    <title>Đăng ký tạm trú</title>
+</head>
+
+<style>
+    #table__people {
+        width: 1000px;
+        margin-right: 100px;
+
+    }
+
+    .full-height td {
+        padding: 0;
+    }
+
+    .full-height td input {
+        height: 45px;
+        border: none;
+        padding: 4px;
+    }
+
+    .full-height td input:focus {
+        outline: none;
+        border: none;
+    }
+
+    .full-height th input {
+        height: 45px;
+        border: none;
+        padding: 4px;
+    }
+
+    .full-height th input:focus {
+        outline: none;
+        border: none;
+    }
+
+    .more__people {
+        overflow: auto;
+    }
+
+    .checkMorePeople {
+        position: relative;
+        min-height: 50px;
+    }
+
+    #btn-add {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    #btn-del {
+        position: absolute;
+        right: 128px;
+        top: 0;
+    }
+
+    .msg__err {
+        color: red;
+        font-weight: bold;
+        font-size: 1.0rem;
+    }
+</style>
+
+<body>
+    <div class="formbold-main-wrapper ">
+        <!-- Author: FormBold Team -->
+        <!-- Learn More: https://formbold.com -->
+        <div class="w-full">
+            <div class="formbold-form-wrapper active " style="max-width: 800px">
+                <div class="formbold-form-header w-100">
+                    <h3 class="text-center w-100">Cung cấp thông tin tạm trú</h3>
+                </div>
+                <form id="form__register" action="/mau-don" method="POST" class="formbold-chatbox-form">
+                    <div class="formbold-mb-5">
+                        <label for="name" class="formbold-form-label">Họ, chữ đệm và tên </label>
+                        <input type="text" name="name" id="name" placeholder="Nguyễn Văn A"
+                            class="formbold-form-input" />
+                        <span id="msg__name" class="msg__err" style="display: none;">Vui lòng điền trường này!</span>
+                    </div>
+
+                    <div class="formbold-mb-5">
+                        <label for="date" class="formbold-form-label">Ngày, tháng, năm sinh</label>
+                        <input type="date" name="date" id="date" class="formbold-form-input" />
+                        <span id="msg__date" class="msg__err" style="display: none;">Vui lòng điền trường này!</span>
+                    </div>
+
+                    <div class="formbold-mb-5">
+                        <label for="gender" class="formbold-form-label">Giới tính</label>
+                        <select name="gender" id="gender" class="form-select" aria-label="Default select example">
+                            <option value="" selected>Chọn giới tính</option>
+                            <option value="Nam">Nam</option>
+                            <option value="Nữ">Nữ</option>
+                            <option value="Khác">Khác</option>
+                        </select>
+                        <span id="msg__gender" class="msg__err" style="display: none;">Vui lòng điền trường này!</span>
+                    </div>
+
+                    <div class="formbold-mb-5">
+                        <label for="code" class="formbold-form-label">Số định danh cá nhân/CMND </label>
+                        <input type="text" name="code" id="code" placeholder="301768777" class="formbold-form-input" />
+                        <span id="msg__code" class="msg__err" style="display: none;">Vui lòng điền trường này!</span>
+                    </div>
+
+                    <div class="formbold-mb-5">
+                        <label for="phone" class="formbold-form-label">Số điện thoại liên hệ </label>
+                        <input type="text" name="phone" id="phone" class="formbold-form-input" />
+                        <span id="msg__phone" class="msg__err" style="display: none;">Vui lòng điền trường này!</span>
+                    </div>
+
+                    <div class="formbold-mb-5">
+                        <label for="email" class="formbold-form-label">Địa chỉ Email </label>
+                        <input type="text" name="email" id="email" placeholder="nguyenvana@gmail.com"
+                            class="formbold-form-input" />
+                        <span id="msg__email" class="msg__err" style="display: none;">Vui lòng điền trường này!</span>
+                    </div>
+
+                    <div class="formbold-mb-5">
+                        <label for="oldAdd" class="formbold-form-label">Nơi thường trú</label>
+                        <input type="text" name="oldAdd" id="oldAdd" class="formbold-form-input" />
+                        <span id="msg__oldAdd" class="msg__err" style="display: none;">Vui lòng điền trường này!</span>
+                    </div>
+
+                    <div class="formbold-mb-5">
+                        <label for="tempAdd" class="formbold-form-label">Nơi tạm trú</label>
+                        <input type="text" name="tempAdd" id="tempAdd" class="formbold-form-input" />
+                        <span id="msg__tempAdd" class="msg__err" style="display: none;">Vui lòng điền trường này!</span>
+                    </div>
+
+                    <div class="formbold-mb-5">
+                        <label for="nowAdd" class="formbold-form-label">Nơi ở hiện tại</label>
+                        <input type="text" name="nowAdd" id="nowAdd" class="formbold-form-input" />
+                        <span id="msg__nowAdd" class="msg__err" style="display: none;">Vui lòng điền trường này!</span>
+                    </div>
+
+                    <div class="formbold-mb-5">
+                        <label for="work" class="formbold-form-label">Nghề nghiệp, nơi làm việc</label>
+                        <input type="text" name="work" id="work" class="formbold-form-input" />
+                        <span id="msg__work" class="msg__err" style="display: none;">Vui lòng điền trường này!</span>
+                    </div>
+
+                    <div class="formbold-mb-5">
+                        <label for="relationship" class="formbold-form-label">Quan hệ với chủ hộ</label>
+                        <input type="text" name="relationship" id="relationship" class="formbold-form-input" />
+                        <span id="msg__relationship" class="msg__err" style="display: none;">Vui lòng điền trường
+                            này!</span>
+                    </div>
+
+                    <div class="formbold-mb-5">
+                        <label for="message" class="formbold-form-label"> Nội dung đề nghị </label>
+                        <textarea rows="6" name="message" id="message" placeholder="Đăng ký tạm trú"
+                            class="formbold-form-input"></textarea>
+                        <span id="msg__message" class="msg__err" style="display: none;">Vui lòng điền trường này!</span>
+                    </div>
+
+                    <div class="more__people">
+                        <div class="checkMorePeople d-flex w-100">
+                            <div class="check">
+                                <label for="morePeople">Thêm thông tin người thân</label>
+                                <input type="checkbox" name="morePeople" id="morePeople">
+                            </div>
+
+                            <span id="btn-del" class="btn btn-primary" style="display: none;" onclick="delRow()">Xóa
+                                dòng</span>
+
+
+                            <span id="btn-add" class="btn btn-primary" style="display: none;" onclick="addRow()">Thêm
+                                dòng</span>
+                        </div>
+
+
+
+                        <table class="table table-bordered" style="display: none;" id="table__people">
+                            <thead>
+                                <tr>
+                                    <th scope="col">TT</th>
+                                    <th scope="col">Họ, chữ đệm và tên</th>
+                                    <th scope="col">Ngày, tháng, năm sinh</th>
+                                    <th scope="col">Giới tính</th>
+                                    <th scope="col">Số định danh cá nhân</th>
+                                    <th scope="col">Nghề nghiệp, nơi làm việc</th>
+                                    <th scope="col">Quan hệ với người thay đổi</th>
+                                    <th scope="col">Quan hệ với chủ hộ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="full-height">
+                                    <th scope="row"><input type="number" name="stt" value="1" style="max-width: 40px">
+                                    </th>
+                                    <td><input type="text" name="name1" id="name1" ></td>
+                                    <td><input type="text" name="birth1" id="birth1" ></td>
+                                    <td><input type="text" name="gender1" id="gender1" style="max-width: 40px;"
+                                            ></td>
+                                    <td><input type="text" name="code1" id="code1" style="max-width: 100px;" >
+                                    </td>
+                                    <td><input type="text" name="work1" id="work1"></td>
+                                    <td><input type="text" name="rel1" id="rel1" style="max-width: 40px;" ></td>
+                                    <td><input type="text" name="relb1" id="relb1" style="max-width: 40px;" >
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div>
+                        <button id="btn-send" class="formbold-btn w-full mt-4">Gửi thông tin</button>
+                    </div>
+
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+<script>
+    var i = 1
+    const checkbox = document.getElementById("morePeople");
+    const btnDel = document.getElementById("btn-del");
+    const btnAdd = document.getElementById("btn-add");
+    const table__people = document.getElementById("table__people");
+    const btnSend = document.getElementById("btn-send");
+    const form__register = document.getElementById("form__register");
+
+    const name = document.getElementById("name");
+    const msg__name = document.getElementById("msg__name");
+    const date = document.getElementById("date");
+    const msg__date = document.getElementById("msg__date");
+    const gender = document.getElementById("gender");
+    const msg__gender = document.getElementById("msg__gender");
+    const code = document.getElementById("code");
+    const msg__code = document.getElementById("msg__code");
+    const phone = document.getElementById("phone");
+    const msg__phone = document.getElementById("msg__phone");
+    const email = document.getElementById("email");
+    const msg__email = document.getElementById("msg__email");
+    const oldAdd = document.getElementById("oldAdd");
+    const msg__oldAdd = document.getElementById("msg__oldAdd");
+    const tempAdd = document.getElementById("tempAdd");
+    const msg__tempAdd = document.getElementById("msg__tempAdd");
+    const nowAdd = document.getElementById("nowAdd");
+    const msg__nowAdd = document.getElementById("msg__nowAdd");
+    const work = document.getElementById("work");
+    const msg__work = document.getElementById("msg__work");
+    const relationship = document.getElementById("relationship");
+    const msg__relationship = document.getElementById("msg__relationship");
+    const message = document.getElementById("message");
+    const msg__message = document.getElementById("msg__message");
+
+
+
+    btnSend.addEventListener('click', (e) => {
+        e.preventDefault()
+        form__register.addEventListener('submit', (e) => {
+            e.preventDefault()
+        })
+        if (name.value == "") {
+            msg__name.style.display = "block"
+            name.focus()
+            name.addEventListener('keyup', () => {
+                msg__name.style.display = "none"
+            })
+        } else if (date.value == "") {
+            msg__date.style.display = "block"
+            date.focus()
+            date.addEventListener('change', () => {
+                msg__date.style.display = "none"
+            })
+        } else if (gender.value == "") {
+            msg__gender.style.display = "block"
+            gender.focus()
+            gender.addEventListener('change', () => {
+                msg__gender.style.display = "none"
+            })
+        } else if (code.value == "") {
+            msg__code.style.display = "block"
+            code.focus()
+            code.addEventListener('keyup', () => {
+                msg__code.style.display = "none"
+            })
+        } else if (phone.value == "") {
+            msg__phone.style.display = "block"
+            phone.focus()
+            phone.addEventListener('keyup', () => {
+                msg__phone.style.display = "none"
+            })
+        } else if (email.value == "") {
+            msg__email.style.display = "block"
+            email.focus()
+            email.addEventListener('keyup', () => {
+                msg__email.style.display = "none"
+            })
+        } else if (oldAdd.value == "") {
+            msg__oldAdd.style.display = "block"
+            oldAdd.focus()
+            oldAdd.addEventListener('keyup', () => {
+                msg__oldAdd.style.display = "none"
+            })
+        } else if (tempAdd.value == "") {
+            msg__tempAdd.style.display = "block"
+            tempAdd.focus()
+            tempAdd.addEventListener('keyup', () => {
+                msg__tempAdd.style.display = "none"
+            })
+        } else if (nowAdd.value == "") {
+            msg__nowAdd.style.display = "block"
+            nowAdd.focus()
+            nowAdd.addEventListener('keyup', () => {
+                msg__nowAdd.style.display = "none"
+            })
+        } else if (work.value == "") {
+            msg__work.style.display = "block"
+            work.focus()
+            work.addEventListener('keyup', () => {
+                msg__work.style.display = "none"
+            })
+        } else if (relationship.value == "") {
+            msg__relationship.style.display = "block"
+            relationship.focus()
+            relationship.addEventListener('keyup', () => {
+                msg__relationship.style.display = "none"
+            })
+        } else if (message.value == "") {
+            msg__message.style.display = "block"
+            message.focus()
+            message.addEventListener('keyup', () => {
+                msg__message.style.display = "none"
+            })
+        } else {
+            form__register.submit()
+        }
+    })
+
+
+
+    checkbox.addEventListener("click", function () {
+        if (checkbox.checked) {
+            btnDel.style.display = "block";
+            btnAdd.style.display = "block";
+            table__people.style.display = "block";
+        } else {
+            btnDel.style.display = "none";
+            btnAdd.style.display = "none";
+            table__people.style.display = "none";
+        }
+    });
+
+    function addRow() {
+        i = i + 1
+        var row = table__people.insertRow(-1);
+        row.className += "full-height"
+        var cell1 = row.insertCell(0);
+        cell1.style.padding = '8px'
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
+        var cell5 = row.insertCell(4);
+        var cell6 = row.insertCell(5);
+        var cell7 = row.insertCell(6);
+        var cell8 = row.insertCell(7);
+
+        cell1.innerHTML = `<td scope="row"><input type="number" name="stt${i}" value = "${i}" style="max-width: 40px; ">
+                            </td>`
+        cell2.innerHTML = `<td><input type="text" name="name${i}" id="name${i}" required></td>`;
+        cell3.innerHTML = `<td><input type="text" name="birth${i}" id="birth${i}" required></td>`;
+        cell4.innerHTML = `<td><input type="text" name="gender${i}" id="gender${i}" style="max-width: 40px;" required></td>`;
+        cell5.innerHTML = `<td><input type="text" name="code${i}" id="code${i}" style="max-width: 100px;" required></td>`;
+        cell6.innerHTML = `<td><input type="text" name="work${i}" id="work${i}"></td>`;
+        cell7.innerHTML = `<td><input type="text" name="rel${i}" id="rel${i}" style="max-width: 40px;" required></td>`;
+        cell8.innerHTML = `<td><input type="text" name="relb${i}" id="relb${i}" style="max-width: 40px;" required></td>`;
+    }
+
+    function delRow() {
+        i = i - 1
+        var row = table__people.deleteRow(-1);
+    }
+</script>
+
+</html>
