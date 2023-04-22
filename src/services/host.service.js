@@ -20,8 +20,19 @@ async function getRooms() {
     }
 }
 
+async function getCustomerByRoomGroup(day) {
+    try {
+        var result = await repo.getCustomerByRoomGroup(day)
+        return result
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong');
+    }
+}
+
 
 module.exports = {
     getCustomer,
-    getRooms
+    getRooms,
+    getCustomerByRoomGroup
 }

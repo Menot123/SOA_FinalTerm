@@ -16,13 +16,19 @@ async function index(req, res, next) {
 async function manageCustomer(req, res, next) {
     try {
         const url = `http://${process.env.HOST}:${process.env.PORT}/host/api`
-        const responseCustomer = await fetch(url + "/manage-customer")
+        let responseCustomer;
+        if(req.query.day){
+            responseCustomer = await fetch(url + "/manage-customer?day=" + req.query.day)
+        }else{
+            responseCustomer = await fetch(url + "/manage-customer")
+        }
+        
         const customer = await responseCustomer.json()
             // console.log(customer)
 
         const responseRoom = await fetch(url + "/rooms")
         const rooms = await responseRoom.json()
-        console.log(rooms[0])
+        // console.log(rooms[0])
 
         res.render('manage-customer', { layout: 'manager', customer: customer, rooms: rooms });
     } catch (err) {
@@ -32,7 +38,15 @@ async function manageCustomer(req, res, next) {
 }
 async function manageCustomerAPI(req, res, next) {
     try {
-        const customer = await hostServices.getCustomer();
+        let customer;
+        if(req.query.day)
+        {   
+            customer = await hostServices.getCustomerByRoomGroup(req.query.day);
+            console.log(customer)
+        }
+        else{
+            customer = await hostServices.getCustomer();
+        }
         res.json(customer)
     } catch (err) {
         console.error('Error', err.message);

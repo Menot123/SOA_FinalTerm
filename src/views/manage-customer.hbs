@@ -6,10 +6,10 @@
 
 <h1 class="text-center mt-3">Quản lý thông tin khách trọ</h1>
 <div class="container-fluid mt-3">
-    <select class="form-select form-select-bg-danger" aria-label="Default select example">
-        <option value="all" selected>Tất cả dãy</option>
+    <select onchange="filterRoom(this)" class="form-select form-select-bg-danger" aria-label="Default select example">
+        <option value="All" selected>Tất cả dãy</option>
         {{#each rooms}}
-        <option value="1">Dãy {{day}}</option>
+        <option value="{{day}}">Dãy {{day}}</option>
         {{/each}}
     </select>
 
@@ -57,3 +57,12 @@
         </tbody>
     </table>
 </div>
+
+<script>
+    function filterRoom(day){
+        if(day.value == "All"){
+            window.location.href = "/host/manage-customer"
+        }
+        else window.location.href = `/host/manage-customer?day=${day.value}`
+    }
+</script>

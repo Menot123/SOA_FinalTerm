@@ -12,8 +12,14 @@ async function getRooms() {
     );
     return record;
 };
-
+async function getCustomerByRoomGroup(day) {
+    const record = await dbClient.query(
+        `SELECT * FROM khachthuetro WHERE maphong LIKE '${day}%'`
+    );
+    return record;
+};
 module.exports = {
     getCustomer,
-    getRooms
+    getRooms,
+    getCustomerByRoomGroup
 }
