@@ -12,7 +12,17 @@ async function createTRRF(owner, son) {
     }
 }
 
+async function send(id) {
+    try {
+        var results = await repo.send(id)
+        return results
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong when change status TRRF');
+    }
+}
+
 module.exports = {
-    createTRRF,
+    createTRRF, send
     
 }

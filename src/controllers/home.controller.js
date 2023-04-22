@@ -153,9 +153,33 @@ async function register(req, res, next) {
     }
 }
 
+async function send(req, res, next) {
+    try {
+        const status =await homeServices.send(req.body.id)
+        if(status > 0) {
+            res.status(200).json({message: "Send TRRF successfully", status: status})
+        } else {
+            res.status(400).json({message: "Send TRRF fail", status: status})
+        }
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
+async function renewal(req, res, next) {
+    try {
+        res.render('renewal');
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
 
 module.exports = {
     index,
     template,
     register,
+    send,
+    renewal,
 };

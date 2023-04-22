@@ -11,6 +11,7 @@ const port = process.env.PORT || 3000;
 const host = process.env.HOST || 'localhost';
 const { jsPDF } = require("jspdf");
 
+
 app.use(express.static(path.join(__dirname, 'src', 'public')));
 
 app.use(bodyParser.json());
