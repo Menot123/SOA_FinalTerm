@@ -1,12 +1,9 @@
-DROP DATABASE IF EXISTS motel_room;
-CREATE DATABASE motel_room;
-USE motel_room;
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 22, 2023 at 09:38 AM
+-- Generation Time: Apr 22, 2023 at 08:55 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -67,15 +64,20 @@ CREATE TABLE `dondangkytamtru` (
   `nghenghiep` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `relationship` varchar(10) DEFAULT NULL,
   `nguoithan` text DEFAULT NULL,
-  `trangthai` varchar(10) NOT NULL DEFAULT 'chưa gửi'
+  `trangthai` varchar(20) NOT NULL DEFAULT 'chưa gửi',
+  `maphong` char(3) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `dondangkytamtru`
 --
 
-INSERT INTO `dondangkytamtru` (`madondangky`, `diachitamtru`, `hoten`, `ngaysinh`, `gioitinh`, `cccd`, `cccdchutro`, `noidungdenghi`, `tenchutro`, `sodienthoai`, `noithuongtru`, `noiohientai`, `email`, `nghenghiep`, `relationship`, `nguoithan`, `trangthai`) VALUES
-(2, '19 Nguyễn Hữu Thọ', 'Huỳnh Khánh Duy', '2023-04-22', 'Nam', '3017680111', '08022245526', 'Đăng ký tạm trú tại địa chỉ 19 Nguyễn Hữu Thọ', 'Nguyễn Văn Tùng', '0368219834', 'Ấp 8 xã Hiệp Thạnh huyện Ba Tri tỉnh Bến Tre', '19 Nguyễn Hữu Thọ', 'khanhduy8768@gmail.com', 'Sinh viên đại học Tôn Đức Thắn', 'Khách thuê', '[{\"stt\":\"1\",\"name1\":\"Nguyễn Việt Tiến\",\"birth1\":\"19/03/2009\",\"gender1\":\"Nam\",\"code1\":\"3017655555\",\"work1\":\"Học sinh\",\"rel1\":\"Con trai\",\"relb1\":\"Khách thuê trọ\"},{\"stt\":\"2\",\"name1\":\"Trần Tiến Đạt\",\"birth1\":\"17/03/2003\",\"gender1\":\"Nam\",\"code1\":\"3017454122\",\"work1\":\"Học Sinh\",\"rel1\":\"Con\",\"relb1\":\"Khách Thuê Trọ\"}]', 'chưa gửi');
+INSERT INTO `dondangkytamtru` (`madondangky`, `diachitamtru`, `hoten`, `ngaysinh`, `gioitinh`, `cccd`, `cccdchutro`, `noidungdenghi`, `tenchutro`, `sodienthoai`, `noithuongtru`, `noiohientai`, `email`, `nghenghiep`, `relationship`, `nguoithan`, `trangthai`, `maphong`) VALUES
+(1, '19 Nguyễn Hữu Thọ', 'Huỳnh Khánh Duy', '2023-04-22', 'Nam', '3017680111', '08022245526', 'Đăng ký tạm trú', 'Nguyễn Văn Tùng', '0368219834', 'Ấp 8 xã Hiệp Thạnh huyện Ba Tri tỉnh Bến Tre', '19 Nguyễn Hữu Thọ', 'khanhduy8768@gmail.com', 'Sinh viên đại học Tôn Đức Thắn', 'Khách thuê', '[{\"stt\":\"1\",\"name1\":\"Nguyễn Việt Tiến\",\"birth1\":\"19/03/2009\",\"gender1\":\"Nam\",\"code1\":\"3017655555\",\"work1\":\"Học sinh\",\"rel1\":\"Con\",\"relb1\":\"Khách thuê trọ\"},{\"stt\":\"2\",\"name1\":\"Trần Tiến Đạt\",\"birth1\":\"19/07/2004\",\"gender1\":\"Nam\",\"code1\":\"0802254587\",\"work1\":\"Học Sinh\",\"rel1\":\"Con\",\"relb1\":\"Khách Thuê Trọ\"}]', 'Chưa tải xuống', 'A01'),
+(2, '190 Nguyễn Thị Thập , Quận 7, TP HCM', 'Trần Thái Bảo', '1994-01-22', 'Nam', '08020251455', '08022245526', 'Đăng ký tạm trú tại 190 Nguyễn Thị Thập , Quận 7, ', 'Nguyễn Văn Tùng', '0723879452', '193/8 An Nhơn, Bình Định', '190 Nguyễn Thị Thập , Quận 7, TP HCM', 'thaibao94@gmail.com', 'Lập trình viên công ty Grap', 'Khách thuê', '[{\"stt\":\"1\",\"name1\":\"Nguyễn Thế Mạnh\",\"birth1\":\"19/07/2003\",\"gender1\":\"Nam\",\"work1\":\"Sinh Viên đại học Văn Lang\",\"rel1\":\"\",\"relb1\":\"\"}]', 'Chưa tải xuống', NULL),
+(3, '19 Nguyễn Hữu Thọ, Quận 7, Hồ Chí Minh', 'Nguyễn Khắc Ngọc', '2000-01-26', 'Nam', '3017680112', '08022245526', 'Đăng ký tạm trú tại 19 Nguyễn Hữu Thọ, Quận 7, Hồ ', 'Nguyễn Văn Tùng', '0368219835', '186/2 Quận Đóng Đa, Hà Nội', '19 Nguyễn Hữu Thọ, Quận 7, Hồ Chí Minh', 'khacngocnguyen1@gmail.com', 'Sinh viên đại học Y Dược TPHCM', 'Khách thuê', '[{\"stt\":\"1\",\"name1\":\"\",\"birth1\":\"\",\"gender1\":\"\",\"code1\":\"\",\"work1\":\"\",\"rel1\":\"\",\"relb1\":\"\"},{}]', 'Chưa tải xuống', NULL),
+(4, '19 Nguyễn Hữu Thọ, Quận 7, Hồ Chí Minh', 'Lê Văn Xuân', '1990-04-02', 'Nam', '3017680113', '08022245526', 'Đăng ký tạm trú', 'Nguyễn Văn Tùng', '0368219836', 'Ấp Mỹ Lợi huyện Châu Thành, Tiềng Giang', '19 Nguyễn Hữu Thọ, Quận 7, Hồ Chí Minh', 'xuanlevan22@gmail.com', 'Công nhân điện lực Quận 7', 'Khách thuê', '[{\"stt\":\"1\",\"name1\":\"\",\"birth1\":\"\",\"gender1\":\"\",\"code1\":\"\",\"work1\":\"\",\"rel1\":\"\",\"relb1\":\"\"},{}]', 'Chưa tải xuống', 'A03'),
+(5, '19 Nguyễn Hữu Thọ', 'Huỳnh Khánh Duy', '2023-04-22', 'Nam', '3017680111', '08022245526', 'Gia hạn tạm trú ', 'Nguyễn Văn Tùng', '0368219834', 'Ấp 8 xã Hiệp Thạnh huyện Ba Tri tỉnh Bến Tre', '19 Nguyễn Hữu Thọ', 'khanhduy8768@gmail.com', 'Sinh viên đại học Tôn Đức Thắn', 'Khách thuê', '[{\"stt\":\"1\",\"name1\":\"Nguyễn Việt Tiến\",\"birth1\":\"19/03/2009\",\"gender1\":\"Nam\",\"code1\":\"3017655555\",\"work1\":\"Học sinh\",\"rel1\":\"Con\",\"relb1\":\"Khách thuê trọ\"},{\"stt\":\"2\",\"name1\":\"Trần Tiến Đạt\",\"birth1\":\"19/07/2004\",\"gender1\":\"Nam\",\"code1\":\"0802254587\",\"work1\":\"Học Sinh\",\"rel1\":\"Con\",\"relb1\":\"Khách Thuê Trọ\"}]', 'Chưa tải xuống', 'A01');
 
 -- --------------------------------------------------------
 
@@ -122,6 +124,14 @@ CREATE TABLE `hopdongthuetro` (
   `tinhtrangphong` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `hopdongthuetro`
+--
+
+INSERT INTO `hopdongthuetro` (`mahopdong`, `maphong`, `cccd`, `cccdChuTro`, `ngaybatdauvangayketthuc`, `ngaytaohopdong`, `thoihanhopdong`, `giathue`, `tiencoc`, `tenchutro`, `giatiendien`, `giatiennuoc`, `giatieninternet`, `soluongnguoi`, `tinhtrangphong`) VALUES
+('1', 'A01', '3017680111', '08022245526', '22-04-2024 đến 22-04-2025', '2023-04-22', '1 năm', 4000000, 8000000, 'Nguyễn Văn Tùng', 5000, 15000, NULL, 3, 'Ổn'),
+('2', 'A03', '3017680112', '08022245526', '22-04-2024 đến 22-10-2025', '2023-04-22', '1,5 năm', 4000000, 8000000, 'Nguyễn Văn Tùng', 5000, 15000, 180000, 1, 'Ổn');
+
 -- --------------------------------------------------------
 
 --
@@ -136,35 +146,39 @@ CREATE TABLE `khachthuetro` (
   `sodienthoai` char(12) DEFAULT NULL,
   `diachi` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `email` char(50) DEFAULT NULL,
-  `ghichu` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL
+  `ghichu` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `trangthai` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `khachthuetro`
 --
 
-INSERT INTO `khachthuetro` (`cccd`, `maphong`, `hoten`, `ngaysinh`, `sodienthoai`, `diachi`, `email`, `ghichu`) VALUES
-('098202013930', 'A01', 'Nguyễn Văn Bành', '2002-05-09', '0334353660', '19/3 Phường Tân Phong Q7 TP Hồ Chí Minh', 'ngjyentiendat9a3@gmail.com	', 'Còn nợ tiền phòng 04/2022'),
-('100000000001', 'A02', NULL, NULL, NULL, NULL, NULL, NULL),
-('100000000002', 'A03', NULL, NULL, NULL, NULL, NULL, NULL),
-('100000000003', 'A05', NULL, NULL, NULL, NULL, NULL, NULL),
-('100000000004', 'B01', NULL, NULL, NULL, NULL, NULL, NULL),
-('100000000005', 'B04', NULL, NULL, NULL, NULL, NULL, NULL),
-('100000000006', 'D01', NULL, NULL, NULL, NULL, NULL, NULL),
-('100000000007', 'E01', NULL, NULL, NULL, NULL, NULL, NULL),
-('100000000008', 'B02', NULL, NULL, NULL, NULL, NULL, NULL),
-('100000000009', 'C01', NULL, NULL, NULL, NULL, NULL, NULL),
-('100000000010', 'B05', NULL, NULL, NULL, NULL, NULL, NULL),
-('100000000011', 'E04', NULL, NULL, NULL, NULL, NULL, NULL),
-('100000000012', 'D04', NULL, NULL, NULL, NULL, NULL, NULL),
-('100000000013', 'E02', NULL, NULL, NULL, NULL, NULL, NULL),
-('100000000014', 'C05', NULL, NULL, NULL, NULL, NULL, NULL),
-('100000000015', 'C03', NULL, NULL, NULL, NULL, NULL, NULL),
-('100000000016', 'A04', NULL, NULL, NULL, NULL, NULL, NULL),
-('100000000017', 'E03', NULL, NULL, NULL, NULL, NULL, NULL),
-('100000000018', 'D03', NULL, NULL, NULL, NULL, NULL, NULL),
-('100000000019', 'E05', NULL, NULL, NULL, NULL, NULL, NULL),
-('3017680111', 'P01', 'Huỳnh khánh Duy', '2023-04-15', '0368219834', 'Ấp 8 xã Hiệp Thạnh huyện Ba Tri tỉnh Bến Tre', 'khanhduy8768@gmail.com', NULL);
+INSERT INTO `khachthuetro` (`cccd`, `maphong`, `hoten`, `ngaysinh`, `sodienthoai`, `diachi`, `email`, `ghichu`, `trangthai`) VALUES
+('08020251455', 'A02', 'Trần Thái Bảo', '1994-01-22', '0723879452', '193/8 An Nhơn, Bình Định', 'thaibao94@gmail.com', NULL, NULL),
+('098202013930', 'A01', 'Nguyễn Văn Bành', '2002-05-09', '0334353660', '19/3 Phường Tân Phong Q7 TP Hồ Chí Minh', 'ngjyentiendat9a3@gmail.com	', 'Còn nợ tiền phòng 04/2022', NULL),
+('100000000001', 'A02', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('100000000002', 'A03', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('100000000003', 'A05', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('100000000004', 'B01', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('100000000005', 'B04', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('100000000006', 'D01', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('100000000007', 'E01', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('100000000008', 'B02', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('100000000009', 'C01', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('100000000010', 'B05', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('100000000011', 'E04', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('100000000012', 'D04', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('100000000013', 'E02', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('100000000014', 'C05', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('100000000015', 'C03', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('100000000016', 'A04', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('100000000017', 'E03', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('100000000018', 'D03', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('100000000019', 'E05', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('3017680111', 'P01', 'Huỳnh khánh Duy', '2023-04-15', '0368219834', 'Ấp 8 xã Hiệp Thạnh huyện Ba Tri tỉnh Bến Tre', 'khanhduy8768@gmail.com', NULL, NULL),
+('3017680112', 'A03', 'Nguyễn Khắc Ngọc', '2000-01-26', '0368219835', '186/2 Quận Đóng Đa, Hà Nội', 'khacngocnguyen1@gmail.com', NULL, NULL),
+('3017680113', 'A03', 'Lê Văn Xuân', '1990-04-02', '0368219836', 'Ấp Mỹ Lợi huyện Châu Thành, Tiềng Giang', 'xuanlevan22@gmail.com', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -312,7 +326,7 @@ ALTER TABLE `taikhoan`
 -- AUTO_INCREMENT for table `dondangkytamtru`
 --
 ALTER TABLE `dondangkytamtru`
-  MODIFY `madondangky` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `madondangky` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- Constraints for dumped tables

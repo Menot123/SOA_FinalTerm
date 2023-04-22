@@ -8,6 +8,7 @@ router.post('/mau-don', homeController.template);
 router.post('/api/send', homeController.send);
 
 router.get('/gia-han-tam-tru', homeController.renewal);
+router.get('/api/thong-tin-don-dk/:id', homeController.getInfoTRRF);
 
 
 

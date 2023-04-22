@@ -22,7 +22,17 @@ async function send(id) {
     }
 }
 
+async function getInfoTRRF(id) {
+    try {
+        var results = await repo.getInfoTRRF(id)
+        return results
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong when get info TRRF');
+    }
+}
+
 module.exports = {
-    createTRRF, send
+    createTRRF, send, getInfoTRRF
     
 }

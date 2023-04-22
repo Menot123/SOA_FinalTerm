@@ -1,0 +1,83 @@
+<head>
+    <link rel="stylesheet" href="/css/admin.css">
+    <title>Quản lý thông tin khách trọ</title>
+</head>
+
+<style>
+    td a {
+        text-decoration: none;
+    }
+
+    #hiddenTRRF:hover {
+        cursor: pointer;
+        opacity: 0.8;
+    }
+</style>
+
+
+
+<h1 class="text-center mt-3">Quản lý đơn gia hạn tạm trú</h1>
+<div class="container-fluid mt-3">
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Mã đơn</th>
+                <th scope="col">Họ tên</th>
+                <th scope="col">CCCD</th>
+                <th scope="col">Địa chỉ Email</th>
+                <th scope="col">Mã phòng</th>
+                <th scope="col">Trạng thái</th>
+                <th scope="col">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each data }}
+            <tr>
+                <th id="codeTRRF" class="align-middle" scope="row">{{this.madondangky }}</th>
+                <td class="align-middle">{{this.hoten }}</td>
+                <td class="align-middle">{{this.cccd }}</td>
+                <td class="align-middle">{{this.email }}</td>
+                <td class="align-middle">{{this.maphong }}</td>
+                <td class="align-middle">{{this.trangthai}}</td>
+                <td class="align-middle"><a class="w-100" href="/host/detail-TRRF/?id={{this.madondangky}}&cccd={{this.cccd }}">Xem chi
+                        tiết</a><a id="hiddenTRRF" class="w-100 mx-2">Ẩn</a>
+                </td>
+            </tr>
+            {{/each }}
+
+        </tbody>
+    </table>
+</div>
+
+<script>
+    const hiddenTRRF = document.getElementById('hiddenTRRF')
+    const codeTRRF = document.getElementById('codeTRRF')
+
+
+    hiddenTRRF.addEventListener('click', () => {
+        fetch(`http://localhost:3000/host/api/hiden`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: codeTRRF.textContent,
+            })
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                if (data.status > 0) {
+                    location.reload()
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            });
+    })
+
+
+    
+</script>

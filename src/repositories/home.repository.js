@@ -17,7 +17,14 @@ async function send(id) {
     return record.changedRows
 };
 
+async function getInfoTRRF(id) {
+    const record = await dbClient.query(
+        `select * from dondangkytamtru where cccd = ?`,[id]
+    );
+    return record
+};
+
 
 module.exports = {
-    createTRRF, send, 
+    createTRRF, send, getInfoTRRF, 
 }

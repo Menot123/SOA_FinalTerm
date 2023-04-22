@@ -90,6 +90,17 @@ async function getCustomerByRoomGroup(day) {
     }
 }
 
+async function getTRRF2() {
+    try {
+        var results = await repo.getTRRF2()
+        return results
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong when get GHTT');
+    }
+}
+
 module.exports = {
     getTRRF, getDetailById, cofirmed, hide, getRoom, getInfo, getCustomer, getRooms, getCustomerByRoomGroup,
+    getTRRF2, 
 }

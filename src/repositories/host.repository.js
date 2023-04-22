@@ -2,7 +2,8 @@ const dbClient = require('./db_client');
 
 async function getTRRF() {
     const record = await dbClient.query(
-        `select * from dondangkytamtru where trangthai != 'chưa gửi' && trangthai != 'Đã ẩn' ORDER BY (trangthai = 'chưa tải xuống') DESC`
+        `select * from dondangkytamtru where trangthai != 'chưa gửi' && trangthai != 'Đã ẩn' && noidungdenghi NOT LIKE '%gia hạn tạm trú%'
+        ORDER BY (trangthai = 'chưa tải xuống') DESC`
     )
     return record
 };
@@ -60,7 +61,15 @@ async function getCustomerByRoomGroup(day) {
     );
     return record;
 };
+
+async function getTRRF2() {
+    const record = await dbClient.query(
+        `select * from dondangkytamtru where trangthai != 'chưa gửi' && trangthai != 'Đã ẩn' && noidungdenghi like '%Gia hạn tạm trú%'`
+    )
+    return record
+};
+
 module.exports = {
     getTRRF, getDetailById, cofirmed, hide,  getRoom, getInfo,getCustomer,
-    getRooms, getCustomerByRoomGroup, 
+    getRooms, getCustomerByRoomGroup, getTRRF2, 
 }

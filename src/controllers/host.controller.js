@@ -1,9 +1,5 @@
 // Define your controllers here
 const hostServices = require('../services/host.service')
-<<<<<<< HEAD
-=======
-
->>>>>>> 6fa82938b15eb530f983698cd65943deb9850668
 
 async function index(req, res, next) {
     try {
@@ -85,9 +81,6 @@ async function getRoomsAPI(req, res, next) {
 
 async function managerTRRFAPI(req, res, next) {
     try {
-        // var room = null
-        // const response = await fetch(`http://localhost:3000/host/api/room`)
-        // room = await response.json();
         const data = await hostServices.getTRRF()
         if (data.length > 0) {
             res.status(200).json({ data: data })
@@ -172,7 +165,33 @@ async function getInfo(req, res, next) {
     }
 }
 
+async function managerGHTTAPI(req, res, next) {
+    try {
+        const data = await hostServices.getTRRF2()
+        if (data.length > 0) {
+            res.status(200).json({ data: data })
+        } else {
+            res.status(400).json({ message: "get list TRRF failed" })
+        }
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
+async function managerGHTT(req, res, next) {
+    try {
+        var data = null
+        const response = await fetch(`http://localhost:3000/host/api/gia-han-tam-tru`)
+        data = await response.json();
+        res.render('ad_manGHTT', { layout: 'manager', data: data.data });
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
 module.exports = {
     index, manageCustomer, managerTRRF, managerTRRFAPI, getDetailById, cofirmed, hide, getInfo, manageCustomerAPI,
-    getRoomsAPI
+    getRoomsAPI, managerGHTT, managerGHTTAPI,
 };
