@@ -6,6 +6,12 @@
 
 <h1 class="text-center mt-3">Quản lý thông tin khách trọ</h1>
 <div class="container-fluid mt-3">
+    <select onchange="filterRoom(this)" class="form-select form-select-bg-danger" aria-label="Default select example">
+        <option value="All" selected>Tất cả dãy</option>
+        {{#each rooms}}
+        <option value="{{day}}">Dãy {{day}}</option>
+        {{/each}}
+    </select>
 
     <table class="table table-dark table-striped table-hover">
         <thead>
@@ -22,7 +28,21 @@
             </tr>
         </thead>
         <tbody>
+            {{#each customer}}
             <tr>
+                <th class="align-middle" scope="row">{{cccd}}</th>
+                <td class="align-middle">{{hoten}}</td>
+                <td class="align-middle">{{maphong}}</td>
+                <td class="align-middle">{{formatDate ngaysinh}}</td>
+                <td class="align-middle">{{sodienthoai}}</td>
+                <td class="align-middle">{{diachi}}</td>
+                <td class="align-middle">{{email}}</td>
+                <td class="align-middle">{{ghichu}}</td>
+                <td class="align-middle"><a class="text-white btn btn-success w-100" href="">Cập nhật</a><a
+                        class="text-white btn btn-danger w-100" href="">Xóa</a></td>
+            </tr>
+            {{/each}}
+            {{!-- <tr>
                 <th class="align-middle" scope="row">089202013930</th>
                 <td class="align-middle">Nguyễn Văn Bành</td>
                 <td class="align-middle">A01</td>
@@ -33,43 +53,16 @@
                 <td class="align-middle">Còn nợ tiền phòng 04/2022</td>
                 <td class="align-middle"><a class="text-white btn btn-success w-100" href="">Cập nhật</a><a
                         class="text-white btn btn-danger w-100" href="">Xóa</a></td>
-            </tr>
-            <tr>
-                <th class="align-middle" scope="row">089202013930</th>
-                <td class="align-middle">Nguyễn Văn Bành</td>
-                <td class="align-middle">A01</td>
-                <td class="align-middle">08/11/2002</td>
-                <td class="align-middle">0334353660</td>
-                <td class="align-middle">19/3 Phường Tân Phong Q7 TP Hồ Chí Minh</td>
-                <td class="align-middle">ngjyentiendat9a3@gmail.com</td>
-                <td class="align-middle">Còn nợ tiền phòng 04/2022</td>
-                <td class="align-middle"><a class="text-white btn btn-success w-100" href="">Cập nhật</a><a
-                        class="text-white btn btn-danger w-100" href="">Xóa</a></td>
-            </tr>
-            <tr>
-                <th class="align-middle" scope="row">089202013930</th>
-                <td class="align-middle">Nguyễn Văn Bành</td>
-                <td class="align-middle">A01</td>
-                <td class="align-middle">08/11/2002</td>
-                <td class="align-middle">0334353660</td>
-                <td class="align-middle">19/3 Phường Tân Phong Q7 TP Hồ Chí Minh</td>
-                <td class="align-middle">ngjyentiendat9a3@gmail.com</td>
-                <td class="align-middle">Còn nợ tiền phòng 04/2022</td>
-                <td class="align-middle"><a class="text-white btn btn-success w-100" href="">Cập nhật</a><a
-                        class="text-white btn btn-danger w-100" href="">Xóa</a></td>
-            </tr>
-            <tr>
-                <th class="align-middle" scope="row">089202013930</th>
-                <td class="align-middle">Nguyễn Văn Bành</td>
-                <td class="align-middle">A01</td>
-                <td class="align-middle">08/11/2002</td>
-                <td class="align-middle">0334353660</td>
-                <td class="align-middle">19/3 Phường Tân Phong Q7 TP Hồ Chí Minh</td>
-                <td class="align-middle">ngjyentiendat9a3@gmail.com</td>
-                <td class="align-middle">Còn nợ tiền phòng 04/2022</td>
-                <td class="align-middle"><a class="text-white btn btn-success w-100" href="">Cập nhật</a><a
-                        class="text-white btn btn-danger w-100" href="">Xóa</a></td>
-            </tr>
+            </tr> --}}
         </tbody>
     </table>
 </div>
+
+<script>
+    function filterRoom(day){
+        if(day.value == "All"){
+            window.location.href = "/host/manage-customer"
+        }
+        else window.location.href = `/host/manage-customer?day=${day.value}`
+    }
+</script>

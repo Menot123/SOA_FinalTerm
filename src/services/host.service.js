@@ -1,7 +1,6 @@
 // Define your services here
 const repo = require('../repositories/host.repository')
 
-
 async function getTRRF() {
     try {
         var results = await repo.getTRRF()
@@ -62,7 +61,35 @@ async function getInfo(id) {
     }
 }
 
+async function getCustomer() {
+    try {
+        var result = await repo.getCustomer()
+        return result
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong');
+    }
+}
+async function getRooms() {
+    try {
+        var result = await repo.getRooms()
+        return result
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong');
+    }
+}
+
+async function getCustomerByRoomGroup(day) {
+    try {
+        var result = await repo.getCustomerByRoomGroup(day)
+        return result
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong');
+    }
+}
+
 module.exports = {
-    getTRRF, getDetailById, cofirmed, hide, getRoom, getInfo, 
-    
+    getTRRF, getDetailById, cofirmed, hide, getRoom, getInfo, getCustomer, getRooms, getCustomerByRoomGroup,
 }

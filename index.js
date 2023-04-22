@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
@@ -75,6 +76,20 @@ app.engine(
             isNotHave: function(trangthai) {
                 if (trangthai == "Sẵn có") return false;
                 else return true;
+            },
+            formatDate: function(date) {
+                const dateObject = new Date(date);
+                const day = dateObject.getDate();
+                const month = dateObject.getMonth() + 1;
+                const year = dateObject.getFullYear();
+                const formattedDate = `${day < 10 ? '0' + day : day}/${month < 10 ? '0' + month : month}/${year}`;
+                return formattedDate
+            },
+            unformatDate: function(date) {
+                const [day, month, year] = date.split('/');
+                const dateObject = new Date(year, month - 1, day);
+                const isoDate = dateObject.toISOString();
+                return isoDate
             }
         }
     }),

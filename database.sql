@@ -1,3 +1,6 @@
+DROP DATABASE IF EXISTS motel_room;
+CREATE DATABASE motel_room;
+USE motel_room;
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
