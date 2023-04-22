@@ -120,6 +120,12 @@ async function deleteCustomer(cccd) {
     );
     return record;
 };
+async function updateCustomer(data) {
+    const record = await dbClient.query(
+        `UPDATE khachthuetro SET maphong='${data.maphong}', sodienthoai='${data.sodienthoai}', diachi='${data.diachi}', email='${data.email}', ghichu='${data.ghichu}' WHERE cccd = '${data.cccd}'`
+    );
+    return record;
+};
 module.exports = {
     getTRRF,
     getDetailById,
@@ -132,5 +138,6 @@ module.exports = {
     getCustomerByRoomGroup,
     getCustomerCount,
     getCustomerCountByRoomGroup,
-    deleteCustomer
+    deleteCustomer,
+    updateCustomer
 }

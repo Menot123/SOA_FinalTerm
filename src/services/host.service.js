@@ -180,6 +180,16 @@ async function deleteCustomer(cccd) {
     }
 }
 
+async function updateCustomer(data) {
+    try {
+        var result = await repo.updateCustomer(data)
+        return result
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong');
+    }
+}
+
 
 module.exports = {
     getTRRF,
@@ -193,5 +203,6 @@ module.exports = {
     getCustomerByRoomGroup,
     getCustomerCount,
     getCustomerCountByRoomGroup,
-    deleteCustomer
+    deleteCustomer,
+    updateCustomer
 }

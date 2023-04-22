@@ -33,7 +33,7 @@ async function manageCustomer(req, res, next) {
             }
         }
         const data = await responseCustomer.json()
-        console.log(data)
+            // console.log(data)
 
         // Get groupt room
         const responseRoom = await fetch(url + "/rooms")
@@ -199,6 +199,18 @@ async function deleteCustomerAPI(req, res, next) {
     }
 }
 
+async function updateCustomerAPI(req, res, next) {
+    try {
+        let data = req.body
+        const result = await hostServices.updateCustomer(data)
+        req.session.flash = { message: `Cập nhật thông tin cho khách trọ có CCCD là ${data.cccd} thành công` }
+        res.status(200).json(req.session.flash);
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
 module.exports = {
     index,
     manageCustomer,
@@ -210,5 +222,6 @@ module.exports = {
     getInfo,
     manageCustomerAPI,
     getRoomsAPI,
-    deleteCustomerAPI
+    deleteCustomerAPI,
+    updateCustomerAPI
 };
