@@ -7,4 +7,5 @@ router.get('/dang-ky-tam-tru', homeController.register);
 router.post('/mau-don', homeController.template);
 
 
+
 module.exports = router;
