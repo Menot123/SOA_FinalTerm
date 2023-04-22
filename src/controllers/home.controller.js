@@ -15,7 +15,7 @@ async function template(req, res, next) {
     try {
         var arr = []
         console.log(req.body)
-        if(req.body.name1 != "" && req.body.name2 == undefined) {
+        if (req.body.name1 != "" && req.body.name2 == undefined) {
             let obj = {
                 stt: req.body.stt,
                 name1: req.body.name1,
@@ -26,7 +26,7 @@ async function template(req, res, next) {
                 relb1: req.body.relb1
             }
             arr.push(obj)
-        } else if(req.body.name2 != "" && req.body.name2 != "") {
+        } else if (req.body.name2 != "" && req.body.name2 != "") {
             let obj1 = {
                 stt: req.body.stt,
                 name1: req.body.name1,
@@ -126,7 +126,7 @@ async function template(req, res, next) {
             arr.push(obj3)
             arr.push(obj4)
         }
-        res.render('maudon', {layout: false, data: req.body, array: arr});
+        res.render('maudon', { layout: false, data: req.body, array: arr });
     } catch (err) {
         console.error('Error', err.message);
         next(err);
@@ -144,5 +144,7 @@ async function register(req, res, next) {
 
 
 module.exports = {
-    index,template, register, 
+    index,
+    template,
+    register,
 };
