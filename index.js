@@ -29,7 +29,6 @@ app.use(sessions({
 
 app.use(flashMessage);
 
-
 Handlebars.registerHelper('multiply', function(a, b) {
     return a * b;
 });
@@ -89,6 +88,39 @@ app.engine(
                 const dateObject = new Date(year, month - 1, day);
                 const isoDate = dateObject.toISOString();
                 return isoDate
+            },
+            checkFilter: function(value, filter) {
+                if (value == filter)
+                    return "selected";
+                else
+                    return "";
+            },
+            checkFilterForPage: function(filter) {
+                if (filter != "All" && filter != null) {
+                    return `day=${filter}&`
+                }
+                return "";
+            },
+            gt: function(pageCount, number) {
+                if (pageCount >= number) return true;
+                return false;
+            },
+            eq: function(currentPage, number) {
+                if (currentPage == number) return true;
+                return false;
+            },
+            add: function(currentPage, number) {
+                return parseInt(currentPage) + parseInt(number)
+            },
+            minus: function(currentPage, number) {
+                return parseInt(currentPage) - parseInt(number)
+            },
+            range: function(start, end) {
+                const result = [];
+                for (let i = start; i <= end; i++) {
+                    result.push(i);
+                }
+                return result;
             }
         }
     }),

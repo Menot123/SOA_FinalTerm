@@ -1,9 +1,9 @@
 // Define your services here
 const repo = require('../repositories/host.repository')
 
-async function getCustomer() {
+async function getCustomer(offset, perPage) {
     try {
-        var result = await repo.getCustomer()
+        var result = await repo.getCustomer(offset, perPage)
         return result
     } catch (err) {
         console.log(err);
@@ -20,9 +20,39 @@ async function getRooms() {
     }
 }
 
-async function getCustomerByRoomGroup(day) {
+async function getCustomerByRoomGroup(day, offset, perPage) {
     try {
-        var result = await repo.getCustomerByRoomGroup(day)
+        var result = await repo.getCustomerByRoomGroup(day, offset, perPage)
+        return result
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong');
+    }
+}
+
+async function getCustomerCount() {
+    try {
+        var result = await repo.getCustomerCount()
+        return result[0]
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong');
+    }
+}
+
+async function getCustomerCountByRoomGroup(day) {
+    try {
+        var result = await repo.getCustomerCountByRoomGroup(day)
+        return result[0]
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong');
+    }
+}
+
+async function deleteCustomer(cccd) {
+    try {
+        var result = await repo.deleteCustomer(cccd)
         return result
     } catch (err) {
         console.log(err);
@@ -31,8 +61,12 @@ async function getCustomerByRoomGroup(day) {
 }
 
 
+
 module.exports = {
     getCustomer,
     getRooms,
-    getCustomerByRoomGroup
+    getCustomerByRoomGroup,
+    getCustomerCount,
+    getCustomerCountByRoomGroup,
+    deleteCustomer
 }

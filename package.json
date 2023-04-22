@@ -1,35 +1,35 @@
 {
-  "name": "soa_finalterm",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dekento/SOA_FinalTerm.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "body-parser": "^1.20.2",
-    "bootstrap-icons": "^1.10.3",
-    "dotenv": "^16.0.3",
-    "express": "^4.18.2",
-    "express-handlebars": "^7.0.4",
-    "express-session": "^1.17.3",
-    "handlebars": "^4.7.7",
-    "jspdf": "^2.5.1",
-    "moment-timezone": "^0.5.43",
-    "mysql": "^2.18.1",
-    "mysql2": "^3.2.0",
-    "node-fetch": "^3.3.1",
-    "nodemon": "^2.0.22"
-  },
-  "bugs": {
-    "url": "https://github.com/dekento/SOA_FinalTerm/issues"
-  },
-  "homepage": "https://github.com/dekento/SOA_FinalTerm#readme"
+    "name": "soa_finalterm",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "nodemon index.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/dekento/SOA_FinalTerm.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "body-parser": "^1.20.2",
+        "bootstrap-icons": "^1.10.3",
+        "dotenv": "^16.0.3",
+        "express": "^4.18.2",
+        "express-handlebars": "^7.0.4",
+        "express-session": "^1.17.3",
+        "handlebars": "^4.7.7",
+        "jspdf": "^2.5.1",
+        "moment-timezone": "^0.5.43",
+        "mysql": "^2.18.1",
+        "mysql2": "^3.2.0",
+        "node-fetch": "^3.3.1",
+        "nodemon": "^2.0.22"
+    },
+    "bugs": {
+        "url": "https://github.com/dekento/SOA_FinalTerm/issues"
+    },
+    "homepage": "https://github.com/dekento/SOA_FinalTerm#readme"
 }
