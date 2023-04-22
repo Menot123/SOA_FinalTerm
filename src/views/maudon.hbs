@@ -195,6 +195,7 @@
 
 </body>
 
+<<<<<<< HEAD
 <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.7/dist/handlebars.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.min.js"></script>
 <script>
@@ -206,6 +207,14 @@
         const pdf = new jsPDF();
         const pdfContent = document.getElementById("target");
         activities.style.display = "none";
+=======
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.min.js"></script>
+<script>
+    const btn__download = document.getElementById("download-pdf");
+    btn__download.addEventListener("click", function () {
+        const pdf = new jsPDF();
+        const pdfContent = document.getElementById("target");
+>>>>>>> 85f334edc2c59675436ed17133ef3c5b50f3f2ea
         pdf.addHTML(pdfContent, function () {
             pdf.save("file.pdf");
         });

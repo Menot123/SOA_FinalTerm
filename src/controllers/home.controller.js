@@ -14,7 +14,12 @@ async function index(req, res, next) {
 async function template(req, res, next) {
     try {
         var arr = []
+<<<<<<< HEAD
         if(req.body.name1 != "" && req.body.name2 == undefined) {
+=======
+        console.log(req.body)
+        if (req.body.name1 != "" && req.body.name2 == undefined) {
+>>>>>>> 85f334edc2c59675436ed17133ef3c5b50f3f2ea
             let obj = {
                 stt: req.body.stt,
                 name1: req.body.name1,
@@ -25,7 +30,11 @@ async function template(req, res, next) {
                 relb1: req.body.relb1
             }
             arr.push(obj)
+<<<<<<< HEAD
         } else if(req.body.name2 != "" && req.body.name2 != "" && req.body.name3 == undefined) {
+=======
+        } else if (req.body.name2 != "" && req.body.name2 != "") {
+>>>>>>> 85f334edc2c59675436ed17133ef3c5b50f3f2ea
             let obj1 = {
                 stt: req.body.stt,
                 name1: req.body.name1,
@@ -134,10 +143,14 @@ async function template(req, res, next) {
             arr.push(obj3)
             arr.push(obj4)
         }
+<<<<<<< HEAD
         const jsonString = JSON.stringify(arr);
         // const dataFromDatabase = JSON.parse(jsonString);
         const data = await homeServices.createTRRF(req.body, jsonString)
         res.render('maudon', {layout: false, data: req.body, array: arr});
+=======
+        res.render('maudon', { layout: false, data: req.body, array: arr });
+>>>>>>> 85f334edc2c59675436ed17133ef3c5b50f3f2ea
     } catch (err) {
         console.error('Error', err.message);
         next(err);
@@ -155,5 +168,7 @@ async function register(req, res, next) {
 
 
 module.exports = {
-    index,template, register, 
+    index,
+    template,
+    register,
 };
