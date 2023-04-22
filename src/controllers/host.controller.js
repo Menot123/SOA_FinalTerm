@@ -14,22 +14,32 @@ async function index(req, res, next) {
 
 async function manageCustomer(req, res, next) {
     try {
+        // Get the customer
         const url = `http://${process.env.HOST}:${process.env.PORT}/host/api`
         let responseCustomer;
-        if(req.query.day){
-            responseCustomer = await fetch(url + "/manage-customer?day=" + req.query.day)
-        }else{
-            responseCustomer = await fetch(url + "/manage-customer")
+        let filter = "All"
+        if (req.query.day) {
+            if (req.query.page) {
+                responseCustomer = await fetch(url + "/manage-customer?day=" + req.query.day + "&page=" + req.query.page)
+            } else {
+                responseCustomer = await fetch(url + "/manage-customer?day=" + req.query.day)
+            }
+            filter = req.query.day
+        } else {
+            if (req.query.page) {
+                responseCustomer = await fetch(url + "/manage-customer?page=" + req.query.page)
+            } else {
+                responseCustomer = await fetch(url + "/manage-customer")
+            }
         }
-        
-        const customer = await responseCustomer.json()
-            // console.log(customer)
+        const data = await responseCustomer.json()
+        console.log(data)
 
+        // Get groupt room
         const responseRoom = await fetch(url + "/rooms")
         const rooms = await responseRoom.json()
-        // console.log(rooms[0])
-
-        res.render('manage-customer', { layout: 'manager', customer: customer, rooms: rooms });
+            // console.log(rooms[0])
+        res.render('manage-customer', { layout: 'manager', customer: data.customer, rooms: rooms, filter: filter, pageCount: data.pageCount, currentPage: data.currentPage });
     } catch (err) {
         console.error('Error', err.message);
         next(err);
@@ -37,16 +47,26 @@ async function manageCustomer(req, res, next) {
 }
 async function manageCustomerAPI(req, res, next) {
     try {
+        // Paginations
+        const perPage = 5; // Số lượng bản ghi trên mỗi trang
+        const page = req.query.page || 1; // Trang hiện tại
+        const offset = (page - 1) * perPage; // Vị trí bắt đầu lấy bản ghi
         let customer;
-        if(req.query.day)
-        {   
-            customer = await hostServices.getCustomerByRoomGroup(req.query.day);
-            console.log(customer)
+        let customerCount;
+        if (req.query.day) {
+            customerCount = await hostServices.getCustomerCountByRoomGroup(req.query.day);
+            if (req.query.page) {
+                customer = await hostServices.getCustomerByRoomGroup(req.query.day, offset, perPage);
+            } else {
+                customer = await hostServices.getCustomerByRoomGroup(req.query.day, offset, perPage);
+            }
+        } else {
+            customerCount = await hostServices.getCustomerCount();
+            customer = await hostServices.getCustomer(offset, perPage);
         }
-        else{
-            customer = await hostServices.getCustomer();
-        }
-        res.json(customer)
+
+        const pageCount = Math.ceil(customerCount.count / perPage);
+        res.json({ customer, pageCount: pageCount, currentPage: page });
     } catch (err) {
         console.error('Error', err.message);
         next(err);
@@ -139,7 +159,7 @@ async function hide(req, res, next) {
         const id = req.body.id
         const status = await hostServices.hide(id)
         if (status > 0) {
-            req.session.flash = {message: `Đã ẩn đơn đăng ký ${id}`}
+            req.session.flash = { message: `Đã ẩn đơn đăng ký ${id}` }
             res.status(200).json({ message: "hidden successfully", status: status })
         } else {
             res.status(400).json({ message: "hidden fail", status: status })
@@ -159,6 +179,17 @@ async function getInfo(req, res, next) {
         } else {
             res.status(200).json({ message: "get information of president fail", status: status })
         }
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+async function deleteCustomerAPI(req, res, next) {
+    try {
+        let cccd = req.body.cccd
+        const result = await hostServices.deleteCustomer(cccd)
+        req.session.flash = { message: `Đã xóa khách trọ có CCCD ${cccd}` }
+        res.status(200).json(req.session.flash);
     } catch (err) {
         console.error('Error', err.message);
         next(err);
@@ -193,5 +224,5 @@ async function managerGHTT(req, res, next) {
 
 module.exports = {
     index, manageCustomer, managerTRRF, managerTRRFAPI, getDetailById, cofirmed, hide, getInfo, manageCustomerAPI,
-    getRoomsAPI, managerGHTT, managerGHTTAPI,
+    getRoomsAPI,deleteCustomerAPI, managerGHTT, managerGHTTAPI,
 };

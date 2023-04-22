@@ -6,10 +6,11 @@
 
 <h1 class="text-center mt-3">Quản lý thông tin khách trọ</h1>
 <div class="container-fluid mt-3">
-    <select onchange="filterRoom(this)" class="form-select form-select-bg-danger" aria-label="Default select example">
-        <option value="All" selected>Tất cả dãy</option>
+    <select onchange="filterRoom(this)" class="form-select form-select-lg bg-success text-light w-auto"
+        aria-label="Default select deleteCustomer">
+        <option value="All" {{checkFilter filter "All" }}>Tất cả dãy</option>
         {{#each rooms}}
-        <option value="{{day}}">Dãy {{day}}</option>
+        <option value="{{day}}" {{checkFilter ../filter day}}>Dãy {{day}}</option>
         {{/each}}
     </select>
 
@@ -38,8 +39,11 @@
                 <td class="align-middle">{{diachi}}</td>
                 <td class="align-middle">{{email}}</td>
                 <td class="align-middle">{{ghichu}}</td>
-                <td class="align-middle"><a class="text-white btn btn-success w-100" href="">Cập nhật</a><a
-                        class="text-white btn btn-danger w-100" href="">Xóa</a></td>
+                <td class="align-middle">
+                    <button class="text-white btn btn-success w-100" href="">Cập nhật</button>
+                    <button onclick="deleteCustomer(this)" class="text-white btn btn-danger w-100" href=""
+                        data-bs-toggle="modal" data-bs-target="#deleteCustomerModal">Xóa</button>
+                </td>
             </tr>
             {{/each}}
             {{!-- <tr>
@@ -58,11 +62,80 @@
     </table>
 </div>
 
+<div class="page">
+    <div class="text-center fs-4">
+        {{#if (gt pageCount 1)}}
+            {{#if (eq currentPage 1)}}
+            <span class="btn btn-success disabled">Prev</span>
+            {{else}}
+            <a class="btn btn-success" href="/host/manage-customer?{{checkFilterForPage filter}}page={{minus currentPage 1}}">Prev</a>
+            {{/if}}
+
+            {{#each (range 1 pageCount)}}
+                {{#if (eq this ../currentPage)}}
+                    <span>{{this}}</span>
+                {{else}}
+                    <a class="text-decoration-none" href="/host/manage-customer?{{checkFilterForPage ../filter}}page={{this}}">{{this}}</a>
+                {{/if}}
+            {{/each}}
+
+            {{#if (eq currentPage pageCount)}}
+                <span class="btn btn-success disabled">Next</span>
+            {{else}}
+                <a class="btn btn-success" href="/host/manage-customer?{{checkFilterForPage filter}}page={{add currentPage 1}}">Next</a>
+            {{/if}}
+        {{/if}}
+    </div>
+</div>
+
+
+<!--Delete Modal -->
+<div class="modal fade" id="deleteCustomerModal" tabindex="-1" aria-labelledby="deleteCustomerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteCustomerModalLabel">Bạn có chắc muốn xóa người dùng này?</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Các thông tin sau khi xóa sẽ không được tìm thấy trên trang web nữa. Bạn chỉ có thể khôi phục lại bằng cách bật
+                lại người dùng lại trong cơ sở dữ liệu
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button id="confirmDelete" type="button" data-bs-dismiss="modal" class="btn btn-primary">Chắc chắn</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script>
-    function filterRoom(day){
-        if(day.value == "All"){
+    function filterRoom(day) {
+        if (day.value == "All") {
             window.location.href = "/host/manage-customer"
         }
         else window.location.href = `/host/manage-customer?day=${day.value}`
+    }
+    function deleteCustomer(btnCus) {
+        let cccd = btnCus.parentNode.parentNode.children[0].innerHTML;
+        let name = btnCus.parentNode.parentNode.children[1].innerHTML;
+        $('#confirmDelete').click(async function(e){
+            const url = 'http://localhost:3000/host/api/manage-customer';
+            const data = { cccd: cccd};
+            fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                window.location.reload();
+            })
+            .catch(error => console.error(error));
+        })
+        console.log(cccd)
     }
 </script>
