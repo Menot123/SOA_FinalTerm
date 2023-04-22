@@ -25,9 +25,11 @@
 
     .top {
         position: absolute;
-        top: 0;
-        right: 0;
-        max-width: 240px;
+        top: 20px;
+        right: 30px;
+        max-width: 180px;
+        text-align: center;
+        font-size: 0.8rem;
     }
 
     div span {
@@ -42,8 +44,9 @@
         font-size: 1.2rem;
     }
 
-    #download-pdf {
-        position: absolute;
+    .activity {
+        position: fixed;
+        display: flex;
         top: 100px;
         right: 50px;
     }
@@ -56,20 +59,21 @@
     </div>
 
     <div class="container my-2">
-        <div class="head my-2 text-center">
+        <div class="head my-4 text-center">
             <h3>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</h3>
             <h3>Độc lập - Tự do - Hạnh phúc</h3>
             <hr id="line__head">
         </div>
 
-        <div class="title my-2 text-center" style="margin-top: 48px;">
+        <div class="title my-2 text-center " style="margin-top: 48px;">
             <h2>TỜ KHAI THAY ĐỔI THÔNG TIN CƯ TRÚ</h2>
         </div>
         {{#if data }}
 
-        <div class="content my-2 mt-3">
+        <div class="content my-2 mt-4">
             <div class="receiver my-2">
-                <span style="margin-left: 48px;">Kính gửi: CÔNG AN PHƯỜNG TÂN PHONG</span>
+                <span style="margin-left: 48px;">Kính gửi: Công an phường Tân Phong, Quận 7, Thành phố Hồ Chí
+                    Minh</span>
             </div>
 
             <div class="name my-2">
@@ -77,7 +81,7 @@
             </div>
 
             <div class="birth__gender my-2 d-flex">
-                <span>2. Ngày, tháng, năm sinh: <span class="nomal">{{data.date}}</span>:</span>
+                <span>2. Ngày, tháng, năm sinh: <span class="nomal">{{formatDateTime data.date}}</span></span>
                 <span style="margin-left: 28%;">3. Giới tính: <span class="nomal">{{data.gender}}</span> </span>
             </div>
 
@@ -154,56 +158,89 @@
 
                 </tbody>
             </table>
-            {{/if }}
+
 
             <div class="text my-2 d-flex justify-content-between">
-                <div class="one my-2">
-                    <span>ngày tháng năm</span> <br>
+                <div class="one my-2 text-center" style="max-width: 220px;">
+                    <span>... ngày...tháng...năm</span> <br>
                     <h6>Ý KIẾN CỦA CHỦ HỘ</h6>
+                    <p style="margin-bottom: 0;">Đồng ý cho đăng ký tạm trú tại địa chỉ {{data.tempAdd}}</p>
+                    <span>Tùng</span> <br>
+                    <span>Nguyễn Văn Tùng</span>
                 </div>
                 <div class="two my-2">
-                    <span>ngày tháng năm</span> <br>
-                    <h6>Ý KIẾN CỦA CHỦ SỞ HỮU</h6>
+                    <span>...ngày...tháng...năm</span> <br>
+                    <h6 class="text-center">Ý KIẾN CỦA CHỦ SỞ HỮU</h6>
                 </div>
                 <div class="three my-2">
-                    <span>ngày tháng năm</span> <br>
-                    <h6>Ý KIẾN CỦA CHA MẸ</h6>
+                    <span>...ngày...tháng...năm</span> <br>
+                    <h6 class="text-center">Ý KIẾN CỦA CHA MẸ</h6>
                 </div>
                 <div class="four my-2">
-                    <span>ngày tháng năm</span> <br>
-                    <h6>NGƯỜI KÊ KHAI</h6>
+                    <span>...ngày...tháng...năm</span> <br>
+                    <h6 class="text-center">NGƯỜI KÊ KHAI</h6>
                 </div>
             </div>
+            {{/if }}
         </div>
     </div>
 
+    <div class="activity flex-column">
+        <button class="btn btn-success" id="send-host">Gửi cho chủ trọ</button>
+        <button class="btn btn-primary my-2" id="download">Tải xuống</button>
+        <button onclick="history.back()" class="btn btn-secondary" id="btnBack">Trở lại</button>
 
-    <button class="btn btn-primary" id="download-pdf">Tải xuống PDF</button>
+    </div>
 
 
 </body>
 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.1.135/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.7/dist/handlebars.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.min.js"></script>
 <script>
-    const btn__download = document.getElementById("download-pdf")
-    console.log(btn__download)
-    document.getElementById("download-pdf").addEventListener("click", function () {
-        window.print()
-        console.log('hi')
-        // Lấy nội dung của trang HTML
-        var html = document.getElementById('target');
+    const activities = document.querySelector(".activity");
+    const btn__download = document.getElementById("download");
+    const btn__send = document.getElementById("send-host");
 
-        // Tạo một đối tượng PDF từ nội dung HTML
-        var pdf = new jsPDF();
-
-        // Thêm nội dung HTML vào trang PDF
-        pdf.html(html, {
-            callback: function (pdf) {
-                // Tải xuống tệp PDF
-                pdf.save("ten-tap-tin.pdf");
-            }
+    btn__download.addEventListener("click", function () {
+        const pdf = new jsPDF();
+        const pdfContent = document.getElementById("target");
+        activities.style.display = "none";
+        pdf.addHTML(pdfContent, function () {
+            pdf.save("file.pdf");
         });
+        activities.style.display = "flex";
     });
+
+    btn__send.addEventListener('click', () => {
+        fetch(`http://localhost:3000/admin/api/update/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                sodienthoai: exampleInputEmail1.value,
+                pass: exampleInputPassword1.value
+            })
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                if (data.status > 0) {
+                    form__update.style.display = 'none'
+                    showAlertSuccess(`Cập nhật thông tin tài khoản ${data.id} thành công!`)
+                } else {
+                    form__update.style.display = 'none'
+                    showAlertFail(`Cập nhật thông tin tài khoản ${data.id} thất bại!`)
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            });
+    })
+
+
 </script>
 
 </html>
