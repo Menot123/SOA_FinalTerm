@@ -90,37 +90,37 @@
             </div>
 
             <div class="name my-2">
-                <span>1. Họ, chữ đệm và tên: <span class="nomal">{{data.name}}</span> </span>
+                <span>1. Họ, chữ đệm và tên: <span class="nomal">{{data.hoten}}</span> </span>
             </div>
 
             <div class="birth__gender my-2 d-flex">
-                <span>2. Ngày, tháng, năm sinh: <span class="nomal">{{formatDateTime data.date}}</span></span>
-                <span style="margin-left: 28%;">3. Giới tính: <span class="nomal">{{data.gender}}</span> </span>
+                <span>2. Ngày, tháng, năm sinh: <span class="nomal">{{formatDateTime data.ngaysinh}}</span></span>
+                <span style="margin-left: 28%;">3. Giới tính: <span class="nomal">{{data.gioitinh}}</span> </span>
             </div>
 
             <div class="code my-2">
-                <span>4. Số định danh cá nhân/CMND: <span id="code" class="nomal">{{data.code}}</span> </span>
+                <span>4. Số định danh cá nhân/CMND: <span id="code" class="nomal">{{data.cccd}}</span> </span>
             </div>
 
             <div class="contact my-2 d-flex">
-                <span>5. Số điện thoại liên hệ: <span class="nomal">{{data.phone}}</span> </span>
+                <span>5. Số điện thoại liên hệ: <span class="nomal">{{data.sodienthoai}}</span> </span>
                 <span style="margin-left: 28%;">6. Email: <span class="nomal">{{data.email}}</span> </span>
             </div>
 
             <div class="old__add my-2">
-                <span>7. Nơi thường trú: <span class="nomal">{{data.oldAdd}}</span> </span>
+                <span>7. Nơi thường trú: <span class="nomal">{{data.noithuongtru}}</span> </span>
             </div>
 
             <div class="now__add my-2">
-                <span>8. Nơi tạm trú: <span class="nomal">{{data.tempAdd}}</span> </span>
+                <span>8. Nơi tạm trú: <span class="nomal">{{data.diachitamtru}}</span> </span>
             </div>
 
             <div class="now__location my-2">
-                <span>9. Nơi ở hiện tại: <span class="nomal">{{data.nowAdd}}</span> </span>
+                <span>9. Nơi ở hiện tại: <span class="nomal">{{data.noiohientai}}</span> </span>
             </div>
 
             <div class="work my-2">
-                <span>10. Nghề nghiệp, nơi làm việc: <span class="nomal">{{data.work}}</span> </span>
+                <span>10. Nghề nghiệp, nơi làm việc: <span class="nomal">{{data.nghenghiep}}</span> </span>
             </div>
 
             <div class="boss my-2 d-flex">
@@ -134,7 +134,7 @@
             </div>
 
             <div class="content_require my-2">
-                <span>14. Nội dung đề nghị: <span class="nomal">{{data.message}}</span> </span>
+                <span>14. Nội dung đề nghị: <span class="nomal">{{data.noidungdenghi}}</span> </span>
             </div>
 
             <div class="people my-2">
@@ -177,7 +177,7 @@
                 <div class="one my-2 text-center" style="max-width: 220px;">
                     <span>... ngày...tháng...năm</span> <br>
                     <h6>Ý KIẾN CỦA CHỦ HỘ</h6>
-                    <p style="margin-bottom: 0;">Đồng ý cho đăng ký tạm trú tại địa chỉ {{data.tempAdd}}</p>
+                    <p style="margin-bottom: 0;">Đồng ý cho đăng ký tạm trú tại địa chỉ {{data.diachitamtru}}</p>
                     <span>Tùng</span> <br>
                     <span>Nguyễn Văn Tùng</span>
                 </div>
@@ -199,11 +199,14 @@
     </div>
 
     <div class="activity flex-column">
-        <button class="btn btn-success" id="send-host">Gửi cho chủ trọ</button>
         <button class="btn btn-primary my-2" id="download">Tải xuống</button>
         <button onclick="history.back()" class="btn btn-secondary" id="btnBack">Trở lại</button>
 
     </div>
+
+    {{#if room }}
+    <input id="room" type="text" class="d-none" value="{{room}}">
+    {{/if }}
 
 
 </body>
@@ -215,21 +218,14 @@
     const btn__send = document.getElementById("send-host");
     const flash_success = document.getElementById("flash-alert-success");
     const code = document.getElementById("code");
+    const room = document.getElementById("room");
+
 
 
     btn__download.addEventListener("click", function () {
-        const pdf = new jsPDF();
-        const pdfContent = document.getElementById("target");
-        activities.style.display = "none";
-        pdf.addHTML(pdfContent, function () {
-            pdf.save("file.pdf");
-        });
-        activities.style.display = "flex";
-    });
-
-    btn__send.addEventListener('click', () => {
+        const fileName = room.value
         const cmnd = code.textContent
-        fetch(`http://localhost:3000/api/send`, {
+        fetch(`http://localhost:3000/host/api/send`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -242,18 +238,21 @@
                 return response.json();
             })
             .then(data => {
-                console.log(data.status)
                 if (data.status > 0) {
-                    showAlertSuccess('Đơn đăng ký tạm trú đã được gửi đến chủ trọ thành công!')
-                } else {
-                    showAlertFail(`Gửi đơn đăng ký tạm trú thất bại`)
+                    showAlertSuccess('Tải xuống thành công!')
                 }
-
             })
             .catch(error => {
                 console.log(error)
             });
-    })
+        const pdf = new jsPDF();
+        const pdfContent = document.getElementById("target");
+        activities.style.display = "none";
+        pdf.addHTML(pdfContent, function () {
+            pdf.save(`${fileName}.pdf`);
+        });
+        activities.style.display = "flex";
+    });
 
     function showAlertSuccess(msg) {
         window.scrollTo({
@@ -265,7 +264,7 @@
 
         setTimeout(function () {
             flash_success.classList.add('d-none');
-            window.location.href = '/'
+            window.location.href = '/host/dang-ky-tam-tru'
         }, 2500);
 
     }
@@ -277,7 +276,7 @@
 
         setTimeout(function () {
             flash_fail.classList.add('d-none');
-            window.location.href = '/'
+            window.location.href = '/host/dang-ky-tam-tru'
         }, 1300);
 
     }

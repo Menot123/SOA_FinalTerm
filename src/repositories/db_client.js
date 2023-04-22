@@ -7,7 +7,6 @@ var dbConfig = {
 
 async function query(sql, params) {
     var con = await mysql.createConnection(dbConfig);
-    console.log(con.connect)
     const [results, ] = await con.execute(sql, params);
 
     return results;

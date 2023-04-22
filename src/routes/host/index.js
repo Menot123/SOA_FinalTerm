@@ -9,5 +9,16 @@ router.get('/api/manage-customer', bossController.manageCustomerAPI);
 router.delete('/api/manage-customer', bossController.deleteCustomerAPI);
 
 
+router.get('/api/dang-ky-tam-tru', bossController.managerTRRFAPI);
+router.get('/dang-ky-tam-tru', bossController.managerTRRF);
+router.get('/detail-TRRF/',bossController.getDetailById)
+router.post('/api/send',bossController.cofirmed)
+router.put('/api/hiden',bossController.hide)
+
+router.get('/api/thong-tin/:id',bossController.getInfo)
+
+
+
+// router.get('/api/room',bossController.getRoom)
 
 module.exports = router;
