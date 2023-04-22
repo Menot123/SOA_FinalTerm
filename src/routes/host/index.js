@@ -17,6 +17,8 @@ router.post('/api/send', bossController.cofirmed)
 router.put('/api/hiden', bossController.hide)
 
 router.get('/api/thong-tin/:id', bossController.getInfo)
+router.get('/gia-han-tam-tru', bossController.managerGHTT);
+router.get('/api/gia-han-tam-tru', bossController.managerGHTTAPI);
 
 
 

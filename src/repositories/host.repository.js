@@ -2,7 +2,8 @@ const dbClient = require('./db_client');
 
 async function getTRRF() {
     const record = await dbClient.query(
-        `select * from dondangkytamtru where trangthai != 'chưa gửi' && trangthai != 'Đã ẩn' ORDER BY (trangthai = 'chưa tải xuống') DESC`
+        `select * from dondangkytamtru where trangthai != 'chưa gửi' && trangthai != 'Đã ẩn' && noidungdenghi NOT LIKE '%gia hạn tạm trú%'
+        ORDER BY (trangthai = 'chưa tải xuống') DESC`
     )
     return record
 };
@@ -120,6 +121,14 @@ async function deleteCustomer(cccd) {
     );
     return record;
 };
+
+async function getTRRF2() {
+    const record = await dbClient.query(
+        `select * from dondangkytamtru where trangthai != 'chưa gửi' && trangthai != 'Đã ẩn' && noidungdenghi like '%Gia hạn tạm trú%'`
+    )
+    return record
+};
+
 async function updateCustomer(data) {
     const record = await dbClient.query(
         `UPDATE khachthuetro SET maphong='${data.maphong}', sodienthoai='${data.sodienthoai}', diachi='${data.diachi}', email='${data.email}', ghichu='${data.ghichu}' WHERE cccd = '${data.cccd}'`
@@ -139,5 +148,6 @@ module.exports = {
     getCustomerCount,
     getCustomerCountByRoomGroup,
     deleteCustomer,
+    getTRRF2,
     updateCustomer
 }

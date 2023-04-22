@@ -101,9 +101,6 @@ async function getRoomsAPI(req, res, next) {
 
 async function managerTRRFAPI(req, res, next) {
     try {
-        // var room = null
-        // const response = await fetch(`http://localhost:3000/host/api/room`)
-        // room = await response.json();
         const data = await hostServices.getTRRF()
         if (data.length > 0) {
             res.status(200).json({ data: data })
@@ -199,6 +196,32 @@ async function deleteCustomerAPI(req, res, next) {
     }
 }
 
+async function managerGHTTAPI(req, res, next) {
+    try {
+        const data = await hostServices.getTRRF2()
+        if (data.length > 0) {
+            res.status(200).json({ data: data })
+        } else {
+            res.status(400).json({ message: "get list TRRF failed" })
+        }
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
+async function managerGHTT(req, res, next) {
+    try {
+        var data = null
+        const response = await fetch(`http://localhost:3000/host/api/gia-han-tam-tru`)
+        data = await response.json();
+        res.render('ad_manGHTT', { layout: 'manager', data: data.data });
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
 async function updateCustomerAPI(req, res, next) {
     try {
         let data = req.body
@@ -223,5 +246,7 @@ module.exports = {
     manageCustomerAPI,
     getRoomsAPI,
     deleteCustomerAPI,
+    managerGHTT,
+    managerGHTTAPI,
     updateCustomerAPI
 };

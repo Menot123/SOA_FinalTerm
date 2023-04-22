@@ -14,7 +14,7 @@ async function index(req, res, next) {
 async function template(req, res, next) {
     try {
         var arr = []
-        if(req.body.name1 != "" && req.body.name2 == undefined) {
+        if (req.body.name1 != "" && req.body.name2 == undefined) {
             let obj = {
                 stt: req.body.stt,
                 name1: req.body.name1,
@@ -25,7 +25,7 @@ async function template(req, res, next) {
                 relb1: req.body.relb1
             }
             arr.push(obj)
-        } else if(req.body.name2 != "" && req.body.name2 != "" && req.body.name3 == undefined) {
+        } else if (req.body.name2 != "" && req.body.name2 != "" && req.body.name3 == undefined) {
             let obj1 = {
                 stt: req.body.stt,
                 name1: req.body.name1,
@@ -137,7 +137,7 @@ async function template(req, res, next) {
         const jsonString = JSON.stringify(arr);
         // const dataFromDatabase = JSON.parse(jsonString);
         const data = await homeServices.createTRRF(req.body, jsonString)
-        res.render('maudon', {layout: false, data: req.body, array: arr});
+        res.render('maudon', { layout: false, data: req.body, array: arr });
     } catch (err) {
         console.error('Error', err.message);
         next(err);
@@ -155,11 +155,11 @@ async function register(req, res, next) {
 
 async function send(req, res, next) {
     try {
-        const status =await homeServices.send(req.body.id)
-        if(status > 0) {
-            res.status(200).json({message: "Send TRRF successfully", status: status})
+        const status = await homeServices.send(req.body.id)
+        if (status > 0) {
+            res.status(200).json({ message: "Send TRRF successfully", status: status })
         } else {
-            res.status(400).json({message: "Send TRRF fail", status: status})
+            res.status(400).json({ message: "Send TRRF fail", status: status })
         }
     } catch (err) {
         console.error('Error', err.message);
@@ -176,10 +176,28 @@ async function renewal(req, res, next) {
     }
 }
 
+async function getInfoTRRF(req, res, next) {
+    try {
+        if (req.params.id) {
+            const status = await homeServices.getInfoTRRF(req.params.id)
+            if (status.length > 0) {
+                res.status(200).json({ message: "Get info TRRF successfully", status: status })
+            } else {
+                res.status(400).json({ message: "Get info TRRF fail", status: status })
+            }
+        }
+
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
 module.exports = {
     index,
     template,
     register,
     send,
     renewal,
+    getInfoTRRF,
 };

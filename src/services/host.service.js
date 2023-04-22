@@ -150,6 +150,16 @@ async function getCustomerByRoomGroup(day, offset, perPage) {
     }
 }
 
+async function getTRRF2() {
+    try {
+        var results = await repo.getTRRF2()
+        return results
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong when get GHTT');
+    }
+}
+
 async function getCustomerCount() {
     try {
         var result = await repo.getCustomerCount()
@@ -190,7 +200,6 @@ async function updateCustomer(data) {
     }
 }
 
-
 module.exports = {
     getTRRF,
     getDetailById,
@@ -201,8 +210,9 @@ module.exports = {
     getCustomer,
     getRooms,
     getCustomerByRoomGroup,
+    getTRRF2,
     getCustomerCount,
     getCustomerCountByRoomGroup,
     deleteCustomer,
-    updateCustomer
+    updateCustomer,
 }

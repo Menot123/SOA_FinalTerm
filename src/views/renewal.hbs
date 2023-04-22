@@ -12,7 +12,7 @@
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/css/registerForm.css">
-    <title>Đăng ký tạm trú</title>
+    <title>Gia hạn tạm trú</title>
 </head>
 
 <style>
@@ -192,7 +192,7 @@
                     <div class="formbold-mb-5">
                         <label for="message" class="formbold-form-label"> Nội dung đề nghị </label>
                         <textarea rows="6" name="message" id="message" placeholder="Đăng ký tạm trú"
-                            class="formbold-form-input"></textarea>
+                            class="formbold-form-input">Gia hạn tạm trú</textarea>
                         <span id="msg__message" class="msg__err" style="display: none;">Vui lòng điền trường này!</span>
                     </div>
 
@@ -236,8 +236,8 @@
                                     <td><input type="text" name="code1" id="code1" style="max-width: 100px;">
                                     </td>
                                     <td><input type="text" name="work1" id="work1"></td>
-                                    <td><input type="text" name="rel1" id="rel1" style="max-width: 40px;"></td>
-                                    <td><input type="text" name="relb1" id="relb1" style="max-width: 40px;">
+                                    <td><input type="text" name="rel1" id="rel1" style="max-width: 60px;"></td>
+                                    <td><input type="text" name="relb1" id="relb1" style="max-width: 80px;">
                                     </td>
                                 </tr>
                             </tbody>
@@ -274,8 +274,6 @@
     const msg__err = document.getElementById("msg__err");
     const input__code = document.getElementById("input__code");
     const code__room = document.getElementById("code__room");
-
-
 
 
     const name = document.getElementById("name");
@@ -322,7 +320,7 @@
             input__code.focus()
         } else {
             const id = input__code.value
-            fetch(`http://localhost:3000/host/api/thong-tin/${id}`, {
+            fetch(`http://localhost:3000/api/thong-tin-don-dk/${id}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -333,17 +331,47 @@
                 })
                 .then(data => {
                     if (data.status.length > 0) {
-                        code.value = data.status[0].cccd
                         name.value = data.status[0].hoten
                         date.value = formatDateForInput(data.status[0].ngaysinh)
+                        gender.value = data.status[0].gioitinh
+                        code.value = data.status[0].cccd
                         phone.value = data.status[0].sodienthoai
-                        oldAdd.value = data.status[0].diachi
                         email.value = data.status[0].email
+                        oldAdd.value = data.status[0].noithuongtru
+                        tempAdd.value = data.status[0].noiohientai
+                        nowAdd.value = data.status[0].diachitamtru
+                        work.value = data.status[0].nghenghiep
+                        relationship.value = data.status[0].relationship
                         if (data.status[0].maphong) {
                             code__room.value = data.status[0].maphong
                         }
+                        if (data.status[0].nguoithan.length > 100) {
+                            const dataFromDatabase = JSON.parse(data.status[0].nguoithan)
+                            checkbox.click()
+                            const name1 = document.getElementById("name1");
+                            const birth1 = document.getElementById("birth1");
+                            const gender1 = document.getElementById("gender1");
+                            const code1 = document.getElementById("code1");
+                            const work1 = document.getElementById("work1");
+                            const rel1 = document.getElementById("rel1");
+                            const relb1 = document.getElementById("relb1");
+                            var index = 1;
+                            for (let i = 0; i < dataFromDatabase.length; i++) {
+                                window['name' + index].value = dataFromDatabase[i].name1
+                                window['birth' + index].value = dataFromDatabase[i].birth1
+                                window['gender' + index].value = dataFromDatabase[i].gender1
+                                window['code' + index].value = dataFromDatabase[i].code1
+                                window['work' + index].value = dataFromDatabase[i].work1
+                                window['rel' + index].value = dataFromDatabase[i].rel1
+                                window['relb' + index].value = dataFromDatabase[i].relb1
+                                index++;
+                                if(i + 1 < dataFromDatabase.length ) {
+                                    btnAdd.click()
+                                }
+                            }
+                        }
                         myModal.hide()
-                        alert('Một số thông tin đã được điền sẵn bạn hãy kiểm tra lại và hoàn thành biểu mẫu')
+                        alert('Thông tin đăng ký lần trước của bạn đã được lưu vui lòng kiểm tra và cập nhật nếu cần!')
                     } else {
                         alert('Bạn nhập sai số căn cước hoặc chưa đăng ký thông tin cho quản lý. Vui lòng kiểm tra lại!')
                     }
@@ -473,8 +501,8 @@
         cell4.innerHTML = `<td><input type="text" name="gender${i}" id="gender${i}" style="max-width: 40px;" required></td>`;
         cell5.innerHTML = `<td><input type="text" name="code${i}" id="code${i}" style="max-width: 100px;" required></td>`;
         cell6.innerHTML = `<td><input type="text" name="work${i}" id="work${i}"></td>`;
-        cell7.innerHTML = `<td><input type="text" name="rel${i}" id="rel${i}" style="max-width: 40px;" required></td>`;
-        cell8.innerHTML = `<td><input type="text" name="relb${i}" id="relb${i}" style="max-width: 40px;" required></td>`;
+        cell7.innerHTML = `<td><input type="text" name="rel${i}" id="rel${i}" style="max-width: 60px;" required></td>`;
+        cell8.innerHTML = `<td><input type="text" name="relb${i}" id="relb${i}" style="max-width: 80px;" required></td>`;
     }
 
     function delRow() {
