@@ -4,7 +4,7 @@ const homeServices = require('../services/home.service')
 
 async function index(req, res, next) {
     try {
-        res.render('admin');
+        res.render('admin', { layout: 'manager' });
     } catch (err) {
         console.error('Error', err.message);
         next(err);
@@ -15,7 +15,7 @@ async function index(req, res, next) {
 
 async function manageCustomer(req, res, next) {
     try {
-        res.render('manage-customer');
+        res.render('manage-customer', { layout: 'manager' });
     } catch (err) {
         console.error('Error', err.message);
         next(err);
