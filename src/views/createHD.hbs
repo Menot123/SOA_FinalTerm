@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/registerForm.css">
+    <title>Đăng ký tạm trú</title>
+</head>
+
+<style>
+    #table__people {
+        width: 1000px;
+        margin-right: 100px;
+
+    }
+
+    .full-height td {
+        padding: 0;
+    }
+
+    .full-height td input {
+        height: 45px;
+        border: none;
+        padding: 4px;
+    }
+
+    .full-height td input:focus {
+        outline: none;
+        border: none;
+    }
+
+    .full-height th input {
+        height: 45px;
+        border: none;
+        padding: 4px;
+    }
+
+    .full-height th input:focus {
+        outline: none;
+        border: none;
+    }
+
+    .more__people {
+        overflow: auto;
+    }
+
+    .checkMorePeople {
+        position: relative;
+        min-height: 50px;
+    }
+
+    #btn-add {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    #btn-del {
+        position: absolute;
+        right: 128px;
+        top: 0;
+    }
+
+    .msg__err {
+        color: red;
+        font-weight: bold;
+        font-size: 1.0rem;
+    }
+
+    input[type=number]::-webkit-outer-spin-button,
+    input[type=number]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+</style>
+
+<body>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Vui lòng nhập vào số căn cước công dân hoặc CMND
+                        khách trọ</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <input type="number" name="input__code" id="input__code" required><br>
+                    <span id="msg__err" style="color: red; font-weight: bold; display: none">Vui lòng không bỏ trống
+                        trường này!</span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                    <button id="btn-send__id" type="button" class="btn btn-primary">Xác nhận</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="formbold-main-wrapper ">
+        <!-- Author: FormBold Team -->
+        <!-- Learn More: https://formbold.com -->
+        <div class="w-full">
+            <div class="formbold-form-wrapper active " style="max-width: 800px">
+                <div class="formbold-form-header w-100">
+                    <h3 class="text-center w-100">Cung cấp thông hợp đồng thuê trọ</h3>
+                </div>
+                <form id="form__register" action="/host/HDTT" method="POST" class="formbold-chatbox-form">
+                    <div class="formbold-mb-5">
+                        <label for="name" class="formbold-form-label">Mã phòng</label>
+                        <input type="text" name="name" id="name" placeholder="Nguyễn Văn A"
+                            class="formbold-form-input" />
+                        <span id="msg__name" class="msg__err" style="display: none;">Vui lòng điền trường này!</span>
+                    </div>
+
+                    <div class="formbold-mb-5">
+                        <label for="date" class="formbold-form-label">CCCD/CMND</label>
+                        <input type="text" name="date" id="date" class="formbold-form-input" />
+                        <span id="msg__date" class="msg__err" style="display: none;">Vui lòng điền trường này!</span>
+                    </div>
+
+                    <div class="formbold-mb-5">
+                        <label for="ngaycap" class="formbold-form-label">Ngày cấp CCCD</label>
+                        <input type="text" name="ngaycap" id="ngaycap" class="formbold-form-input" />
+                        <span id="msg__ngaycap" class="msg__err" style="display: none;">Vui lòng điền trường này!</span>
+                    </div>
+
+                    <div class="formbold-mb-5">
+                        <label for="noicap" class="formbold-form-label">Nơi cấp CCCD</label>
+                        <input type="text" name="noicap" id="noicap" class="formbold-form-input" />
+                        <span id="msg__noicap" class="msg__err" style="display: none;">Vui lòng điền trường này!</span>
+                    </div>
+
+                    <div class="formbold-mb-5">
+                        <label for="thuongtru" class="formbold-form-label">Địa chỉ thường trú</label>
+                        <input type="text" name="thuongtru" id="thuongtru" class="formbold-form-input" />
+                        <span id="msg__thuongtru" class="msg__err" style="display: none;">Vui lòng điền trường
+                            này!</span>
+                    </div>
+
+
+                    <div class="formbold-mb-5">
+                        <label for="code" class="formbold-form-label">Ngày bắt đầu và kết thúc</label>
+                        <input type="text" name="code" id="code" class="formbold-form-input" />
+                        <span id="msg__code" class="msg__err" style="display: none;">Vui lòng điền trường này!</span>
+                    </div>
+
+                    <div class="formbold-mb-5">
+                        <label for="phone" class="formbold-form-label">Ngày tạo hợp đồng</label>
+                        <input type="text" name="phone" id="phone" class="formbold-form-input" placeholder="2000-01-20"/>
+                        <span id="msg__phone" class="msg__err" style="display: none;">Vui lòng điền trường này!</span>
+                    </div>
+
+                    <div class="formbold-mb-5">
+                        <label for="email" class="formbold-form-label">Thời hạn hợp đồng</label>
+                        <input type="text" name="email" id="email" class="formbold-form-input" />
+                        <span id="msg__email" class="msg__err" style="display: none;">Vui lòng điền trường này!</span>
+                    </div>
+
+                    <div class="formbold-mb-5">
+                        <label for="oldAdd" class="formbold-form-label">Giá thuê</label>
+                        <input type="text" name="oldAdd" id="oldAdd" class="formbold-form-input" />
+                        <span id="msg__oldAdd" class="msg__err" style="display: none;">Vui lòng điền trường này!</span>
+                    </div>
+
+                    <div class="formbold-mb-5">
+                        <label for="tempAdd" class="formbold-form-label">Tiền cọc</label>
+                        <input type="text" name="tempAdd" id="tempAdd" class="formbold-form-input" />
+                        <span id="msg__tempAdd" class="msg__err" style="display: none;">Vui lòng điền trường này!</span>
+                    </div>
+
+                    <div class="formbold-mb-5">
+                        <label for="nowAdd" class="formbold-form-label">Giá tiền điện</label>
+                        <input type="text" name="nowAdd" id="nowAdd" class="formbold-form-input" />
+                        <span id="msg__nowAdd" class="msg__err" style="display: none;">Vui lòng điền trường này!</span>
+                    </div>
+
+                    <div class="formbold-mb-5">
+                        <label for="work" class="formbold-form-label">Giá tiền nước</label>
+                        <input type="text" name="work" id="work" class="formbold-form-input" />
+                        <span id="msg__work" class="msg__err" style="display: none;">Vui lòng điền trường này!</span>
+                    </div>
+
+                    <div class="formbold-mb-5">
+                        <label for="relationship" class="formbold-form-label">Số người ở</label>
+                        <input type="text" name="relationship" id="relationship" class="formbold-form-input" />
+                        <span id="msg__relationship" class="msg__err" style="display: none;">Vui lòng điền trường
+                            này!</span>
+                    </div>
+
+
+                    <div>
+                        <button id="btn-send" class="formbold-btn w-full mt-4">Tạo hợp đồng</button>
+                    </div>
+
+                    <input type="text" name="code__room" id="code__room" class="d-none">
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+<script>
+    // Lấy tham chiếu đến modal
+    var myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+
+    // Kích hoạt modal
+    myModal.show();
+    var i = 1
+    const checkbox = document.getElementById("morePeople");
+    const btnDel = document.getElementById("btn-del");
+    const btnAdd = document.getElementById("btn-add");
+    const table__people = document.getElementById("table__people");
+    const btnSend = document.getElementById("btn-send");
+    const form__register = document.getElementById("form__register");
+    const btnSendId = document.getElementById("btn-send__id");
+    const msg__err = document.getElementById("msg__err");
+    const input__code = document.getElementById("input__code");
+    const code__room = document.getElementById("code__room");
+
+
+
+
+    const name = document.getElementById("name");
+    const msg__name = document.getElementById("msg__name");
+    const date = document.getElementById("date");
+    const msg__date = document.getElementById("msg__date");
+    const gender = document.getElementById("gender");
+    const msg__gender = document.getElementById("msg__gender");
+    const code = document.getElementById("code");
+    const msg__code = document.getElementById("msg__code");
+    const phone = document.getElementById("phone");
+    const msg__phone = document.getElementById("msg__phone");
+    const email = document.getElementById("email");
+    const msg__email = document.getElementById("msg__email");
+    const oldAdd = document.getElementById("oldAdd");
+    const msg__oldAdd = document.getElementById("msg__oldAdd");
+    const tempAdd = document.getElementById("tempAdd");
+    const msg__tempAdd = document.getElementById("msg__tempAdd");
+    const nowAdd = document.getElementById("nowAdd");
+    const msg__nowAdd = document.getElementById("msg__nowAdd");
+    const work = document.getElementById("work");
+    const msg__work = document.getElementById("msg__work");
+    const relationship = document.getElementById("relationship");
+    const msg__relationship = document.getElementById("msg__relationship");
+    const message = document.getElementById("message");
+    const msg__message = document.getElementById("msg__message");
+
+    function formatDateForInput(dateString) {
+        var date = new Date(dateString);
+        var year = date.getFullYear();
+        var month = (date.getMonth() + 1).toString().padStart(2, '0'); // Thêm số 0 trước nếu tháng < 10
+        var day = date.getDate().toString().padStart(2, '0'); // Thêm số 0 trước nếu ngày < 10
+
+        return year + '-' + month + '-' + day;
+    }
+
+    input__code.addEventListener('keyup', () => {
+        msg__err.style.display = "none";
+    })
+
+    btnSendId.addEventListener('click', () => {
+        if (input__code.value.length == 0) {
+            msg__err.style.display = "block";
+            input__code.focus()
+        } else {
+            const id = input__code.value
+            fetch(`http://localhost:3000/host/api/thong-tin/${id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.status.length > 0) {
+                        name.value = data.status[0].maphong
+                        date.value = data.status[0].cccd
+                        document.getElementById('ngaycap').value = formatDateForInput(data.status[0].ngaycap)
+                        document.getElementById('noicap').value = data.status[0].noicap
+                        document.getElementById('thuongtru').value = data.status[0].diachi
+                        myModal.hide()
+                        alert('Một số thông tin đã được điền sẵn bạn hãy kiểm tra lại và hoàn thành biểu mẫu')
+                    } else {
+                        alert('Bạn nhập sai số căn cước hoặc chưa đăng ký thông tin cho quản lý. Vui lòng kiểm tra lại!')
+                    }
+                })
+                .catch(error => {
+                    console.log(error)
+                });
+        }
+    })
+
+
+
+    btnSend.addEventListener('click', (e) => {
+        e.preventDefault()
+        form__register.addEventListener('submit', (e) => {
+            e.preventDefault()
+        })
+        if (name.value == "") {
+            msg__name.style.display = "block"
+            name.focus()
+            name.addEventListener('keyup', () => {
+                msg__name.style.display = "none"
+            })
+        } else if (date.value == "") {
+            msg__date.style.display = "block"
+            date.focus()
+            date.addEventListener('change', () => {
+                msg__date.style.display = "none"
+            })
+        }  else if (code.value == "") {
+            msg__code.style.display = "block"
+            code.focus()
+            code.addEventListener('keyup', () => {
+                msg__code.style.display = "none"
+            })
+        } else if (phone.value == "") {
+            msg__phone.style.display = "block"
+            phone.focus()
+            phone.addEventListener('keyup', () => {
+                msg__phone.style.display = "none"
+            })
+        } else if (email.value == "") {
+            msg__email.style.display = "block"
+            email.focus()
+            email.addEventListener('keyup', () => {
+                msg__email.style.display = "none"
+            })
+        } else if (oldAdd.value == "") {
+            msg__oldAdd.style.display = "block"
+            oldAdd.focus()
+            oldAdd.addEventListener('keyup', () => {
+                msg__oldAdd.style.display = "none"
+            })
+        } else if (tempAdd.value == "") {
+            msg__tempAdd.style.display = "block"
+            tempAdd.focus()
+            tempAdd.addEventListener('keyup', () => {
+                msg__tempAdd.style.display = "none"
+            })
+        } else if (nowAdd.value == "") {
+            msg__nowAdd.style.display = "block"
+            nowAdd.focus()
+            nowAdd.addEventListener('keyup', () => {
+                msg__nowAdd.style.display = "none"
+            })
+        } else if (work.value == "") {
+            msg__work.style.display = "block"
+            work.focus()
+            work.addEventListener('keyup', () => {
+                msg__work.style.display = "none"
+            })
+        } else if (relationship.value == "") {
+            msg__relationship.style.display = "block"
+            relationship.focus()
+            relationship.addEventListener('keyup', () => {
+                msg__relationship.style.display = "none"
+            })
+        } else {
+            form__register.submit()
+        }
+    })
+
+
+</script>
+
+</html>

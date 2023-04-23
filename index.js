@@ -54,6 +54,15 @@ Handlebars.registerHelper('formatDateTime', function(datetime) {
     return formattedDate;
 });
 
+Handlebars.registerHelper('getYear', function(datetime) {
+    const date = new Date(datetime);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const formattedDate = `${year}`;
+    return formattedDate;
+});
+
 
 app.engine(
 

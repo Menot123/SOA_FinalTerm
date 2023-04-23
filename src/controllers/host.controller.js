@@ -462,6 +462,71 @@ async function getBillDetailAPI(req, res, next) {
         next(err);
     }
 }
+
+async function getHopDongThueTro(req, res, next) {
+    try {
+        result = await hostServices.getHopDongThueTro();
+        res.render('ad_manHDTT', { layout: 'manager', data: result });
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
+
+async function hidenHD(req, res, next) {
+    try {
+        const id = req.body.id
+        const status = await hostServices.hidenHD(id)
+        if (status > 0) {
+            req.session.flash = { message: `Đã ẩn hợp đồng ${id}` }
+            res.status(200).json({ message: "hidden successfully", status: status })
+        } else {
+            res.status(400).json({ message: "hidden fail", status: status })
+        }
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
+async function getDetailHDTTById(req, res, next) {
+    try {
+        var data = null
+        if (req.params.id) {
+            data = await hostServices.getDetailHDTTById(req.params.id)
+        }
+        const inf = await hostServices.getInfoById(req.params.id)
+        res.render('ad_hopdong', { layout: false, data: data[0], inf: inf[0] });
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
+async function indexHDTT(req, res, next) {
+    try {
+        res.render('createHD', { layout: 'manager' })
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
+async function createHDTT(req, res, next) {
+    try {
+        const status = await hostServices.createHDTT(req.body)
+        if (status.affectedRows > 0) {
+            req.session.flash = { message: "Thêm hợp đồng thành công" }
+            res.redirect('/host/hop-dong-thue-tro')
+        }
+        //    res.render('createHD',{layout: 'manager'})
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
 async function getSendAnnouncementPage(req, res, next) {
     try {
         let roomMail = await hostServices.getRoomMail();
@@ -514,6 +579,11 @@ module.exports = {
     getHopDongByMaphongAPI,
     extractBillAPI,
     extractBill,
+    getHopDongThueTro,
+    hidenHD,
+    getDetailHDTTById,
+    indexHDTT,
+    createHDTT,
     getBillDetailAPI,
     getSendAnnouncementPage,
     sendAnnouncement
