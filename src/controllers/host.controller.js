@@ -233,6 +233,22 @@ async function updateCustomerAPI(req, res, next) {
         next(err);
     }
 }
+async function createCustomerAPI(req, res, next) {
+    try {
+        let data = req.body
+        if (data.cccd) {
+            const result = await hostServices.createCustomer(data)
+            req.session.flash = { message: `Khách trọ có CCCD là ${data.cccd} đã được thêm` }
+            res.status(200).json(req.session.flash);
+        } else {
+            req.session.flash = { message: `Bạn không được để trống mã CMND/CCCD` }
+            res.status(500).json(req.session.flash);
+        }
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
 
 module.exports = {
     index,
@@ -248,5 +264,6 @@ module.exports = {
     deleteCustomerAPI,
     managerGHTT,
     managerGHTTAPI,
-    updateCustomerAPI
+    updateCustomerAPI,
+    createCustomerAPI
 };

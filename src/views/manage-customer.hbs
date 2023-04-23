@@ -6,13 +6,17 @@
 
 <h1 class="text-center mt-3">Quản lý thông tin khách trọ</h1>
 <div class="container-fluid mt-3">
-    <select onchange="filterRoom(this)" class="form-select form-select-lg bg-success text-light w-auto"
-        aria-label="Default select deleteCustomer">
-        <option value="All" {{checkFilter filter "All" }}>Tất cả dãy</option>
-        {{#each rooms}}
-        <option value="{{day}}" {{checkFilter ../filter day}}>Dãy {{day}}</option>
-        {{/each}}
-    </select>
+    <div class="d-flex justify-content-between">
+        <select onchange="filterRoom(this)" class="form-select form-select-lg bg-success text-light w-auto"
+            aria-label="Default select deleteCustomer">
+            <option value="All" {{checkFilter filter "All" }}>Tất cả dãy</option>
+            {{#each rooms}}
+            <option value="{{day}}" {{checkFilter ../filter day}}>Dãy {{day}}</option>
+            {{/each}}
+        </select>
+        <button onclick="createCustomer()" class="text-white btn btn-warning" 
+                    data-bs-toggle="modal" data-bs-target="#createCustomerModal">Thêm khách trọ</button>
+    </div>
 
     <table class="table table-dark table-striped table-hover">
         <thead>
@@ -89,6 +93,63 @@
     </div>
 </div>
 
+<!--Create Modal -->
+<div class="modal fade" id="createCustomerModal" tabindex="-1" aria-labelledby="createCustomerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="createCustomerModalLabel">Thêm khách trọ mới</span></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="cccdCreate" class="form-label">Số CMND/CCCD</label>
+                    <input type="text" class="form-control" id="cccdCreate">
+                </div>
+                <div class="mb-3">
+                    <label for="roomIdCreate" class="form-label">Mã phòng ở</label>
+                    <select id="roomIdCreate" class="form-select" aria-label="Default select example">
+                        {{#each rooms}}
+                            {{#each phong}}
+                                <option value="{{maphong}}">{{maphong}}</option>
+                            {{/each}}
+                        {{/each}}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="nameCreate" class="form-label">Họ tên</label>
+                    <input type="text" class="form-control" id="nameCreate">
+                </div>
+                <div class="mb-3">
+                    <label for="dateCreate" class="form-label">Ngày sinh</label>
+                    <input type="date" class="form-control" id="dateCreate">
+                </div>
+                <div class="mb-3">
+                    <label for="phoneCreate" class="form-label">Số điện thoại</label>
+                    <input type="text" class="form-control" id="phoneCreate">
+                </div>
+                <div class="mb-3">
+                    <label for="addressCreate" class="form-label">Địa chỉ</label>
+                    <input type="text" class="form-control" id="addressCreate">
+                </div>
+                <div class="mb-3">
+                    <label for="emailCreate" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="emailCreate">
+                </div>
+                <div class="mb-3">
+                    <label for="noteCreate" class="form-label">Ghi chú</label>
+                    <input type="text" class="form-control" id="noteCreate">
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button id="confirmCreate" type="button" data-bs-dismiss="modal" class="btn btn-success">Thêm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!--Delete Modal -->
 <div class="modal fade" id="deleteCustomerModal" tabindex="-1" aria-labelledby="deleteCustomerModalLabel" aria-hidden="true">
@@ -115,7 +176,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="dupdateCustomerModalLabel">Cập nhật thông tin khách trọ: <span id="name"></span></h1>
+                <h1 class="modal-title fs-5" id="updateCustomerModalLabel">Cập nhật thông tin khách trọ: <span id="name"></span></h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -182,6 +243,34 @@
             })
             .catch(error => console.error(error));
         })
+    }
+
+    function createCustomer(){
+        $('#confirmCreate').click(async function(e){
+            const url = 'http://localhost:3000/host/api/manage-customer';
+            const data = { 
+                cccd: $("#cccdCreate").val(),
+                maphong: $("#roomIdCreate").val(),
+                hoten: $("#nameCreate").val(),
+                ngaysinh: $("#dateCreate").val(),
+                sodienthoai: $("#phoneCreate").val(),
+                diachi: $("#addressCreate").val(),
+                email: $("#emailCreate").val(),
+                ghichu: $("#noteCreate").val(),
+            };
+            fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                window.location.reload();
+            })
+            .catch(error => console.error(error));
+        }) 
     }
 
     function updateCustomer(btnUpdate){

@@ -135,6 +135,14 @@ async function updateCustomer(data) {
     );
     return record;
 };
+
+async function createCustomer(data) {
+    const record = await dbClient.query(
+        `INSERT INTO khachthuetro(cccd, maphong, hoten, ngaysinh, sodienthoai, diachi, email, ghichu) 
+        VALUES ('${data.cccd}', '${data.maphong}', '${data.hoten}', '${data.ngaysinh}', '${data.sodienthoai}', '${data.diachi}', '${data.email}', '${data.ghichu}')`
+    );
+    return record;
+};
 module.exports = {
     getTRRF,
     getDetailById,
@@ -149,5 +157,6 @@ module.exports = {
     getCustomerCountByRoomGroup,
     deleteCustomer,
     getTRRF2,
-    updateCustomer
+    updateCustomer,
+    createCustomer
 }
