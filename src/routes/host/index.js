@@ -6,6 +6,7 @@ router.get('/', bossController.index);
 router.get('/manage-customer', bossController.manageCustomer);
 router.get('/api/rooms', bossController.getRoomsAPI);
 router.get('/api/manage-customer', bossController.manageCustomerAPI);
+router.post('/api/manage-customer', bossController.createCustomerAPI);
 router.delete('/api/manage-customer', bossController.deleteCustomerAPI);
 router.put('/api/manage-customer', bossController.updateCustomerAPI);
 

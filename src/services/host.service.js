@@ -220,6 +220,16 @@ async function hidenResponse(id) {
     }
 }
 
+async function createCustomer(data) {
+    try {
+        var result = await repo.createCustomer(data)
+        return result
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong in createCustomer');
+    }
+}
+
 module.exports = {
     getTRRF,
     getDetailById,
@@ -236,4 +246,5 @@ module.exports = {
     deleteCustomer,
     updateCustomer,
     manResponseAPI, hidenResponse,
+    createCustomer,
 }
