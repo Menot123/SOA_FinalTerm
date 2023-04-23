@@ -31,6 +31,13 @@ async function sendResponseAPI(res) {
     return record.insertId
 };
 
+async function handleLogin(phone, password) {
+    const record = await dbClient.query(
+        `select * from taikhoan where sodienthoai = ? && matkhau = ?`,[phone, password]
+    );
+    return record
+};
+
 module.exports = {
-    createTRRF, send, getInfoTRRF, sendResponseAPI,
+    createTRRF, send, getInfoTRRF, sendResponseAPI, handleLogin, 
 }

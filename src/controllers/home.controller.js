@@ -234,10 +234,10 @@ async function sendResponse(req, res, next) {
         const response = await fetch('http://localhost:3000/api/send-response', options);
         data = await response.json();
         if (data.status > 0) {
-            req.session.flash = {message: "Gửi phản hồi thành công!"}
+            req.session.flash = { message: "Gửi phản hồi thành công!" }
             res.redirect('/')
         } else {
-            req.session.flash = {message: "Có lỗi xảy ra vui lòng thử lại"}
+            req.session.flash = { message: "Có lỗi xảy ra vui lòng thử lại" }
             res.redirect('/phan-hoi')
         }
     } catch (err) {
@@ -245,6 +245,67 @@ async function sendResponse(req, res, next) {
         next(err);
     }
 }
+
+async function indexLogin(req, res, next) {
+    try {
+        res.render('login');
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
+async function handleLoginAPI(req, res, next) {
+    try {
+        if (req.body.obj) {
+            const status = await homeServices.handleLogin(req.body.obj.phone, req.body.obj.password)
+            if (status.length > 0) {
+                res.status(200).json({ message: "login successful", status: 1, role: status[0].role })
+            } else {
+                res.status(404).json({ message: "login failed", status: 0 })
+            }
+        } else {
+            res.status(400).json({ message: "something wrong", status: 0 })
+        }
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
+async function handleLogin(req, res, next) {
+    try {
+        var data = null
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                obj: req.body
+            })
+        };
+        const response = await fetch('http://localhost:3000/api/login', options);
+        data = await response.json();
+        if (data.status > 0) {
+            if (data.role == 1) {
+                req.session.loggedin = true
+                req.session.admin = true
+            } else {
+                req.session.loggedin = true
+            }
+            req.session.flash = { message: "Đăng nhập thành công" }
+            res.redirect('/host')
+        } else {
+            req.session.flash = { message: "Sai tên đăng nhập hoặc mật khẩu vui lòng thử lại" }
+            res.redirect('/login')
+        }
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
 
 
 module.exports = {
@@ -256,5 +317,5 @@ module.exports = {
     getInfoTRRF,
     indexResponse,
     sendResponseAPI,
-    sendResponse, 
+    sendResponse, indexLogin, handleLogin, handleLoginAPI,
 };

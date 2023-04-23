@@ -42,7 +42,17 @@ async function sendResponseAPI(res) {
     }
 }
 
+async function handleLogin(phone, password) {
+    try {
+        var results = await repo.handleLogin(phone, password)
+        return results
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong when login');
+    }
+}
+
 module.exports = {
-    createTRRF, send, getInfoTRRF, sendResponseAPI
+    createTRRF, send, getInfoTRRF, sendResponseAPI, handleLogin
     
 }

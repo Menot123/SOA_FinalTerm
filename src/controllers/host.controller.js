@@ -5,7 +5,11 @@ const mailer = require('../util/mailer')
 
 async function index(req, res, next) {
     try {
-        res.render('admin', { layout: 'manager' });
+        if (req.session.admin) {
+            res.render('admin', { layout: 'manager' });
+        } else {
+            res.render('admin', { layout: 'manager', manager: 'manager' });
+        }
     } catch (err) {
         console.error('Error', err.message);
         next(err);
@@ -303,6 +307,15 @@ async function hidenResponse(req, res, next) {
     }
 }
 
+async function handleLogout(req, res, next) {
+    try {
+        delete req.session.loggedin
+        delete req.session.admin
+        res.status(200).json({ message: 'Clear session successfully' })
+    } catch (err) {
+        console.log(err)
+    }
+}
 async function manageBills(req, res, next) {
     try {
         // Get the customer
@@ -362,7 +375,6 @@ async function manageBillsAPI(req, res, next) {
         next(err);
     }
 }
-
 async function getHopDongByMaphongAPI(req, res, next) {
     try {
         let result = null;
@@ -428,9 +440,10 @@ module.exports = {
     sendLinkResponse,
     hidenResponse,
     createCustomerAPI,
+    handleLogout,
     manageBills,
     manageBillsAPI,
     getHopDongByMaphongAPI,
     extractBillAPI,
-    extractBill
+    extractBill,
 };

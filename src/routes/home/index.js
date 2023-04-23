@@ -13,6 +13,10 @@ router.get('/phan-hoi',homeController.indexResponse);
 router.post('/api/send-response',homeController.sendResponseAPI);
 router.post('/send-response',homeController.sendResponse);
 
+router.get('/login', homeController.indexLogin);
+router.post('/api/login', homeController.handleLoginAPI);
+router.post('/login', homeController.handleLogin);
+
 
 router.get('/', homeController.index);
 
