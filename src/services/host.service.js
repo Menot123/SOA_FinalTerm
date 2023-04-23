@@ -200,6 +200,26 @@ async function updateCustomer(data) {
     }
 }
 
+async function manResponseAPI() {
+    try {
+        var results = await repo.manResponseAPI()
+        return results
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong when get response');
+    }
+}
+
+async function hidenResponse(id) {
+    try {
+        var results = await repo.hidenResponse(id)
+        return results
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong when hidden response');
+    }
+}
+
 async function createCustomer(data) {
     try {
         var result = await repo.createCustomer(data)
@@ -245,6 +265,8 @@ module.exports = {
     getCustomerCountByRoomGroup,
     deleteCustomer,
     updateCustomer,
+    manResponseAPI,
+    hidenResponse,
     createCustomer,
     getBillByYearMonth
 }

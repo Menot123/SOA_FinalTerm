@@ -136,6 +136,20 @@ async function updateCustomer(data) {
     return record;
 };
 
+async function manResponseAPI() {
+    const record = await dbClient.query(
+        `select * from phanhoi where trangthai = "Chưa phản hồi"`
+    )
+    return record
+};
+
+async function hidenResponse(id) {
+    const record = await dbClient.query(
+        `UPDATE phanhoi set trangthai = ? WHERE id = ?`, ["Đã phản hồi", id]
+    );
+    return record.changedRows
+};
+
 async function createCustomer(data) {
     const record = await dbClient.query(
         `INSERT INTO khachthuetro(cccd, maphong, hoten, ngaysinh, sodienthoai, diachi, email, ghichu) 
@@ -143,6 +157,7 @@ async function createCustomer(data) {
     );
     return record;
 };
+
 async function getBills() {
     const record = await dbClient.query(
         `SELECT * FROM hoadon`
@@ -170,6 +185,8 @@ module.exports = {
     deleteCustomer,
     getTRRF2,
     updateCustomer,
+    manResponseAPI,
+    hidenResponse,
     createCustomer,
     getBillByYearMonth
 }

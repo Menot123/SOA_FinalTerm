@@ -2,6 +2,7 @@
 const homeServices = require('../services/home.service')
 
 
+
 async function index(req, res, next) {
     try {
         res.render('homepage');
@@ -193,6 +194,59 @@ async function getInfoTRRF(req, res, next) {
     }
 }
 
+async function indexResponse(req, res, next) {
+    try {
+        res.render('response');
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
+async function sendResponseAPI(req, res, next) {
+    try {
+        if (req.body.obj) {
+            const status = await homeServices.sendResponseAPI(req.body.obj)
+            if (status > 0) {
+                res.status(200).json({ message: "Send response successfully", status: status })
+            } else {
+                res.status(400).json({ message: "Send response fail", status: status })
+            }
+        }
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
+async function sendResponse(req, res, next) {
+    try {
+        var data = null
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                obj: req.body
+            })
+        };
+        const response = await fetch('http://localhost:3000/api/send-response', options);
+        data = await response.json();
+        if (data.status > 0) {
+            req.session.flash = {message: "Gửi phản hồi thành công!"}
+            res.redirect('/')
+        } else {
+            req.session.flash = {message: "Có lỗi xảy ra vui lòng thử lại"}
+            res.redirect('/phan-hoi')
+        }
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
+
 module.exports = {
     index,
     template,
@@ -200,4 +254,7 @@ module.exports = {
     send,
     renewal,
     getInfoTRRF,
+    indexResponse,
+    sendResponseAPI,
+    sendResponse, 
 };

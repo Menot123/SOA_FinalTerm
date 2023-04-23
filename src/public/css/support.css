@@ -1,0 +1,236 @@
+
+/* For Phim Dang Chieu */
+.cover{
+    margin-top: 20px;
+}
+
+.movie-blog{
+    color: #42464a;
+}
+.movie-blog:hover{
+    text-decoration: none;
+    color: #f36a38;
+}
+
+.movie-item{
+    margin-bottom: 30px;
+}
+
+.movie-info{
+    margin-left: 70px;
+}
+
+.movie-image img{
+    width: 275px;
+    height: 180px;
+}
+
+.movie-image img:hover{
+    transition: 0.3s;
+    filter: brightness(60%);
+}
+
+.movie-name a{
+    color: #42464a;
+    display: block;
+    word-wrap: break-word;
+    width: 590px;
+}
+
+.movie-name a:hover{
+    text-decoration: none;
+    color: #f36a38;
+}
+
+.movie-detail{
+    margin-top: 10px;
+}
+
+.movie-button{
+    height: 40px;
+    width: 100px;
+}
+
+.movie-views-lbl{
+    background-color: #e8ecf1;
+    height: 30px;
+    width: 150px;
+    text-align: center;
+    border-radius: 5px;
+    padding-top: 2px;
+    margin-left: 20px;
+}
+
+.movie-description{
+    margin-top: 20px;
+    width: 540px;
+    text-align: justify;
+    color: #a9a4aa;
+    font-size: 14px;
+}
+
+.quick-buy-ticket h4 {
+    margin-bottom: 20px;
+    color: #007bff;
+}
+
+.select-all {
+    background-color: #f7f8f9;
+    text-align: center;
+    padding-top: 30px;
+    padding-bottom: 1px;
+}
+
+.select {
+    border: 1px solid #ced0db;
+    width: 300px;
+    height: 40px;
+    margin-bottom: 15px;
+}
+
+.buy-ticket {
+    width: 100px;
+    padding: 10px;
+    color: white;
+    background-color: #f46c3c;
+    border: 0;
+}
+
+.buy-ticket:hover {
+    background-color: #e46434;
+}
+
+.buy-ticket-btn{
+    text-align: right;
+    margin-right: 25px;
+    margin-bottom: 30px;
+}
+
+.now-showing{
+    margin-bottom: 20px;
+    margin-top: 35px;
+}
+
+.movie-img {
+    width: 100%;
+    height: 230px;
+}
+
+.hidden-buy-ticket {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    color: #fff;
+    padding-bottom: 110px;
+    opacity: 0;
+    text-align: center;
+}
+
+.right-movie-item:hover .hidden-buy-ticket {
+    opacity: 1;
+}
+
+.right-movie-item:hover .movie-img {
+    filter: brightness(35%);
+    transition: 0.3s;
+}
+
+.right-movie-item {
+    margin-bottom: 15px;
+}
+
+.hidden-buy-ticket-btn {
+    width: 100px;
+    padding: 10px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0);
+    border: 1px solid #fff;
+}
+
+.hidden-buy-ticket-btn:hover {
+    border: 1px solid #e46434;
+    background-color: #e46434;
+}
+
+.hidden-buy-ticket{
+    text-align: center;
+    padding-top: 80px;
+    padding-left: 10px;
+}
+
+.age {
+    color: white;
+    background-color: #f46c3c;
+    border: 0;
+}
+
+.right-movie-name{
+    color: #42464a;
+    margin-top: 10px ;
+}
+
+.view-more-btn {
+    height: 50px;
+    width: 150px;
+    color: #f46c3c;
+    background-color: white;
+    border: 1px solid #e46434;
+}
+
+.view-more-btn:hover {
+    color: white;
+    background-color: #e46434;
+}
+#right-arrow{
+    
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.view-more {
+    text-align: right;
+    margin-bottom: 30px;
+}
+
+.pagi{
+    text-align: center;
+}
+
+.pagination {
+    display: inline-block;
+}
+  
+.pagination a {
+    color: #a7a5a9;
+    float: left;
+    padding: 4px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+}
+  
+.pagination a.active {
+    background-color: #f46c3c;
+    color: #fff7d7;
+    border: 1px solid #f46c3c;
+}
+  
+.pagination a:hover:not(.active) {
+    background-color: #efefee;
+    color: #f37b59;
+}
+
+.summary {
+    text-align: justify;
+}
+
+h4:after {
+    display: block;
+    width: 55px;
+    height: 3px;
+    margin-top:10px;
+    content: "";
+    background-color: #f36a38;
+    margin-bottom: 25px;
+}

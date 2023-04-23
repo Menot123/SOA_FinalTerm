@@ -1,5 +1,7 @@
 // Define your controllers here
 const hostServices = require('../services/host.service')
+const mailer = require('../util/mailer')
+
 
 async function index(req, res, next) {
     try {
@@ -251,6 +253,56 @@ async function createCustomerAPI(req, res, next) {
     }
 }
 
+async function manResponseAPI(req, res, next) {
+    try {
+        const data = await hostServices.manResponseAPI()
+        if (data.length > 0) {
+            res.status(200).json({ data: data })
+        } else {
+            res.status(400).json({ message: "get list response failed" })
+        }
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
+async function manResponse(req, res, next) {
+    try {
+        var data = null
+        const response = await fetch(`http://localhost:3000/host/api/quan-ly-phan-hoi`)
+        data = await response.json();
+        res.render('ad_manResponse', { layout: 'manager', data: data.data });
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
+async function sendLinkResponse(req, res, next) {
+    if (req.params.email && req.body.content) {
+        mailer.sendMail(req.params.email, "CẢM ƠN bạn đã phản hồi cho chúng tôi", req.body.content)
+        res.status(200).json({ message: 'Gửi phản hồi thành công', status: 1, email: req.params.email })
+    } else {
+        res.status(400).json({ message: 'Gửi phản hồi thất bại', status: 0, email: req.params.email })
+    }
+}
+
+async function hidenResponse(req, res, next) {
+    try {
+        const id = req.body.id
+        const status = await hostServices.hidenResponse(id)
+        if (status > 0) {
+            res.status(200).json({ message: "hidden successfully", status: status })
+        } else {
+            res.status(400).json({ message: "hidden fail", status: status })
+        }
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
 async function manageBills(req, res, next) {
     try {
         // Get the customer
@@ -309,32 +361,7 @@ async function manageBillsAPI(req, res, next) {
         next(err);
     }
 }
-// async function getRoomsAPI(req, res, next) {
-//     try {
-//         const rooms = await hostServices.getRooms();
 
-//         const result = rooms.reduce((acc, curr) => {
-//             const day = curr.maphong[0]; // Lấy chữ cái đầu tiên của maphong
-
-//             // Tìm hoặc tạo phần tử tương ứng trong mảng kết quả
-//             const found = acc.find(item => item.day === day);
-//             if (found) {
-//                 found.phong.push(curr); // Nếu đã tồn tại, thêm vào mảng phong
-//             } else {
-//                 acc.push({ day, phong: [curr] }); // Nếu chưa tồn tại, tạo mới phần tử
-//             }
-
-//             return acc;
-//         }, []);
-
-//         // console.log(result[0]);
-
-//         res.json(result)
-//     } catch (err) {
-//         console.error('Error', err.message);
-//         next(err);
-//     }
-// }
 
 module.exports = {
     index,
@@ -351,6 +378,10 @@ module.exports = {
     managerGHTT,
     managerGHTTAPI,
     updateCustomerAPI,
+    manResponseAPI,
+    manResponse,
+    sendLinkResponse,
+    hidenResponse,
     createCustomerAPI,
     manageBills,
     manageBillsAPI
