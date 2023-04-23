@@ -170,6 +170,12 @@ async function getBillByYearMonth(year, month) {
     );
     return record;
 };
+async function getHopDongByMaphong(maphong) {
+    const record = await dbClient.query(
+        `SELECT * FROM hopdongthuetro WHERE maphong = '${maphong}'`
+    );
+    return record;
+};
 module.exports = {
     getTRRF,
     getDetailById,
@@ -188,5 +194,6 @@ module.exports = {
     manResponseAPI,
     hidenResponse,
     createCustomer,
-    getBillByYearMonth
+    getBillByYearMonth,
+    getHopDongByMaphong
 }

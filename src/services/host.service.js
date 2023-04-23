@@ -230,16 +230,6 @@ async function createCustomer(data) {
     }
 }
 
-async function getBills() {
-    try {
-        var result = await repo.getBills()
-        return result
-    } catch (err) {
-        console.log(err);
-        throw new Error('Service: Something wrong in getBill');
-    }
-}
-
 async function getBillByYearMonth(year, month) {
     try {
         var result = await repo.getBillByYearMonth(year, month)
@@ -247,6 +237,16 @@ async function getBillByYearMonth(year, month) {
     } catch (err) {
         console.log(err);
         throw new Error('Service: Something wrong in getBill');
+    }
+}
+
+async function getHopDongByMaphong(maphong) {
+    try {
+        var result = await repo.getHopDongByMaphong(maphong)
+        return result
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong in createCustomer');
     }
 }
 
@@ -268,5 +268,6 @@ module.exports = {
     manResponseAPI,
     hidenResponse,
     createCustomer,
-    getBillByYearMonth
+    getBillByYearMonth,
+    getHopDongByMaphong
 }

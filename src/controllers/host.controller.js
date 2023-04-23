@@ -321,6 +321,7 @@ async function manageBills(req, res, next) {
         const rooms = await responseRoom.json()
             // console.log(rooms[0])
 
+
         let billResult = []
         if (bills != null) {
             for (let i = 0; i < rooms.length; i++) {
@@ -338,7 +339,7 @@ async function manageBills(req, res, next) {
                     });
                 }
             }
-            console.log(billResult)
+            // console.log(billResult)
         }
 
         res.render('manage-bills', { layout: 'manager', rooms: billResult, bills: bills, year: req.params.year, month: req.params.month });
@@ -362,6 +363,50 @@ async function manageBillsAPI(req, res, next) {
     }
 }
 
+async function getHopDongByMaphongAPI(req, res, next) {
+    try {
+        let result = null;
+        if (req.params.maphong) {
+            result = await hostServices.getHopDongByMaphong(req.params.maphong);
+        }
+        res.json({ result });
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
+async function extractBillAPI(req, res, next) {
+    try {
+        const result = req.body
+            // console.log(result);
+        result.ngaylaphoadon = new Date().toISOString().slice(0, 10);
+        res.json(result);
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
+async function extractBill(req, res, next) {
+    try {
+        const result = req.body
+        const response = await fetch(`http://localhost:3000/host/api/extract-bill`, {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(result) // body data type must match "Content-Type" header
+        });
+        const data = await response.json();
+        console.log(data)
+        res.render('manage-extract-bill', data.result);
+
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
 
 module.exports = {
     index,
@@ -384,5 +429,8 @@ module.exports = {
     hidenResponse,
     createCustomerAPI,
     manageBills,
-    manageBillsAPI
+    manageBillsAPI,
+    getHopDongByMaphongAPI,
+    extractBillAPI,
+    extractBill
 };
