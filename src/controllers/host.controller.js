@@ -390,10 +390,27 @@ async function getHopDongByMaphongAPI(req, res, next) {
 
 async function extractBillAPI(req, res, next) {
     try {
-        const result = req.body
-            // console.log(result);
-        result.ngaylaphoadon = new Date().toISOString().slice(0, 10);
-        res.json(result);
+        const data = req.body
+        data.ngaylaphoadon = new Date().toISOString().slice(0, 10);
+
+        // Lấy 2 chữ số đầu tiên của cccd
+        const cccdPrefix = data.cccd.slice(0, 2);
+        // Lấy tháng của ngày lập hóa đơn
+        const month = data.ngaylaphoadon.slice(5, 7);
+        const year = data.ngaylaphoadon.slice(8);
+
+        // Ghép các chuỗi để tạo mã hóa đơn
+        data.mahoadon = 'HD' + cccdPrefix + data.maphong + month + year;
+
+        const result = await hostServices.createBill(data);
+        // console.log(result.affectedRows);
+        if (result.affectedRows > 0) {
+            res.status(200).json({ message: 'Post Data to Bill Complete', mahd: data.mahoadon })
+        } else {
+            res.status(404).json({ message: 'Cannot Post Data to Bill' })
+        }
+
+
     } catch (err) {
         console.error('Error', err.message);
         next(err);
@@ -402,18 +419,41 @@ async function extractBillAPI(req, res, next) {
 
 async function extractBill(req, res, next) {
     try {
-        const result = req.body
+        const data = req.body
         const response = await fetch(`http://localhost:3000/host/api/extract-bill`, {
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(result) // body data type must match "Content-Type" header
+            body: JSON.stringify(data) // body data type must match "Content-Type" header
         });
-        const data = await response.json();
-        console.log(data)
-        res.render('manage-extract-bill', data.result);
 
+        let dataGet
+        if (response.status == 200) {
+            dataGet = await response.json();
+        } else {
+            res.json({ message: "Không thêm được dữ liệu hóa đơn vào database" })
+        }
+
+
+        // console.log(data)
+        const mp = await hostServices.getHopDong(data.cccd)
+        const response2 = await fetch(`http://localhost:3000/host/api/bill-detail/${dataGet.mahd}`)
+        const billDetail = await response2.json();
+
+        // console.log(billDetail.result[0])
+        res.render('manage-extract-bill', { layout: false, data: billDetail.result[0], hopdong: mp });
+
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
+async function getBillDetailAPI(req, res, next) {
+    try {
+        result = await hostServices.getBillDetail(req.params.mahd);
+        res.json({ result });
     } catch (err) {
         console.error('Error', err.message);
         next(err);
@@ -446,4 +486,5 @@ module.exports = {
     getHopDongByMaphongAPI,
     extractBillAPI,
     extractBill,
+    getBillDetailAPI
 };

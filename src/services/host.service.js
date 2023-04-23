@@ -250,6 +250,34 @@ async function getHopDongByMaphong(maphong) {
     }
 }
 
+async function createBill(data) {
+    try {
+        var result = await repo.createBill(data)
+        return result
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong in createBill');
+    }
+}
+async function getBillDetail(mahoadon) {
+    try {
+        var result = await repo.getBillDetail(mahoadon)
+        return result
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong in createBill');
+    }
+}
+async function getHopDong(cccd) {
+    try {
+        var result = await repo.getHopDong(cccd)
+        return result[0]
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong in getHopDong');
+    }
+}
+
 module.exports = {
     getTRRF,
     getDetailById,
@@ -269,5 +297,8 @@ module.exports = {
     hidenResponse,
     createCustomer,
     getBillByYearMonth,
-    getHopDongByMaphong
+    getHopDongByMaphong,
+    createBill,
+    getBillDetail,
+    getHopDong
 }

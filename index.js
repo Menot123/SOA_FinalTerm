@@ -116,6 +116,9 @@ app.engine(
             minus: function(currentPage, number) {
                 return parseInt(currentPage) - parseInt(number)
             },
+            mul: function(value1, value2) {
+                return parseInt(value1) * parseInt(value2)
+            },
             range: function(start, end) {
                 const result = [];
                 for (let i = start; i <= end; i++) {
