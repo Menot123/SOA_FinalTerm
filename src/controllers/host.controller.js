@@ -5,7 +5,11 @@ const mailer = require('../util/mailer')
 
 async function index(req, res, next) {
     try {
-        res.render('admin', { layout: 'manager' });
+        if (req.session.admin) {
+            res.render('admin', { layout: 'manager'  });
+        } else {
+            res.render('admin', { layout: 'manager', manager: 'manager' });
+        }
     } catch (err) {
         console.error('Error', err.message);
         next(err);
@@ -35,12 +39,12 @@ async function manageCustomer(req, res, next) {
             }
         }
         const data = await responseCustomer.json()
-            // console.log(data)
+        // console.log(data)
 
         // Get groupt room
         const responseRoom = await fetch(url + "/rooms")
         const rooms = await responseRoom.json()
-            // console.log(rooms[0])
+        // console.log(rooms[0])
         res.render('manage-customer', { layout: 'manager', customer: data.customer, rooms: rooms, filter: filter, pageCount: data.pageCount, currentPage: data.currentPage });
     } catch (err) {
         console.error('Error', err.message);
@@ -302,6 +306,17 @@ async function hidenResponse(req, res, next) {
     }
 }
 
+async function handleLogout(req, res, next) {
+    try {
+        delete req.session.loggedin
+        delete req.session.admin
+        res.status(200).json({ message: 'Clear session successfully' })
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
 module.exports = {
     index,
     manageCustomer,
@@ -314,6 +329,6 @@ module.exports = {
     manageCustomerAPI,
     getRoomsAPI,
     deleteCustomerAPI,
-    managerGHTT,managerGHTTAPI,updateCustomerAPI,manResponseAPI,manResponse,  sendLinkResponse, hidenResponse,
-    createCustomerAPI,
+    managerGHTT, managerGHTTAPI, updateCustomerAPI, manResponseAPI, manResponse, sendLinkResponse, hidenResponse,
+    createCustomerAPI, handleLogout, 
 };
