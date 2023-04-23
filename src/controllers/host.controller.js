@@ -236,6 +236,7 @@ async function updateCustomerAPI(req, res, next) {
 async function createCustomerAPI(req, res, next) {
     try {
         let data = req.body
+        console.log(data);
         if (data.cccd) {
             const result = await hostServices.createCustomer(data)
             req.session.flash = { message: `Khách trọ có CCCD là ${data.cccd} đã được thêm` }
@@ -249,6 +250,91 @@ async function createCustomerAPI(req, res, next) {
         next(err);
     }
 }
+
+async function manageBills(req, res, next) {
+    try {
+        // Get the customer
+        const url = `http://${process.env.HOST}:${process.env.PORT}/host/api`
+        let responseBill;
+        let bills = null;
+        if (req.params.year) {
+            if (req.params.month) {
+                responseBill = await fetch(url + "/manage-bills/" + req.params.year + "/" + req.params.month)
+                bills = await responseBill.json()
+                    // console.log(bills)
+            }
+        }
+        // Get groupt room
+        const responseRoom = await fetch(url + "/rooms")
+        const rooms = await responseRoom.json()
+            // console.log(rooms[0])
+
+        let billResult = []
+        if (bills != null) {
+            for (let i = 0; i < rooms.length; i++) {
+                const khu = rooms[i];
+                for (let j = 0; j < khu.phong.length; j++) {
+                    const phong = khu.phong[j];
+                    const bill = bills.bills.find((b) => b.maphong === phong.maphong);
+                    const hoadon = bill ? "Đã tạo" : "Chưa tạo";
+                    const trangthai = bill && bill.thoigianthanhtoan ? "Đã đóng tiền" : "Chưa đóng tiền";
+                    billResult.push({
+                        maphong: phong.maphong,
+                        giathue: phong.giathue,
+                        hoadon,
+                        trangthai,
+                    });
+                }
+            }
+            console.log(billResult)
+        }
+
+        res.render('manage-bills', { layout: 'manager', rooms: billResult, bills: bills, year: req.params.year, month: req.params.month });
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+async function manageBillsAPI(req, res, next) {
+    try {
+        let bills = null;
+        if (req.params.year) {
+            if (req.params.month) {
+                bills = await hostServices.getBillByYearMonth(req.params.year, req.params.month);
+            }
+        }
+        res.json({ bills });
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+// async function getRoomsAPI(req, res, next) {
+//     try {
+//         const rooms = await hostServices.getRooms();
+
+//         const result = rooms.reduce((acc, curr) => {
+//             const day = curr.maphong[0]; // Lấy chữ cái đầu tiên của maphong
+
+//             // Tìm hoặc tạo phần tử tương ứng trong mảng kết quả
+//             const found = acc.find(item => item.day === day);
+//             if (found) {
+//                 found.phong.push(curr); // Nếu đã tồn tại, thêm vào mảng phong
+//             } else {
+//                 acc.push({ day, phong: [curr] }); // Nếu chưa tồn tại, tạo mới phần tử
+//             }
+
+//             return acc;
+//         }, []);
+
+//         // console.log(result[0]);
+
+//         res.json(result)
+//     } catch (err) {
+//         console.error('Error', err.message);
+//         next(err);
+//     }
+// }
 
 module.exports = {
     index,
@@ -265,5 +351,7 @@ module.exports = {
     managerGHTT,
     managerGHTTAPI,
     updateCustomerAPI,
-    createCustomerAPI
+    createCustomerAPI,
+    manageBills,
+    manageBillsAPI
 };

@@ -1,0 +1,120 @@
+<head>
+    <link rel="stylesheet" href="/css/admin.css">
+    <title>Quản lý tiền phòng</title>
+</head>
+
+<div class="container mt-3">
+    <div class="d-flex justify-content-between">
+        <div>
+            <select onchange="showMonths(this)" class="form-select form-select-lg bg-success text-light w-auto" style="float: left;"
+                aria-label="Default select">
+                <option disabled selected>Chọn năm</option>
+                <option {{#if year}} {{selected year "2019"}} {{/if}} value="2019">2019</option>
+                <option {{#if year}} {{selected year "2020"}} {{/if}} value="2020">2020</option>
+                <option {{#if year}} {{selected year "2021"}} {{/if}} value="2021">2021</option>
+                <option {{#if year}} {{selected year "2022"}} {{/if}} value="2022">2022</option>
+                <option {{#if year}} {{selected year "2023"}} {{/if}} value="2023">2023</option>
+
+            </select>
+            <select onchange="chooseMonth(this)" id="months" class="form-select form-select-lg bg-success text-light w-auto"
+                aria-label="Default select" {{#if year}}{{else}}disabled hidden{{/if}}>
+                <option disabled selected>Chọn tháng</option>
+                <option {{#if month}} {{selected month "1"}} {{/if}} value="1">1</option>
+                <option {{#if month}} {{selected month "2"}} {{/if}} value="2">2</option>
+                <option {{#if month}} {{selected month "3"}} {{/if}} value="3">3</option>
+                <option {{#if month}} {{selected month "4"}} {{/if}} value="4">4</option>
+                <option {{#if month}} {{selected month "5"}} {{/if}} value="5">5</option>
+                <option {{#if month}} {{selected month "6"}} {{/if}} value="6">6</option>
+                <option {{#if month}} {{selected month "7"}} {{/if}} value="7">7</option>
+                <option {{#if month}} {{selected month "8"}} {{/if}} value="8">8</option>
+                <option {{#if month}} {{selected month "9"}} {{/if}} value="9">9</option>
+                <option {{#if month}} {{selected month "10"}} {{/if}} value="10">10</option>
+                <option {{#if month}} {{selected month "11"}} {{/if}} value="11">11</option>
+                <option {{#if month}} {{selected month "12"}} {{/if}} value="12">12</option>
+            </select>
+        </div>
+        <button onclick="createCustomer()" class="text-white btn btn-warning fs-4" data-bs-toggle="modal"
+            data-bs-target="#createCustomerModal">Xem phản hồi tiền phòng</button>
+    </div>
+
+    <table class="table table-dark table-striped table-hover" {{#if month}}{{else}}hidden{{/if}}>
+        <thead>
+            <tr>
+                <th scope="col">Mã phòng</th>
+                <th scope="col">Giá thuê</th>
+                <th scope="col">Hóa đơn</th>
+                <th scope="col">Trạng thái</th>
+                <th scope="col">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each rooms}}
+            <tr>
+                <th class="align-middle" scope="row">{{maphong}}</th>
+                <td class="align-middle">{{giathue}}</td>
+                <td class="align-middle">{{hoadon}}</td>
+                <td class="align-middle">{{trangthai}}</td>
+                <td class="align-middle" style="width: 30%;">
+                    <button onclick="updateCustomer(this)" class="text-white btn btn-success" data-bs-toggle="modal"
+                        data-bs-target="#updateCustomerModal">Xuất hóa đơn</button>
+                    <button onclick="deleteCustomer(this)" class="text-white btn btn-danger" data-bs-toggle="modal"
+                        data-bs-target="#deleteCustomerModal">Xác nhận đã đóng tiền</button>
+                </td>
+            </tr>
+            {{/each}}
+            {{!-- <tr>
+                <th class="align-middle" scope="row">089202013930</th>
+                <td class="align-middle">Nguyễn Văn Bành</td>
+                <td class="align-middle">A01</td>
+                <td class="align-middle">08/11/2002</td>
+                <td class="align-middle">0334353660</td>
+                <td class="align-middle">19/3 Phường Tân Phong Q7 TP Hồ Chí Minh</td>
+                <td class="align-middle">ngjyentiendat9a3@gmail.com</td>
+                <td class="align-middle">Còn nợ tiền phòng 04/2022</td>
+                <td class="align-middle"><a class="text-white btn btn-success w-100" href="">Cập nhật</a><a
+                        class="text-white btn btn-danger w-100" href="">Xóa</a></td>
+            </tr> --}}
+        </tbody>
+    </table>
+</div>
+{{!--
+<div class="page">
+    <div class="text-center fs-4">
+        {{#if (gt pageCount 1)}}
+        {{#if (eq currentPage 1)}}
+        <span class="btn btn-success disabled">Prev</span>
+        {{else}}
+        <a class="btn btn-success"
+            href="/host/manage-customer?{{checkFilterForPage filter}}page={{minus currentPage 1}}">Prev</a>
+        {{/if}}
+
+        {{#each (range 1 pageCount)}}
+        {{#if (eq this ../currentPage)}}
+        <span>{{this}}</span>
+        {{else}}
+        <a class="text-decoration-none"
+            href="/host/manage-customer?{{checkFilterForPage ../filter}}page={{this}}">{{this}}</a>
+        {{/if}}
+        {{/each}}
+
+        {{#if (eq currentPage pageCount)}}
+        <span class="btn btn-success disabled">Next</span>
+        {{else}}
+        <a class="btn btn-success"
+            href="/host/manage-customer?{{checkFilterForPage filter}}page={{add currentPage 1}}">Next</a>
+        {{/if}}
+        {{/if}}
+    </div>
+</div> --}}
+
+
+
+<script>
+    function showMonths(btnYear) {
+        document.getElementById("months").removeAttribute('disabled');
+        window.location.href = "/host/manage-bills/"+btnYear.value
+    }
+    function chooseMonth(btnMonth){
+        window.location.href = "/host/manage-bills/{{year}}/"+btnMonth.value
+    }
+</script>

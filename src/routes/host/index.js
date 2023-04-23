@@ -21,8 +21,16 @@ router.get('/api/thong-tin/:id', bossController.getInfo)
 router.get('/gia-han-tam-tru', bossController.managerGHTT);
 router.get('/api/gia-han-tam-tru', bossController.managerGHTTAPI);
 
+router.get('/manage-bills', bossController.manageBills);
+router.get('/manage-bills/:year', bossController.manageBills);
+router.get('/manage-bills/:year/:month', bossController.manageBills);
+router.get('/api/manage-bills', bossController.manageBillsAPI);
+router.get('/api/manage-bills/:year', bossController.manageBillsAPI);
+router.get('/api/manage-bills/:year/:month', bossController.manageBillsAPI);
+// router.get('/api/manage-customer', bossController.manageCustomerAPI);
+// router.post('/api/manage-customer', bossController.createCustomerAPI);
+// router.delete('/api/manage-customer', bossController.deleteCustomerAPI);
+// router.put('/api/manage-customer', bossController.updateCustomerAPI);
 
-
-// router.get('/api/room',bossController.getRoom)
 
 module.exports = router;

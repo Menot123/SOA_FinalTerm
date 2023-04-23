@@ -143,6 +143,18 @@ async function createCustomer(data) {
     );
     return record;
 };
+async function getBills() {
+    const record = await dbClient.query(
+        `SELECT * FROM hoadon`
+    );
+    return record;
+};
+async function getBillByYearMonth(year, month) {
+    const record = await dbClient.query(
+        `SELECT * FROM hoadon WHERE YEAR(ngaylaphoadon) = ${year} AND MONTH(ngaylaphoadon) = ${month}`
+    );
+    return record;
+};
 module.exports = {
     getTRRF,
     getDetailById,
@@ -158,5 +170,6 @@ module.exports = {
     deleteCustomer,
     getTRRF2,
     updateCustomer,
-    createCustomer
+    createCustomer,
+    getBillByYearMonth
 }

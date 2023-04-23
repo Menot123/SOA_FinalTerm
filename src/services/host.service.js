@@ -210,6 +210,26 @@ async function createCustomer(data) {
     }
 }
 
+async function getBills() {
+    try {
+        var result = await repo.getBills()
+        return result
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong in getBill');
+    }
+}
+
+async function getBillByYearMonth(year, month) {
+    try {
+        var result = await repo.getBillByYearMonth(year, month)
+        return result
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong in getBill');
+    }
+}
+
 module.exports = {
     getTRRF,
     getDetailById,
@@ -225,5 +245,6 @@ module.exports = {
     getCustomerCountByRoomGroup,
     deleteCustomer,
     updateCustomer,
-    createCustomer
+    createCustomer,
+    getBillByYearMonth
 }
