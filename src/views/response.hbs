@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/support.css">
+    <title>Gửi phản hồi</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row cover">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <!--Section: Contact v.2-->
+                <section class="mb-4">
+                    <!--Section heading-->
+                    <h2 class="h1-responsive font-weight-bold text-center my-4">LIÊN HỆ VỚI CHÚNG TÔI</h2>
+                    <!--Section description-->
+                    <p class="text-center w-responsive mx-auto mb-5">Vui lòng gửi phản hồi cho chúng tôi biết vấn đề của bạn, chúng tôi sẽ 
+                        giải quyết trong thời gian sớm nhất.</p>
+
+                    <div class="row">
+
+                        <!--Grid column-->
+                        <div class="col-md-12 mb-md-0 mb-5">
+                            <form id="contact-form" name="contact-form" action="/send-response" method="POST">
+
+                                <!--Grid row-->
+                                <div class="row">
+
+                                    <!--Grid column-->
+                                    <div class="col-md-4">
+                                        <div class="md-form mb-0">
+                                            <label for="name" class="">Tên của bạn</label>
+                                            <input type="text" id="name" name="name" class="form-control">
+
+                                        </div>
+                                    </div>
+                                    <!--Grid column-->
+
+                                    <!--Grid column-->
+                                    <div class="col-md-4">
+                                        <div class="md-form mb-0">
+                                            <label for="room" class="">Số phòng</label>
+                                            <input type="text" id="room" name="room" class="form-control">
+                                        </div>
+                                    </div>
+                                    <!--Grid column-->
+
+                                    <!--Grid column-->
+                                    <div class="col-md-4">
+                                        <div class="md-form mb-0">
+                                            <label for="email" class="">Email liên hệ</label>
+                                            <input type="email" id="email" name="email" class="form-control">
+                                        </div>
+                                    </div>
+                                    <!--Grid column-->
+
+                                </div>
+                                <!--Grid row-->
+
+                                <!--Grid row-->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="md-form mb-0">
+                                            <label for="subject" class="">Chủ đề</label>
+                                            <input type="text" id="subject" name="subject" class="form-control" >
+                                        </div>
+                                    </div>
+                                </div>
+
+                                
+                                <!--Grid row-->
+
+                                <!--Grid row-->
+                                <div class="row">
+
+                                    <!--Grid column-->
+                                    <div class="col-md-12">
+
+                                        <div class="md-form">
+                                            <label for="message">Nội dung</label>
+                                            <textarea type="text" id="message" name="message" rows="2"
+                                                class="form-control md-textarea"></textarea>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!--Grid row-->
+
+                                <div class="form-group mt-3">
+                                    <div class="alert alert-danger alert-dismissible fade show" hidden>
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    </div>
+                                    <div id="msg__passEq" class="alert alert-danger alert-dismissible fade show" hidden>
+                                        <span id="msg__text"></span>
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group mt-3">
+                                    <button id="btnSubmit" class="btn btn-primary px-3 float-right"
+                                        type="submit">GỬI</button>
+                                </div>
+
+                                <div class="status"></div>
+
+                            </form>
+                        </div>
+                        <!--Grid column-->
+
+                        
+
+                    </div>
+
+                </section>
+                <!--Section: Contact v.2-->
+            </div>
+
+            
+        </div>
+    </div>
+</body>
+
+<script>
+
+    const name = document.getElementById("name")
+    const email = document.getElementById("email")
+    const subject = document.getElementById("subject")
+    const message = document.getElementById("message")
+    const room = document.getElementById("room")
+
+    const btnSubmit = document.getElementById("btnSubmit")
+    const msg__passEq = document.getElementById("msg__passEq")
+    const msg__text = document.getElementById("msg__text")
+    const formContact = document.getElementById("contact-form")
+
+    function check(msg, element) {
+        formContact.addEventListener('submit', function (event) {
+            event.preventDefault();
+        });
+        msg__text.innerText = msg
+        msg__passEq.hidden = false
+        element.focus()
+    }
+
+    btnSubmit.addEventListener("click", function (e) {
+        if (name.value.length == 0) {
+            e.preventDefault();
+            check("Vui lòng nhập tên của bạn", name)
+        } else if (room.value.length == 0) {
+            e.preventDefault();
+            check("Vui lòng nhập số phòng", room)
+        }else if (email.value.length == 0) {
+            e.preventDefault();
+            check("Vui lòng nhập email", email)
+        } else if (subject.value.length == 0) {
+            e.preventDefault();
+            check("Vui lòng nhập chủ đề", subject)
+        } else if (message.value.length == 0) {
+            e.preventDefault();
+            check("Vui lòng nhập nội dung", message)
+        } else {
+            formContact.submit()
+        }
+
+    })
+
+    name.addEventListener('keypress', () => {
+        msg__passEq.hidden = true
+    })
+
+    room.addEventListener('keypress', () => {
+        msg__passEq.hidden = true
+    })
+
+    email.addEventListener('keypress', () => {
+        msg__passEq.hidden = true
+    })
+
+    subject.addEventListener('keypress', () => {
+        msg__passEq.hidden = true
+    })
+
+    message.addEventListener('keypress', () => {
+        msg__passEq.hidden = true
+    })
+
+</script>
+
+</html>

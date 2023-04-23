@@ -1,0 +1,259 @@
+<head>
+    <link rel="stylesheet" href="/css/admin.css">
+    <title>Quản lý thông tin khách trọ</title>
+</head>
+
+<style>
+    td a {
+        text-decoration: none;
+    }
+
+    #hiddenTRRF:hover {
+        cursor: pointer;
+        opacity: 0.8;
+    }
+
+    .view__more {
+        max-width: 200px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    td.hidden {
+        max-width: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .detail {
+        color: #0d6efd;
+    }
+
+    .detail:hover {
+        cursor: pointer;
+        opacity: 0.8;
+    }
+
+    form {
+        z-index: 2;
+        display: none;
+        position: absolute;
+        left: 36%;
+        background-color: #fff;
+        padding: 36px;
+        border-radius: 5px;
+    }
+
+    .inside {
+        position: relative;
+    }
+
+    #img__close {
+        position: absolute;
+        top: -26px;
+        right: -26px;
+        height: 22px;
+        width: 22px;
+    }
+
+    #img__close:hover {
+        cursor: pointer;
+        opacity: 0.8;
+    }
+
+    #blur {
+        display: none;
+        position: absolute;
+        height: 100vh;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.3);
+        z-index: 1;
+    }
+</style>
+
+
+
+<div id="blur"></div>
+
+<div id="flash-alert-success" class="alert alert-success text-center w-100 mx-auto d-none">
+
+</div>
+
+<div id="flash-alert-danger" class="alert alert-danger text-center w-100 mx-auto d-none">
+
+</div>
+<h1 class="text-center mt-3">Quản lý phản hồi</h1>
+<div class="container-fluid mt-3">
+
+
+
+    <form id="form__update">
+        <div class="inside">
+            <img id="img__close" src="/img/close.png" alt="close">
+            <h1>Trả lời phản hồi</h1>
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Người nhận</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Nội dung</label> <br>
+                <textarea class="w-100" name="content" id="content" cols="20" rows="8"></textarea>
+            </div>
+            <button id="btn-update" class="btn btn-primary float-end">Gửi phản hồi</button>
+        </div>
+    </form>
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Người gửi</th>
+                <th scope="col">Mã phòng</th>
+                <th scope="col">Địa chỉ Email</th>
+                <th scope="col">Chủ đề</th>
+                <th scope="col">Nội dung</th>
+                <th scope="col">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each data }}
+            <tr>
+                <td id="codeTRRF" class="align-middle" scope="row">{{this.id }}</td>
+                <td class="align-middle">{{this.nguoigui }}</td>
+                <td class="align-middle">{{this.maphong }}</td>
+                <td class="align-middle">{{this.email }}</td>
+                <td class="align-middle">{{this.chude }}</td>
+                <td id="content" class="align-middle view__more" style="max-width: 280px;" onclick="viewMore(this)">
+                    {{this.content}}</td>
+                <td class="align-middle"><span class="detail" class="w-100" style="margin-right: 6px;">Chi
+                        tiết</span>l<a id="hiddenTRRF" class="w-100 mx-2"
+                        onclick="res('{{this.email}}','{{this.id }}')">Phản hồi</a>
+                </td>
+            </tr>
+            {{/each }}
+
+        </tbody>
+    </table>
+</div>
+
+<script>
+    const hiddenTRRF = document.getElementById('hiddenTRRF')
+    const codeTRRF = document.getElementById('codeTRRF')
+    const details = document.querySelectorAll('.detail');
+    const contents = document.querySelectorAll('.view__more')
+    const img__close = document.getElementById("img__close");
+    const blurBg = document.querySelector('#blur')
+    const form__update = document.getElementById("form__update");
+    const exampleInputEmail1 = document.getElementById("exampleInputEmail1");
+    const btnUpdate = document.getElementById("btn-update");
+    const content = document.getElementById('content')
+
+
+    for (let i = 0; i < details.length; i++) {
+        details[i].addEventListener('click', function () {
+            if (contents[i].classList.contains('view__more')) {
+                details[i].innerText = 'Thu gọn';
+                contents[i].classList.remove('view__more');
+            } else {
+                details[i].innerText = 'Chi tiết';
+                contents[i].classList.add('view__more');
+            }
+        });
+    }
+
+    blurBg.addEventListener('click', () => {
+        form__update.style.display = 'none';
+        blurBg.style.display = 'none';
+    })
+
+    img__close.addEventListener('click', () => {
+        blurBg.style.display = 'none';
+        form__update.style.display = 'none';
+    })
+
+
+    function res(email, id) {
+        form__update.style.display = 'block';
+        blurBg.style.display = 'block';
+        exampleInputEmail1.value = email
+        btnUpdate.addEventListener('click', (e) => {
+            form__update.addEventListener('submit', (e) => {
+                e.preventDefault();
+            })
+            e.preventDefault()
+            fetch(`http://localhost:3000/host/send-response/${email}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    content: content.value,
+                })
+            })
+                .then(response => {
+                    return response.json();
+                })
+                .then(async data => {
+                    if (data.status > 0) {
+                        blurBg.style.display = 'none';
+                        form__update.style.display = 'none'
+                        const status  = await flagResponse(id)
+                        showAlertSuccess(`Đã gửi phản hồi đến ${data.email} thành công !`)
+                    } else {
+                        blurBg.style.display = 'none';
+                        form__update.style.display = 'none'
+                        showAlertFail(`Gửi phản hồi đến ${data.email} thất bại !`)
+                    }
+                })
+                .catch(error => {
+                    console.log(error)
+                });
+        })
+    }
+
+    function flagResponse(id) {
+        fetch(`http://localhost:3000/host/flag`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: id,
+            })
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                return 1
+            })
+            .catch(error => {
+                console.log(error)
+            });
+    }
+
+    function showAlertSuccess(msg) {
+        const flash_success = document.getElementById("flash-alert-success");
+        flash_success.innerHTML = `${msg}`;
+        flash_success.classList.remove('d-none');
+
+        setTimeout(function () {
+            flash_success.classList.add('d-none');
+            window.location.reload()
+        }, 2500);
+    }
+
+    function showAlertFail(msg) {
+        const flash_fail = document.getElementById("flash-alert-danger");
+        flash_fail.innerHTML = `${msg}`;
+        flash_fail.classList.remove('d-none');
+
+        setTimeout(function () {
+            flash_fail.classList.add('d-none');
+            window.location.reload()
+        }, 2500);
+    }
+
+</script>

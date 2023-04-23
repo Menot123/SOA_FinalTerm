@@ -1,5 +1,7 @@
 // Define your controllers here
 const hostServices = require('../services/host.service')
+const mailer = require('../util/mailer')
+
 
 async function index(req, res, next) {
     try {
@@ -234,6 +236,56 @@ async function updateCustomerAPI(req, res, next) {
     }
 }
 
+async function manResponseAPI(req, res, next) {
+    try {
+        const data = await hostServices.manResponseAPI()
+        if (data.length > 0) {
+            res.status(200).json({ data: data })
+        } else {
+            res.status(400).json({ message: "get list response failed" })
+        }
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
+async function manResponse(req, res, next) {
+    try {
+        var data = null
+        const response = await fetch(`http://localhost:3000/host/api/quan-ly-phan-hoi`)
+        data = await response.json();
+        res.render('ad_manResponse', { layout: 'manager', data: data.data });
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
+async function sendLinkResponse(req, res, next) {
+    if (req.params.email && req.body.content) {
+        mailer.sendMail(req.params.email, "CẢM ƠN bạn đã phản hồi cho chúng tôi", req.body.content)
+        res.status(200).json({ message: 'Gửi phản hồi thành công', status: 1, email: req.params.email })
+    } else {
+        res.status(400).json({ message: 'Gửi phản hồi thất bại', status: 0, email: req.params.email })
+    }
+}
+
+async function hidenResponse(req, res, next) {
+    try {
+        const id = req.body.id
+        const status = await hostServices.hidenResponse(id)
+        if (status > 0) {
+            res.status(200).json({ message: "hidden successfully", status: status })
+        } else {
+            res.status(400).json({ message: "hidden fail", status: status })
+        }
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
 module.exports = {
     index,
     manageCustomer,
@@ -246,7 +298,5 @@ module.exports = {
     manageCustomerAPI,
     getRoomsAPI,
     deleteCustomerAPI,
-    managerGHTT,
-    managerGHTTAPI,
-    updateCustomerAPI
+    managerGHTT,managerGHTTAPI,updateCustomerAPI,manResponseAPI,manResponse,  sendLinkResponse, hidenResponse,
 };

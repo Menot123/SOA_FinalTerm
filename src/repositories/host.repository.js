@@ -135,19 +135,23 @@ async function updateCustomer(data) {
     );
     return record;
 };
+
+async function manResponseAPI() {
+    const record = await dbClient.query(
+        `select * from phanhoi where trangthai = "Chưa phản hồi"`
+    )
+    return record
+};
+
+async function hidenResponse(id) {
+    const record = await dbClient.query(
+        `UPDATE phanhoi set trangthai = ? WHERE id = ?`, ["Đã phản hồi", id]
+    );
+    return record.changedRows
+};
+
 module.exports = {
-    getTRRF,
-    getDetailById,
-    cofirmed,
-    hide,
-    getRoom,
-    getInfo,
-    getCustomer,
-    getRooms,
-    getCustomerByRoomGroup,
-    getCustomerCount,
-    getCustomerCountByRoomGroup,
-    deleteCustomer,
-    getTRRF2,
-    updateCustomer
+    getTRRF, getDetailById,cofirmed, hide, getRoom, getInfo, getCustomer, getRooms, getCustomerByRoomGroup,
+    getCustomerCount, getCustomerCountByRoomGroup, deleteCustomer, getTRRF2,updateCustomer, manResponseAPI,
+    hidenResponse, 
 }

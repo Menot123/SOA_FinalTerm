@@ -24,7 +24,13 @@ async function getInfoTRRF(id) {
     return record
 };
 
+async function sendResponseAPI(res) {
+    const record = await dbClient.query(
+        `insert into phanhoi (nguoigui, maphong, email, content, chude) values(?,?,?,?,?)`,[res.name,res.room, res.email, res.message, res.subject]
+    );
+    return record.insertId
+};
 
 module.exports = {
-    createTRRF, send, getInfoTRRF, 
+    createTRRF, send, getInfoTRRF, sendResponseAPI,
 }

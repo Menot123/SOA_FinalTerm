@@ -20,6 +20,13 @@ router.get('/api/thong-tin/:id', bossController.getInfo)
 router.get('/gia-han-tam-tru', bossController.managerGHTT);
 router.get('/api/gia-han-tam-tru', bossController.managerGHTTAPI);
 
+router.get('/api/quan-ly-phan-hoi',bossController.manResponseAPI)
+router.get('/quan-ly-phan-hoi',bossController.manResponse)
+
+router.post('/send-response/:email', bossController.sendLinkResponse)
+router.post('/flag', bossController.hidenResponse)
+
+
 
 
 // router.get('/api/room',bossController.getRoom)
