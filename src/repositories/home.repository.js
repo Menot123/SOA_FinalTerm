@@ -38,6 +38,20 @@ async function handleLogin(phone, password) {
     return record
 };
 
+async function getBillById(id) {
+    const record = await dbClient.query(
+        `select * from hoadon where maphong = ? `,[id]
+    );
+    return record
+};
+
+async function changePass(password, email) {
+    const record = await dbClient.query(
+        `update taikhoan set matkhau = ?  where email = ?`,[password, email]
+    )
+    return record.changedRows
+}
+
 module.exports = {
-    createTRRF, send, getInfoTRRF, sendResponseAPI, handleLogin, 
+    createTRRF, send, getInfoTRRF, sendResponseAPI, handleLogin,getBillById, changePass
 }

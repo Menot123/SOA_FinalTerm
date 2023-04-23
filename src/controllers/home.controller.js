@@ -1,5 +1,7 @@
 // Define your controllers here
 const homeServices = require('../services/home.service')
+const hostServices = require('../services/host.service')
+
 
 
 
@@ -306,7 +308,58 @@ async function handleLogin(req, res, next) {
     }
 }
 
+async function handleLoginAPI(req, res, next) {
+    try {
+        if (req.body.obj) {
+            const status = await homeServices.handleLogin(req.body.obj.phone, req.body.obj.password)
+            if (status.length > 0) {
+                res.status(200).json({ message: "login successful", status: 1, role: status[0].role })
+            } else {
+                res.status(404).json({ message: "login failed", status: 0 })
+            }
+        } else {
+            res.status(400).json({ message: "something wrong", status: 0 })
+        }
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
 
+async function checkBill(req, res, next) {
+    try {
+        if (req.query.input__code) {
+            const mp = await hostServices.getHopDong(req.query.input__code)
+            const hd = await hostServices.getHDTTByMaPhong(req.query.input__code)
+            const response2 = await fetch(`http://localhost:3000/host/api/bill-detail/${hd.mahopdong}`)
+            const billDetail = await response2.json();
+            const status = await homeServices.getBillById(req.query.input__code)
+            if (status.length > 0) {
+                res.render('manage-extract-bill', { layout: false, data:status[0], hopdong: hd });
+            }
+        }
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
+async function resetPassword(req, res, next) {
+    res.render('reset_password', { email: req.params.email })
+}
+
+async function changePass(req, res, next) {
+    var message = "Khôi phục mật khẩu thất bại!"
+    if (req.body.password && req.body.email) {
+        const result = await homeServices.changePass(req.body.password, req.body.email)
+        if (result > 0) {
+            message = "Khôi phục mật khẩu thành công!"
+        }
+    }
+    req.session.flash = { message: message }
+    res.redirect('/login')
+
+}
 
 module.exports = {
     index,
@@ -317,5 +370,5 @@ module.exports = {
     getInfoTRRF,
     indexResponse,
     sendResponseAPI,
-    sendResponse, indexLogin, handleLogin, handleLoginAPI,
+    sendResponse, indexLogin, handleLogin, handleLoginAPI, checkBill, resetPassword,changePass, 
 };

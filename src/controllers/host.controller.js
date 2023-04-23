@@ -1,4 +1,5 @@
 // Define your controllers here
+const { request } = require('express');
 const hostServices = require('../services/host.service')
 const mailer = require('../util/mailer')
 
@@ -516,8 +517,63 @@ async function createHDTT(req, res, next) {
         if(status.affectedRows > 0) {
             req.session.flash = {message: "Thêm hợp đồng thành công"}
             res.redirect('/host/hop-dong-thue-tro')
+        } else {
+            req.session.flash = {message: "Hiện bạn chưa có hóa đơn nào"}
+            res.redirect('/')
         }
     //    res.render('createHD',{layout: 'manager'})
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
+async function indexForgot(req, res, next) {
+    try {
+        res.render('forgot_pass')
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
+async function sendLinkReset(req, res, next) {
+    if (!req.body.email) {
+        res.redirect('/forgot-password')
+    } else {
+        const user = await hostServices.findUserByEmail(req.body.email)
+        if (!user) {
+            res.redirect('/forgot-password')
+        } else {
+            mailer.sendMail(user[0].email, "Khôi phục mật khẩu", `<a href="${process.env.APP_URL}/reset-password/${user[0].email}"> Nhấn vào đây để đặt lại mật khẩu mới</a>`)
+            req.session.flash = { message: 'Vui lòng kiểm tra email để khôi phục mật khẩu' }
+            res.redirect('/')
+        }
+    }
+}
+
+async function indexCreateAccount(req, res, next) {
+    try {
+        res.render('register')
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
+async function createAccount(req, res, next) {
+    try {
+        if(req.body) {
+            const status = await hostServices.createAccount(req.body)
+            console.log(status)
+            if(status > 0) {
+                req.session.flash = {message: "Tạo tài khoản thành công"}
+                res.redirect('/host')
+            } else {
+                req.session.flash = {message: "Tạo tài khoản thất bại"}
+                res.redirect('/host/create-account')
+            }
+        }
     } catch (err) {
         console.error('Error', err.message);
         next(err);
@@ -556,5 +612,9 @@ module.exports = {
     getDetailHDTTById,
     indexHDTT,
     createHDTT,
-    getBillDetailAPI
+    getBillDetailAPI,
+    indexForgot,
+    sendLinkReset,
+    indexCreateAccount,
+    createAccount,
 };

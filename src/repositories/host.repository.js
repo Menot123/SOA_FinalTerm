@@ -233,6 +233,30 @@ async function getHopDong(cccd) {
     );
     return record;
 };
+
+async function getHDTTByMaPhong(maphong) {
+    const record = await dbClient.query(
+        `SELECT * FROM hopdongthuetro WHERE maphong = '${maphong}'`
+    );
+    return record;
+};
+
+async function findUserByEmail(email) {
+    const record = await dbClient.query(
+        `select * from taikhoan where email = ? `, [email]
+    )
+    return record
+}
+
+async function createAccount(inf) {
+    const record = await dbClient.query(
+        `insert into taikhoan (sodienthoai, matkhau, email) values ('${inf.phone}','${inf.password}','${inf.email}')`
+    )
+    return record.affectedRows
+}
+
+
+
 module.exports = {
     getTRRF,
     getDetailById,
@@ -260,5 +284,8 @@ module.exports = {
     createHDTT,
     createBill,
     getBillDetail,
-    getHopDong
+    getHopDong,
+    getHDTTByMaPhong,
+    findUserByEmail,
+    createAccount,
 }

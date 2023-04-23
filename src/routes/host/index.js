@@ -57,6 +57,12 @@ router.get('/detail-HDTT/:id',loggedin, bossController.getDetailHDTTById)
 router.get('/hop-dong-thue-tro-form',loggedin, bossController.indexHDTT)
 router.post('/HDTT',loggedin, bossController.createHDTT)
 
+router.get('/forgot', bossController.indexForgot)
+router.post('/forgot-password', bossController.sendLinkReset)
+
+router.get('/create-account', bossController.indexCreateAccount)
+router.post('/register', bossController.createAccount)
+
 
 
 

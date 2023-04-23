@@ -52,7 +52,26 @@ async function handleLogin(phone, password) {
     }
 }
 
+async function getBillById(id) {
+    try {
+        var results = await repo.getBillById(id)
+        return results
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong when login');
+    }
+}
+
+async function changePass(password,email) {
+    try {
+        const status = await repo.changePass(password,email)
+        return status;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 module.exports = {
-    createTRRF, send, getInfoTRRF, sendResponseAPI, handleLogin
+    createTRRF, send, getInfoTRRF, sendResponseAPI, handleLogin, getBillById, changePass,
     
 }

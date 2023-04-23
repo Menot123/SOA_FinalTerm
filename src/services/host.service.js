@@ -327,6 +327,34 @@ async function getHopDong(cccd) {
     }
 }
 
+async function getHDTTByMaPhong(maphong) {
+    try {
+        var result = await repo.getHDTTByMaPhong(maphong)
+        return result[0]
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong in getHopDong');
+    }
+}
+
+async function findUserByEmail(email) {
+    try {
+        const status = await repo.findUserByEmail(email)
+        return status;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+async function createAccount(inf) {
+    try {
+        const status = await repo.createAccount(inf)
+        return status;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 module.exports = {
     getTRRF,
     getDetailById,
@@ -354,5 +382,8 @@ module.exports = {
     createHDTT,
     createBill,
     getBillDetail,
-    getHopDong
+    getHopDong,
+    getHDTTByMaPhong, 
+    findUserByEmail,
+    createAccount,
 }

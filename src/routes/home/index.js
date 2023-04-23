@@ -17,6 +17,10 @@ router.get('/login', homeController.indexLogin);
 router.post('/api/login', homeController.handleLoginAPI);
 router.post('/login', homeController.handleLogin);
 
+router.get('/check-bill', homeController.checkBill);
+router.get('/reset-password/:email', homeController.resetPassword);
+router.post('/change-password', homeController.changePass);
+
 
 router.get('/', homeController.index);
 
