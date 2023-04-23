@@ -49,8 +49,10 @@ router.post('/api/extract-bill', bossController.extractBillAPI);
 router.post('/extract-bill', bossController.extractBill);
 router.get('/api/bill-detail/:mahd', bossController.getBillDetailAPI);
 
-
 router.get('/api/get-hopdong-by-maphong/:maphong', bossController.getHopDongByMaphongAPI);
+
+router.get('/send-announcement', bossController.getSendAnnouncementPage);
+router.post('/send-announcement', bossController.sendAnnouncement);
 
 
 

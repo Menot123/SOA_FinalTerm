@@ -195,6 +195,12 @@ async function getHopDong(cccd) {
     );
     return record;
 };
+async function getRoomMail() {
+    const record = await dbClient.query(
+        `SELECT maphong,email FROM khachthuetro WHERE email is not Null`
+    );
+    return record;
+};
 module.exports = {
     getTRRF,
     getDetailById,
@@ -217,5 +223,6 @@ module.exports = {
     getHopDongByMaphong,
     createBill,
     getBillDetail,
-    getHopDong
+    getHopDong,
+    getRoomMail
 }

@@ -5,10 +5,13 @@ const mailer = require('../util/mailer')
 
 async function index(req, res, next) {
     try {
+        let response = await fetch("http://localhost:3000/host/api/rooms")
+        const rooms = await response.json()
+        console.log(rooms[0])
         if (req.session.admin) {
-            res.render('admin', { layout: 'manager' });
+            res.render('admin', { layout: 'manager', rooms: rooms });
         } else {
-            res.render('admin', { layout: 'manager', manager: 'manager' });
+            res.render('admin', { layout: 'manager', manager: 'manager', rooms: rooms });
         }
     } catch (err) {
         console.error('Error', err.message);
@@ -459,6 +462,31 @@ async function getBillDetailAPI(req, res, next) {
         next(err);
     }
 }
+async function getSendAnnouncementPage(req, res, next) {
+    try {
+        let roomMail = await hostServices.getRoomMail();
+        roomMail.sort((a, b) => a.maphong.localeCompare(b.maphong));
+        // console.log(roomMail);
+        res.render('send-announcement', { layout: 'manager', roomMail: roomMail });
+
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+async function sendAnnouncement(req, res, next) {
+    try {
+        console.log(req.body)
+        const { to, subject, content } = req.body
+        mailer.sendMail(to, subject, content);
+        req.session.flash = { message: `Gửi thông báo thành công` }
+        res.redirect('/host/send-announcement');
+    } catch (err) {
+        console.error('Error', err.message);
+        s
+        next(err);
+    }
+}
 
 module.exports = {
     index,
@@ -486,5 +514,7 @@ module.exports = {
     getHopDongByMaphongAPI,
     extractBillAPI,
     extractBill,
-    getBillDetailAPI
+    getBillDetailAPI,
+    getSendAnnouncementPage,
+    sendAnnouncement
 };

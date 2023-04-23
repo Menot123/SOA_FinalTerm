@@ -278,6 +278,15 @@ async function getHopDong(cccd) {
     }
 }
 
+async function getRoomMail() {
+    try {
+        var result = await repo.getRoomMail()
+        return result
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong in getRoomMail');
+    }
+}
 module.exports = {
     getTRRF,
     getDetailById,
@@ -300,5 +309,6 @@ module.exports = {
     getHopDongByMaphong,
     createBill,
     getBillDetail,
-    getHopDong
+    getHopDong,
+    getRoomMail
 }
