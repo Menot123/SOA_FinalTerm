@@ -122,6 +122,11 @@ app.engine(
                     result.push(i);
                 }
                 return result;
+            },
+            selected: function(value1, value2) {
+                if (value1 == value2)
+                    return "selected";
+                return "";
             }
         }
     }),

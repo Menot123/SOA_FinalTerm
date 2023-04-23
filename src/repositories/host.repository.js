@@ -158,9 +158,35 @@ async function createCustomer(data) {
     return record;
 };
 
+async function getBills() {
+    const record = await dbClient.query(
+        `SELECT * FROM hoadon`
+    );
+    return record;
+};
+async function getBillByYearMonth(year, month) {
+    const record = await dbClient.query(
+        `SELECT * FROM hoadon WHERE YEAR(ngaylaphoadon) = ${year} AND MONTH(ngaylaphoadon) = ${month}`
+    );
+    return record;
+};
 module.exports = {
-    getTRRF, getDetailById,cofirmed, hide, getRoom, getInfo, getCustomer, getRooms, getCustomerByRoomGroup,
-    getCustomerCount, getCustomerCountByRoomGroup, deleteCustomer, getTRRF2,updateCustomer, manResponseAPI,
-    hidenResponse, createCustomer,
+    getTRRF,
+    getDetailById,
+    cofirmed,
+    hide,
+    getRoom,
+    getInfo,
+    getCustomer,
+    getRooms,
+    getCustomerByRoomGroup,
+    getCustomerCount,
+    getCustomerCountByRoomGroup,
+    deleteCustomer,
+    getTRRF2,
+    updateCustomer,
+    manResponseAPI,
+    hidenResponse,
+    createCustomer,
+    getBillByYearMonth
 }
-

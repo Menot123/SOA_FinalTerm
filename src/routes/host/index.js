@@ -31,8 +31,20 @@ router.post('/logout', bossController.handleLogout);
 
 
 
+router.get('/api/quan-ly-phan-hoi', bossController.manResponseAPI)
+router.get('/quan-ly-phan-hoi', bossController.manResponse)
+
+router.post('/send-response/:email', bossController.sendLinkResponse)
+router.post('/flag', bossController.hidenResponse)
 
 
-// router.get('/api/room',bossController.getRoom)
+router.get('/manage-bills', bossController.manageBills);
+router.get('/manage-bills/:year', bossController.manageBills);
+router.get('/manage-bills/:year/:month', bossController.manageBills);
+router.get('/api/manage-bills', bossController.manageBillsAPI);
+router.get('/api/manage-bills/:year', bossController.manageBillsAPI);
+router.get('/api/manage-bills/:year/:month', bossController.manageBillsAPI);
+
+
 
 module.exports = router;

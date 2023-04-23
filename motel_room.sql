@@ -89,19 +89,21 @@ CREATE TABLE `hoadon` (
   `mahoadon` char(30) NOT NULL,
   `maphong` char(3) NOT NULL,
   `cccd` char(12) NOT NULL,
-  `sodien` int(11) DEFAULT NULL,
-  `sonuoc` int(11) DEFAULT NULL,
+  `chisodiendau` int(11) NOT NULL,
+  `chisodiencuoi` int(11) NOT NULL,
+  `chisonuocdau` int(11) NOT NULL,
+  `chisonuoccuoi` int(11) NOT NULL,
   `sotiendien` float DEFAULT NULL,
   `sotiennuoc` float DEFAULT NULL,
   `sotieninternet` float DEFAULT NULL,
-  `ngaylaphoadon` char(30) DEFAULT NULL,
+  `ngaylaphoadon` date DEFAULT NULL,
   `thoigianthanhtoan` datetime DEFAULT NULL,
   `tongtienthanhtoan` float DEFAULT NULL,
   `ghichu` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
-
+INSERT INTO `hoadon` (`mahoadon`, `maphong`, `cccd`, `chisodiendau`, `chisodiencuoi`, `chisonuocdau`, `chisonuoccuoi`, `sotiendien`, `sotiennuoc`, `sotieninternet`, `ngaylaphoadon`, `thoigianthanhtoan`, `tongtienthanhtoan`, `ghichu`) VALUES ('HD0001', 'A01', '3017680111', '135', '180', '156', '180', '5000', '15000', '180000', '2023-04-20', NULL, '123457000', NULL);
 --
 -- Table structure for table `hopdongthuetro`
 --
