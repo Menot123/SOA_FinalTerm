@@ -48,8 +48,16 @@ router.get('/api/manage-bills/:year/:month', bossController.manageBillsAPI);
 router.post('/api/extract-bill', bossController.extractBillAPI);
 router.post('/extract-bill', bossController.extractBill);
 
+router.get('/hop-dong-thue-tro',bossController.getHopDongThueTro)
 
 router.get('/api/get-hopdong-by-maphong/:maphong', bossController.getHopDongByMaphongAPI);
+router.put('/hidenHD', bossController.hidenHD)
+router.get('/detail-HDTT/:id',loggedin, bossController.getDetailHDTTById)
+router.get('/hop-dong-thue-tro-form',loggedin, bossController.indexHDTT)
+router.post('/HDTT',loggedin, bossController.createHDTT)
+
+
+
 
 
 

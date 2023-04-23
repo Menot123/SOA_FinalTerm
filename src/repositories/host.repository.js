@@ -176,6 +176,44 @@ async function getHopDongByMaphong(maphong) {
     );
     return record;
 };
+
+async function getHopDongThueTro() {
+    const record = await dbClient.query(
+        `SELECT * FROM hopdongthuetro where trangthai is NULL`
+    );
+    return record;
+};
+
+async function hidenHD(id) {
+    const record = await dbClient.query(
+        `UPDATE hopdongthuetro set trangthai = ? WHERE mahopdong = ?`, ["Đã ẩn", id]
+    );
+    return record.changedRows
+};
+
+async function getDetailHDTTById(id) {
+    const record = await dbClient.query(
+        `select * from hopdongthuetro where cccd = ?`, [id]
+    )
+    return record
+};
+
+async function getInfoById(id) {
+    const record = await dbClient.query(
+        `select * from khachthuetro where cccd = ?`, [id]
+    )
+    return record
+};
+
+async function createHDTT(obj) {
+    const record = await dbClient.query(
+        `INSERT INTO hopdongthuetro(maphong, cccd, ngaybatdauvangayketthuc, ngaytaohopdong, thoihanhopdong, giathue,
+             tiencoc, giatiendien, giatiennuoc, soluongnguoi) 
+        VALUES ('${obj.name}', '${obj.date}', '${obj.code}', '${obj.phone}', '${obj.email}', '${obj.oldAdd}',
+         '${obj.tempAdd}', '${obj.nowAdd}', '${obj.work}', '${obj.relationship}')`
+    )
+    return record
+};
 module.exports = {
     getTRRF,
     getDetailById,
@@ -195,5 +233,10 @@ module.exports = {
     hidenResponse,
     createCustomer,
     getBillByYearMonth,
-    getHopDongByMaphong
+    getHopDongByMaphong,
+    getHopDongThueTro, 
+    hidenHD,
+    getDetailHDTTById,
+    getInfoById,
+    createHDTT,
 }

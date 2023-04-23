@@ -1,0 +1,89 @@
+<head>
+    <link rel="stylesheet" href="/css/admin.css">
+    <title>Quản lý thông tin khách trọ</title>
+</head>
+
+<style>
+    td a {
+        text-decoration: none;
+    }
+
+    #hiddenTRRF:hover {
+        cursor: pointer;
+        opacity: 0.8;
+    }
+
+    #add__hd {
+        float: right;
+    }
+</style>
+
+
+
+<h1 class="text-center mt-3">Quản lý hợp đồng thuê trọ</h1>
+<div class="container-fluid mt-3">
+
+    <a id="add__hd" href="/host/hop-dong-thue-tro-form" class="btn btn-primary">Thêm hợp đồng</a>
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Mã hợp đồng</th>
+                <th scope="col">Ngày tạo</th>
+                <th scope="col">Thời hạn</th>
+                <th scope="col">Giá thuê / tháng</th>
+                <th scope="col">Tiền cọc</th>
+                <th scope="col">Mã phòng</th>
+                <th scope="col">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each data }}
+            <tr>
+                <th id="codeTRRF" class="align-middle" scope="row">{{this.mahopdong }}</th>
+                <td class="align-middle">{{formatDateTime this.ngaytaohopdong }}</td>
+                <td class="align-middle">{{this.thoihanhopdong}}</td>
+                <td class="align-middle">{{formatMoney this.giathue }}</td>
+                <td class="align-middle">{{this.tiencoc }}</td>
+                <td class="align-middle">{{this.maphong}}</td>
+                <td class="align-middle"><a class="w-100" href="/host/detail-HDTT/{{this.cccd}}">Xem chi
+                        tiết</a><a id="hiddenTRRF" class="w-100 mx-2">Ẩn</a>
+                </td>
+            </tr>
+            {{/each }}
+
+        </tbody>
+    </table>
+</div>
+
+<script>
+    const hiddenTRRF = document.getElementById('hiddenTRRF')
+    const codeTRRF = document.getElementById('codeTRRF')
+
+
+    hiddenTRRF.addEventListener('click', () => {
+        fetch(`http://localhost:3000/host/hidenHD`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: codeTRRF.textContent,
+            })
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                if (data.status > 0) {
+                    location.reload()
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            });
+    })
+
+
+    
+</script>

@@ -1,0 +1,143 @@
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.min.js"
+        integrity="sha384-heAjqF+bCxXpCWLa6Zhcp4fu20XoNIA98ecBC1YkdXhszjoejr5y9Q77hIrv8R9i"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<style>
+    .activity {
+        position: fixed;
+        display: flex;
+        top: 100px;
+        right: 50px;
+    }
+</style>
+
+<body style="background-color: #fff" id="target">
+    <div class="container" style="width: 21cm; height: 29.7cm; max-width: 100%;">
+        <p
+            style='margin-right:0cm;margin-left:0cm;font-size:15px;font-family:"Calibri",sans-serif;margin-top:0cm;margin-bottom:10.0pt;line-height:115%;text-align:center;'>
+            <strong>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</strong>
+        </p>
+        <p
+            style='margin-right:0cm;margin-left:0cm;font-size:15px;font-family:"Calibri",sans-serif;margin-top:0cm;margin-bottom:10.0pt;line-height:115%;text-align:center;'>
+            <strong><u>Độc lập - Tự do - Hạnh phúc</u></strong>
+        </p>
+        <h6 class="text-center">HỢP ĐỒNG THUÊ NHÀ TRỌ</h6>
+        <h6>BÊN A: BÊN CHO THUÊ</h6>
+        <div class="line1 d-flex">
+            <span class="flex-fill">Họ và Tên: Nguyễn Văn Tùng</span>
+            <span class="flex-fill">Năm sinh:1995</span>
+        </div>
+        <div class="line2 d-flex">
+            <span class="flex-fill">CMND: 08022245526</span>
+            <span class="flex-fill">Ngày cấp: 20/07/2003</span>
+            <span class="flex-fill">Nơi cấp: Thành phố Hồ Chí Minh</span>
+        </div>
+        <div class="line3">
+            <span>Thường trú: 19 Nguyễn Hữu Thọ, Quận 7, TP HCM</span>
+        </div>
+        <h6>BÊN B: BÊN THUÊ NHÀ</h6>
+        <div class="line1 d-flex">
+            <span class="flex-fill">Họ và Tên:</span>
+            <span class="flex-fill">Năm sinh:</span>
+        </div>
+        <div class="line2 d-flex">
+            <span class="flex-fill">CMND:</span>
+            <span class="flex-fill">Ngày cấp:</span>
+            <span class="flex-fill">Nơi cấp:</span>
+        </div>
+        <div class="line3">
+            <span>Thường trú:</span>
+        </div>
+        <span>Hai bên cùng thỏa thuận và đồng ý với nội dung sau:</span>
+        <div class="dieu1">
+            <b>Điều 1: Đối tượng hợp đồng</b> <br>
+            <span>Bên A đồng ý cho bên B thuê một phòng thuộc nhà số:</span> <br>
+            <span>Thời hạn thuê nhà là: <span id="time"></span> tháng kể từ ngày</span>
+        </div>
+
+        <div class="dieu2">
+            <b>Điều 2: Giá cả và phương thức thanh toán</b> <br>
+            <span>Thời hạn thuê nhà là: <span id="time"></span> tháng kể từ ngày</span> <br>
+            <span>Giá tiền thuê nhà là <span id="money"></span> đồng/tháng</span> <br>
+            <span>Bên B đặt tiền thế chân trước <span id="coc"></span> đồng cho bên A. Tiền
+                thế chân sẽ được trả lại đầy đủ cho bên thuê khi hết hợp đồng thuê căn hộ và thanh toán đầy đủ tiền
+                điện,
+                nước , phí dịch vụ và các khoản khác liên quan.</span> <br>
+            <div class="money_E_W d-flex">
+                <span class="flex-fill">Số tiền điện (/1kwh): </span>
+                <span class="flex-fill">Số tiền nước (/1m3): </span>
+            </div>
+            <span>Bên B ngưng hợp đồng trước thời hạn thì phải chịu mất tiền thế chân.</span> <br>
+            <span>Bên A ngưng hợp đồng (lấy lại nhà) trước thời hạn thì bồi thường gấp đôi số tiền bên B đã thế
+                chân.</span>
+        </div>
+
+        <div class="dieu3">
+            <b>Điều 3: Trách nhiệm bên A.</b> <br>
+            <span>Giao nhà, trang thiết bị trong nhà cho bên B đúng ngày ký hợp đồng.
+                Hướng dẫn bên B chấp hành đúng các quy định của địa phương, hoàn tất mọi thủ tục giấy tờ đăng ký tạm trú
+                cho
+                bên B.
+            </span>
+        </div>
+
+        <div class="dieu4">
+            <b>Điều 4: Trách nhiệm bên B.</b> <br>
+            <span>Trả tiền thuê nhà hàng tháng theo hợp đồng.
+                Sử dụng đúng mục đích thuê nhà, khi cần sữa chữa, cải tạo theo yêu cầu sử dụng riêng phải được sự đồng ý
+                của
+                bên A.Đồ đạt trang thiết bị trong nhà phải có trách nhiệm bảo quản cẩn thận không làm hư hỏng mất mát.
+            </span>
+        </div>
+        <div class="dieu5">
+            <b>Điều 5: Điều khoản chung.</b> <br>
+            <span>Bên A và bên B thực hiện đúng các điều khoản ghi trong hợp đồng. <br>
+                Trường hợp có tranh chấp hoặc một bên vi phạm hợp đồng thì hai bên cùng nhau bàn bạc giải quyết, nếu
+                không
+                giải quyết được thì yêu cầu cơ quan có thẩm quyền giải quyết. <br>
+                Hợp đồng được lập thành 02 bản có giá trị ngang nhau, mỗi bên giữ 01 bản.
+            </span>
+        </div>
+        <span>Thành phố Hồ Chí Minh ngày <span id="day">tháng <span id="month"> năm <span
+                        id="year"></span></span></span></span>
+        <div class="chuky d-flex text-center my-3">
+            <h6 class="flex-fill">BÊN A</h6>
+            <h6 class="flex-fill">BÊN B</h6>
+        </div>
+
+        <div class="activity flex-column">
+            <button class="btn btn-success" id="send-host">Gửi cho chủ trọ</button>
+            <button class="btn btn-primary my-2" id="download">Tải xuống</button>
+            <button onclick="history.back()" class="btn btn-secondary" id="btnBack">Trở lại</button>
+
+        </div>
+    </div>
+</body>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.min.js"></script>
+<script>
+    const activities = document.querySelector(".activity");
+    const btn__download = document.getElementById("download");
+
+
+    btn__download.addEventListener("click", function () {
+        const pdf = new jsPDF();
+        const pdfContent = document.getElementById("target");
+        activities.style.display = "none";
+        pdf.addHTML(pdfContent, function () {
+            pdf.save("file.pdf");
+        });
+        activities.style.display = "flex";
+    });
+</script>

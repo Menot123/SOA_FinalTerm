@@ -250,6 +250,56 @@ async function getHopDongByMaphong(maphong) {
     }
 }
 
+async function getHopDongThueTro() {
+    try {
+        var result = await repo.getHopDongThueTro()
+        return result
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong in createCustomer');
+    }
+}
+
+async function hidenHD(id) {
+    try {
+        var results = await repo.hidenHD(id)
+        return results
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong when hidden TRRF');
+    }
+}
+
+async function getDetailHDTTById(id) {
+    try {
+        var results = await repo.getDetailHDTTById(id)
+        return results
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong when HDTT');
+    }
+}
+
+async function getInfoById(id) {
+    try {
+        var results = await repo.getInfoById(id)
+        return results
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong when info');
+    }
+}
+
+async function createHDTT(obj) {
+    try {
+        var results = await repo.createHDTT(obj)
+        return results
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong when info');
+    }
+}
+
 module.exports = {
     getTRRF,
     getDetailById,
@@ -269,5 +319,10 @@ module.exports = {
     hidenResponse,
     createCustomer,
     getBillByYearMonth,
-    getHopDongByMaphong
+    getHopDongByMaphong,
+    getHopDongThueTro, 
+    hidenHD,
+    getDetailHDTTById,
+    getInfoById,
+    createHDTT,
 }

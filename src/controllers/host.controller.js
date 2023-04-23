@@ -39,12 +39,12 @@ async function manageCustomer(req, res, next) {
             }
         }
         const data = await responseCustomer.json()
-            // console.log(data)
+        // console.log(data)
 
         // Get groupt room
         const responseRoom = await fetch(url + "/rooms")
         const rooms = await responseRoom.json()
-            // console.log(rooms[0])
+        // console.log(rooms[0])
         res.render('manage-customer', { layout: 'manager', customer: data.customer, rooms: rooms, filter: filter, pageCount: data.pageCount, currentPage: data.currentPage });
     } catch (err) {
         console.error('Error', err.message);
@@ -326,13 +326,13 @@ async function manageBills(req, res, next) {
             if (req.params.month) {
                 responseBill = await fetch(url + "/manage-bills/" + req.params.year + "/" + req.params.month)
                 bills = await responseBill.json()
-                    // console.log(bills)
+                // console.log(bills)
             }
         }
         // Get groupt room
         const responseRoom = await fetch(url + "/rooms")
         const rooms = await responseRoom.json()
-            // console.log(rooms[0])
+        // console.log(rooms[0])
 
 
         let billResult = []
@@ -391,7 +391,7 @@ async function getHopDongByMaphongAPI(req, res, next) {
 async function extractBillAPI(req, res, next) {
     try {
         const result = req.body
-            // console.log(result);
+        // console.log(result);
         result.ngaylaphoadon = new Date().toISOString().slice(0, 10);
         res.json(result);
     } catch (err) {
@@ -420,6 +420,71 @@ async function extractBill(req, res, next) {
     }
 }
 
+async function getHopDongThueTro(req, res, next) {
+    try {
+        result = await hostServices.getHopDongThueTro();
+        res.render('ad_manHDTT', {layout: 'manager', data: result});
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
+
+async function hidenHD(req, res, next) {
+    try {
+        const id = req.body.id
+        const status = await hostServices.hidenHD(id)
+        if (status > 0) {
+            req.session.flash = { message: `Đã ẩn hợp đồng ${id}` }
+            res.status(200).json({ message: "hidden successfully", status: status })
+        } else {
+            res.status(400).json({ message: "hidden fail", status: status })
+        }
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
+async function getDetailHDTTById(req, res, next) {
+    try {
+        var data = null
+        if (req.params.id) {
+            data = await hostServices.getDetailHDTTById(req.params.id)
+        }
+        const inf = await hostServices.getInfoById(req.params.id)
+        res.render('ad_hopdong', { layout: false, data: data[0], inf:inf[0]});
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
+async function indexHDTT(req, res, next) {
+    try {
+       res.render('createHD',{layout: 'manager'})
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
+async function createHDTT(req, res, next) {
+    try {
+        const status = await hostServices.createHDTT(req.body)
+        if(status.affectedRows > 0) {
+            req.session.flash = {message: "Thêm hợp đồng thành công"}
+            res.redirect('/host/hop-dong-thue-tro')
+        }
+    //    res.render('createHD',{layout: 'manager'})
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
+
 module.exports = {
     index,
     manageCustomer,
@@ -446,4 +511,9 @@ module.exports = {
     getHopDongByMaphongAPI,
     extractBillAPI,
     extractBill,
+    getHopDongThueTro,
+    hidenHD,
+    getDetailHDTTById,
+    indexHDTT,
+    createHDTT,
 };
