@@ -213,6 +213,25 @@ async function createHDTT(obj) {
          '${obj.tempAdd}', '${obj.nowAdd}', '${obj.work}', '${obj.relationship}')`
     )
     return record
+}
+async function createBill(data) {
+    const record = await dbClient.query(
+        `INSERT INTO hoadon(mahoadon, maphong, cccd, chisodiendau, chisodiencuoi, chisonuocdau, chisonuoccuoi, sotiendien,sotiennuoc,sotieninternet,ngaylaphoadon,tongtienthanhtoan) 
+        VALUES ('${data.mahoadon}', '${data.maphong}', '${data.cccd}', '${data.chisodiendau}', '${data.chisodiencuoi}', '${data.chisonuocdau}', '${data.chisonuoccuoi}', '${data.sotiendien}', '${data.sotiennuoc}', '${data.sotieninternet}', '${data.ngaylaphoadon}', '${data.tongtienthanhtoan}')`
+    );
+    return record;
+};
+async function getBillDetail(mahoadon) {
+    const record = await dbClient.query(
+        `SELECT * FROM hoadon WHERE mahoadon = '${mahoadon}'`
+    );
+    return record;
+};
+async function getHopDong(cccd) {
+    const record = await dbClient.query(
+        `SELECT * FROM hopdongthuetro WHERE cccd = '${cccd}'`
+    );
+    return record;
 };
 module.exports = {
     getTRRF,
@@ -234,9 +253,12 @@ module.exports = {
     createCustomer,
     getBillByYearMonth,
     getHopDongByMaphong,
-    getHopDongThueTro, 
+    getHopDongThueTro,
     hidenHD,
     getDetailHDTTById,
     getInfoById,
     createHDTT,
+    createBill,
+    getBillDetail,
+    getHopDong
 }

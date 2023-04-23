@@ -299,6 +299,33 @@ async function createHDTT(obj) {
         throw new Error('Service: Something wrong when info');
     }
 }
+async function createBill(data) {
+    try {
+        var result = await repo.createBill(data)
+        return result
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong in createBill');
+    }
+}
+async function getBillDetail(mahoadon) {
+    try {
+        var result = await repo.getBillDetail(mahoadon)
+        return result
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong in createBill');
+    }
+}
+async function getHopDong(cccd) {
+    try {
+        var result = await repo.getHopDong(cccd)
+        return result[0]
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong in getHopDong');
+    }
+}
 
 module.exports = {
     getTRRF,
@@ -320,9 +347,12 @@ module.exports = {
     createCustomer,
     getBillByYearMonth,
     getHopDongByMaphong,
-    getHopDongThueTro, 
+    getHopDongThueTro,
     hidenHD,
     getDetailHDTTById,
     getInfoById,
     createHDTT,
+    createBill,
+    getBillDetail,
+    getHopDong
 }
