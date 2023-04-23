@@ -107,6 +107,14 @@
                     <input type="text" class="form-control" id="cccdCreate">
                 </div>
                 <div class="mb-3">
+                    <label for="ngaycapCreate" class="form-label">Ngày cấp CCCD</label>
+                    <input type="date" class="form-control" id="ngaycapCreate">
+                </div>
+                <div class="mb-3">
+                    <label for="noicapCreate" class="form-label">Nơi cấp CCCD</label>
+                    <input type="text" class="form-control" id="noicapCreate">
+                </div>
+                <div class="mb-3">
                     <label for="roomIdCreate" class="form-label">Mã phòng ở</label>
                     <select id="roomIdCreate" class="form-select" aria-label="Default select example">
                         {{#each rooms}}
@@ -206,7 +214,6 @@
                     <label for="note" class="form-label">Ghi chú</label>
                     <input type="text" class="form-control" id="note">
                 </div>
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
@@ -250,6 +257,8 @@
             const url = 'http://localhost:3000/host/api/manage-customer';
             const data = { 
                 cccd: $("#cccdCreate").val(),
+                ngaycap: $("#ngaycapCreate").val(),
+                noicap: $('#noicapCreate').val(),
                 maphong: $("#roomIdCreate").val(),
                 hoten: $("#nameCreate").val(),
                 ngaysinh: $("#dateCreate").val(),

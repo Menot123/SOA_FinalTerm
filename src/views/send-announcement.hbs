@@ -87,6 +87,7 @@
                 <form action="/host/send-announcement" method="post">
                     <div class="contact-item">Email nhận:</div>
                     <select class="contact-box" name="to" id="to">
+                        <option value="all">Tất cả phòng</option>
                         {{#each roomMail}}
                         <option value="{{email}}">Phòng {{maphong}} - {{email}}</option>
                         {{/each}}

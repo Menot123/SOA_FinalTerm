@@ -250,7 +250,10 @@ async function sendResponse(req, res, next) {
 
 async function indexLogin(req, res, next) {
     try {
-        res.render('login');
+        if (req.session.loggedin)
+            res.redirect('/host')
+        else
+            res.render('login');
     } catch (err) {
         console.error('Error', err.message);
         next(err);
@@ -335,7 +338,7 @@ async function checkBill(req, res, next) {
             const billDetail = await response2.json();
             const status = await homeServices.getBillById(req.query.input__code)
             if (status.length > 0) {
-                res.render('manage-extract-bill', { layout: false, data:status[0], hopdong: hd });
+                res.render('manage-extract-bill', { layout: false, data: status[0], hopdong: hd });
             }
         }
     } catch (err) {
@@ -370,5 +373,11 @@ module.exports = {
     getInfoTRRF,
     indexResponse,
     sendResponseAPI,
-    sendResponse, indexLogin, handleLogin, handleLoginAPI, checkBill, resetPassword,changePass, 
+    sendResponse,
+    indexLogin,
+    handleLogin,
+    handleLoginAPI,
+    checkBill,
+    resetPassword,
+    changePass,
 };

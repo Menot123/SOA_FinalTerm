@@ -43,12 +43,12 @@ async function manageCustomer(req, res, next) {
             }
         }
         const data = await responseCustomer.json()
-        // console.log(data)
+            // console.log(data)
 
         // Get groupt room
         const responseRoom = await fetch(url + "/rooms")
         const rooms = await responseRoom.json()
-        // console.log(rooms[0])
+            // console.log(rooms[0])
         res.render('manage-customer', { layout: 'manager', customer: data.customer, rooms: rooms, filter: filter, pageCount: data.pageCount, currentPage: data.currentPage });
     } catch (err) {
         console.error('Error', err.message);
@@ -330,13 +330,13 @@ async function manageBills(req, res, next) {
             if (req.params.month) {
                 responseBill = await fetch(url + "/manage-bills/" + req.params.year + "/" + req.params.month)
                 bills = await responseBill.json()
-                // console.log(bills)
+                    // console.log(bills)
             }
         }
         // Get groupt room
         const responseRoom = await fetch(url + "/rooms")
         const rooms = await responseRoom.json()
-        // console.log(rooms[0])
+            // console.log(rooms[0])
 
 
         let billResult = []
@@ -539,18 +539,6 @@ async function indexForgot(req, res, next) {
         next(err);
     }
 }
-async function getSendAnnouncementPage(req, res, next) {
-    try {
-        let roomMail = await hostServices.getRoomMail();
-        roomMail.sort((a, b) => a.maphong.localeCompare(b.maphong));
-        // console.log(roomMail);
-        res.render('send-announcement', { layout: 'manager', roomMail: roomMail });
-
-    } catch (err) {
-        console.error('Error', err.message);
-        next(err);
-    }
-}
 
 async function sendLinkReset(req, res, next) {
     if (!req.body.email) {
@@ -595,16 +583,35 @@ async function createAccount(req, res, next) {
     }
 }
 
+async function getSendAnnouncementPage(req, res, next) {
+    try {
+        let roomMail = await hostServices.getRoomMail();
+        roomMail.sort((a, b) => a.maphong.localeCompare(b.maphong));
+        // console.log(roomMail);
+        res.render('send-announcement', { layout: 'manager', roomMail: roomMail });
+
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
 async function sendAnnouncement(req, res, next) {
     try {
-        console.log(req.body)
+        // console.log(req.body)
         const { to, subject, content } = req.body
-        mailer.sendMail(to, subject, content);
+        if (to == "all") {
+            let roomMail = await hostServices.getRoomMail();
+            roomMail.forEach(function(data) {
+                mailer.sendMail(data.email, subject, content);
+            });
+        } else {
+            mailer.sendMail(to, subject, content);
+        }
         req.session.flash = { message: `Gửi thông báo thành công` }
         res.redirect('/host/send-announcement');
     } catch (err) {
         console.error('Error', err.message);
-        s
         next(err);
     }
 }

@@ -152,8 +152,8 @@ async function hidenResponse(id) {
 
 async function createCustomer(data) {
     const record = await dbClient.query(
-        `INSERT INTO khachthuetro(cccd, maphong, hoten, ngaysinh, sodienthoai, diachi, email, ghichu) 
-        VALUES ('${data.cccd}', '${data.maphong}', '${data.hoten}', '${data.ngaysinh}', '${data.sodienthoai}', '${data.diachi}', '${data.email}', '${data.ghichu}')`
+        `INSERT INTO khachthuetro(cccd, maphong, hoten, ngaysinh, sodienthoai, diachi, email, ghichu, ngaycap, noicap) 
+        VALUES ('${data.cccd}', '${data.maphong}', '${data.hoten}', '${data.ngaysinh}', '${data.sodienthoai}', '${data.diachi}', '${data.email}', '${data.ghichu}', '${data.ngaycap}', '${data.noicap}')`
     );
     return record;
 };

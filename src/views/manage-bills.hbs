@@ -180,7 +180,7 @@
                 alert("Hãy nhập đầy đủ thông tin");
                 return;
             }
-            tongtienthanhtoan = parseFloat(($("#finalNumberElectric").val() - $("#firstNumberEletric").val()) * $("#priceEletric").val() + ($("#finalNumberWater").val() - $("#firstNumberWater").val()) * $("#priceWater").val() + $("#priceInternet").val()) + parseFloat(dataHopdong.result[0].giathue)
+            tongtienthanhtoan = parseFloat(($("#finalNumberElectric").val() - $("#firstNumberEletric").val()) * parseFloat($("#priceEletric").val()) + (parseFloat($("#finalNumberWater").val()) - parseFloat($("#firstNumberWater").val())) * parseFloat($("#priceWater").val()) + parseFloat($("#priceInternet").val())) + parseFloat(dataHopdong.result[0].giathue)
             const data = {
                 maphong: $("#roomIdExtract").val(),
                 cccd: $("#cccdExtract").val(),

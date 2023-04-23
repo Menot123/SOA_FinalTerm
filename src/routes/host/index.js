@@ -32,15 +32,15 @@ router.post('/logout', bossController.handleLogout);
 
 
 router.get('/api/quan-ly-phan-hoi', bossController.manResponseAPI)
-router.get('/quan-ly-phan-hoi', bossController.manResponse)
+router.get('/quan-ly-phan-hoi', loggedin, bossController.manResponse)
 
 router.post('/send-response/:email', bossController.sendLinkResponse)
 router.post('/flag', bossController.hidenResponse)
 
 
-router.get('/manage-bills', bossController.manageBills);
-router.get('/manage-bills/:year', bossController.manageBills);
-router.get('/manage-bills/:year/:month', bossController.manageBills);
+router.get('/manage-bills', loggedin, bossController.manageBills);
+router.get('/manage-bills/:year', loggedin, bossController.manageBills);
+router.get('/manage-bills/:year/:month', loggedin, bossController.manageBills);
 router.get('/api/manage-bills', bossController.manageBillsAPI);
 router.get('/api/manage-bills/:year', bossController.manageBillsAPI);
 router.get('/api/manage-bills/:year/:month', bossController.manageBillsAPI);
@@ -48,7 +48,7 @@ router.get('/api/manage-bills/:year/:month', bossController.manageBillsAPI);
 router.post('/api/extract-bill', bossController.extractBillAPI);
 router.post('/extract-bill', bossController.extractBill);
 router.get('/api/bill-detail/:mahd', bossController.getBillDetailAPI);
-router.get('/hop-dong-thue-tro', bossController.getHopDongThueTro)
+router.get('/hop-dong-thue-tro', loggedin, bossController.getHopDongThueTro)
 
 router.get('/api/get-hopdong-by-maphong/:maphong', bossController.getHopDongByMaphongAPI);
 router.put('/hidenHD', bossController.hidenHD)
@@ -59,13 +59,13 @@ router.post('/HDTT', loggedin, bossController.createHDTT)
 router.get('/forgot', bossController.indexForgot)
 router.post('/forgot-password', bossController.sendLinkReset)
 
-router.get('/create-account', bossController.indexCreateAccount)
+router.get('/create-account', loggedin, bossController.indexCreateAccount)
 router.post('/register', bossController.createAccount)
 
 
 
 
-router.get('/send-announcement', bossController.getSendAnnouncementPage);
+router.get('/send-announcement', loggedin, bossController.getSendAnnouncementPage);
 router.post('/send-announcement', bossController.sendAnnouncement);
 
 
