@@ -6,10 +6,13 @@ const mailer = require('../util/mailer')
 
 async function index(req, res, next) {
     try {
+        let response = await fetch("http://localhost:3000/host/api/rooms")
+        const rooms = await response.json()
+        console.log(rooms[0])
         if (req.session.admin) {
-            res.render('admin', { layout: 'manager' });
+            res.render('admin', { layout: 'manager', rooms: rooms });
         } else {
-            res.render('admin', { layout: 'manager', manager: 'manager' });
+            res.render('admin', { layout: 'manager', manager: 'manager', rooms: rooms });
         }
     } catch (err) {
         console.error('Error', err.message);
@@ -464,7 +467,7 @@ async function getBillDetailAPI(req, res, next) {
 async function getHopDongThueTro(req, res, next) {
     try {
         result = await hostServices.getHopDongThueTro();
-        res.render('ad_manHDTT', {layout: 'manager', data: result});
+        res.render('ad_manHDTT', { layout: 'manager', data: result });
     } catch (err) {
         console.error('Error', err.message);
         next(err);
@@ -495,7 +498,7 @@ async function getDetailHDTTById(req, res, next) {
             data = await hostServices.getDetailHDTTById(req.params.id)
         }
         const inf = await hostServices.getInfoById(req.params.id)
-        res.render('ad_hopdong', { layout: false, data: data[0], inf:inf[0]});
+        res.render('ad_hopdong', { layout: false, data: data[0], inf: inf[0] });
     } catch (err) {
         console.error('Error', err.message);
         next(err);
@@ -504,7 +507,7 @@ async function getDetailHDTTById(req, res, next) {
 
 async function indexHDTT(req, res, next) {
     try {
-       res.render('createHD',{layout: 'manager'})
+        res.render('createHD', { layout: 'manager' })
     } catch (err) {
         console.error('Error', err.message);
         next(err);
@@ -514,14 +517,14 @@ async function indexHDTT(req, res, next) {
 async function createHDTT(req, res, next) {
     try {
         const status = await hostServices.createHDTT(req.body)
-        if(status.affectedRows > 0) {
-            req.session.flash = {message: "Thêm hợp đồng thành công"}
+        if (status.affectedRows > 0) {
+            req.session.flash = { message: "Thêm hợp đồng thành công" }
             res.redirect('/host/hop-dong-thue-tro')
         } else {
-            req.session.flash = {message: "Hiện bạn chưa có hóa đơn nào"}
+            req.session.flash = { message: "Hiện bạn chưa có hóa đơn nào" }
             res.redirect('/')
         }
-    //    res.render('createHD',{layout: 'manager'})
+        //    res.render('createHD',{layout: 'manager'})
     } catch (err) {
         console.error('Error', err.message);
         next(err);
@@ -531,6 +534,18 @@ async function createHDTT(req, res, next) {
 async function indexForgot(req, res, next) {
     try {
         res.render('forgot_pass')
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+async function getSendAnnouncementPage(req, res, next) {
+    try {
+        let roomMail = await hostServices.getRoomMail();
+        roomMail.sort((a, b) => a.maphong.localeCompare(b.maphong));
+        // console.log(roomMail);
+        res.render('send-announcement', { layout: 'manager', roomMail: roomMail });
+
     } catch (err) {
         console.error('Error', err.message);
         next(err);
@@ -563,14 +578,14 @@ async function indexCreateAccount(req, res, next) {
 
 async function createAccount(req, res, next) {
     try {
-        if(req.body) {
+        if (req.body) {
             const status = await hostServices.createAccount(req.body)
             console.log(status)
-            if(status > 0) {
-                req.session.flash = {message: "Tạo tài khoản thành công"}
+            if (status > 0) {
+                req.session.flash = { message: "Tạo tài khoản thành công" }
                 res.redirect('/host')
             } else {
-                req.session.flash = {message: "Tạo tài khoản thất bại"}
+                req.session.flash = { message: "Tạo tài khoản thất bại" }
                 res.redirect('/host/create-account')
             }
         }
@@ -580,6 +595,19 @@ async function createAccount(req, res, next) {
     }
 }
 
+async function sendAnnouncement(req, res, next) {
+    try {
+        console.log(req.body)
+        const { to, subject, content } = req.body
+        mailer.sendMail(to, subject, content);
+        req.session.flash = { message: `Gửi thông báo thành công` }
+        res.redirect('/host/send-announcement');
+    } catch (err) {
+        console.error('Error', err.message);
+        s
+        next(err);
+    }
+}
 
 module.exports = {
     index,
@@ -617,4 +645,6 @@ module.exports = {
     sendLinkReset,
     indexCreateAccount,
     createAccount,
+    getSendAnnouncementPage,
+    sendAnnouncement
 };

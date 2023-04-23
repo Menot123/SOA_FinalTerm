@@ -355,6 +355,15 @@ async function createAccount(inf) {
     }
 }
 
+async function getRoomMail() {
+    try {
+        var result = await repo.getRoomMail()
+        return result
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong in getRoomMail');
+    }
+}
 module.exports = {
     getTRRF,
     getDetailById,
@@ -383,7 +392,8 @@ module.exports = {
     createBill,
     getBillDetail,
     getHopDong,
-    getHDTTByMaPhong, 
+    getHDTTByMaPhong,
     findUserByEmail,
     createAccount,
+    getRoomMail
 }

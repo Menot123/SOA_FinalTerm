@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/support.css">
+    <title>Gửi thông báo</title>
+    <style>
+        .contact-item {
+
+            font-family: Lato;
+            font-size: 24px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: #575159;
+            padding-top: 20px;
+        }
+
+        .contact-box {
+            width: 697.5px;
+            height: 55px;
+            border-radius: 5px;
+            border: solid 2px #b6b5b7;
+            background-color: #fffefe;
+        }
+
+        .contact-reason {
+            font-family: Lato;
+            font-size: 24px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: #575159;
+            padding-top: 20px;
+        }
+
+        .contact-reason-box {
+            width: 698px;
+            height: 248px;
+            border-radius: 5px;
+            border: solid 2px #b6b5b7;
+            background-color: #fffefe;
+        }
+
+        ::placeholder {
+            width: 672.7px;
+            height: 24px;
+            font-family: Lato;
+            font-size: 20px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: #b8b8b8;
+        }
+
+        .button {
+            width: 698px;
+            height: 74px;
+            background-color: blue;
+            font-family: Lato;
+            font-size: 26px;
+            font-weight: 900;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            text-align: center;
+            color: #e8e8e8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row cover">
+            <div class="text-center">
+                <h1>GỬI THÔNG BÁO</h1>
+                <form action="/host/send-announcement" method="post">
+                    <div class="contact-item">Email nhận:</div>
+                    <select class="contact-box" name="to" id="to">
+                        {{#each roomMail}}
+                        <option value="{{email}}">Phòng {{maphong}} - {{email}}</option>
+                        {{/each}}
+                    </select>
+                    <div class="contact-item">Chủ đề:</div>
+                    <input class="contact-box" type="text" name="subject" placeholder="">
+                    <div class="contact-reason">Nội dung:</div>
+                    <textarea class="contact-reason-box" name="content" id="content" cols="30" rows="10"></textarea>
+                    <button class="button" type="submit">GỬI</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+
+</script>
+
+</html>

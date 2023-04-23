@@ -257,6 +257,12 @@ async function createAccount(inf) {
 
 
 
+async function getRoomMail() {
+    const record = await dbClient.query(
+        `SELECT maphong,email FROM khachthuetro WHERE email is not Null`
+    );
+    return record;
+};
 module.exports = {
     getTRRF,
     getDetailById,
@@ -288,4 +294,5 @@ module.exports = {
     getHDTTByMaPhong,
     findUserByEmail,
     createAccount,
+    getRoomMail
 }
