@@ -364,6 +364,16 @@ async function getRoomMail() {
         throw new Error('Service: Something wrong in getRoomMail');
     }
 }
+
+async function completeBill(maphong, date) {
+    try {
+        var result = await repo.completeBill(maphong, date)
+        return result
+    } catch (err) {
+        console.log(err);
+        throw new Error('Service: Something wrong in complete Bill');
+    }
+}
 module.exports = {
     getTRRF,
     getDetailById,
@@ -395,5 +405,6 @@ module.exports = {
     getHDTTByMaPhong,
     findUserByEmail,
     createAccount,
-    getRoomMail
+    getRoomMail,
+    completeBill
 }

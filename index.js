@@ -139,6 +139,20 @@ app.engine(
                 if (value1 == value2)
                     return "selected";
                 return "";
+            },
+            checkBill: function(hoadon) {
+                if (hoadon == "Chưa tạo") {
+                    return "";
+                } else {
+                    return "disabled"
+                }
+            },
+            checkCompleteBill: function(trangthai) {
+                if (trangthai == "Đã đóng tiền") {
+                    return "disabled";
+                } else {
+                    return "";
+                }
             }
         }
     }),

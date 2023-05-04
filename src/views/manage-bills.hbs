@@ -52,13 +52,12 @@
             <tr>
                 <th class="align-middle" scope="row">{{maphong}}</th>
                 <td class="align-middle">{{giathue}}</td>
-                <td class="align-middle">{{hoadon}}</td>
+                <td class="align-middle">{{{hoadon}}}</td>
                 <td class="align-middle">{{trangthai}}</td>
                 <td class="align-middle" style="width: 30%;">
                     <button onclick="extractBill(this)" class="text-white btn btn-success" data-bs-toggle="modal"
-                        data-bs-target="#extractBillModal">Xuất hóa đơn</button>
-                    <button onclick="completeBill(this)" class="text-white btn btn-danger" data-bs-toggle="modal"
-                        data-bs-target="#deleteCustomerModal">Xác nhận đã đóng tiền</button>
+                        data-bs-target="#extractBillModal" {{checkBill hoadon}}>Xuất hóa đơn</button>
+                    <a href="/host/complete-bill/{{maphong}}" onclick="completeBill(this)" class="text-white btn btn-danger {{checkCompleteBill trangthai}}">Xác nhận đã đóng tiền</a>
                 </td>
             </tr>
             {{/each}}

@@ -62,6 +62,7 @@ router.post('/forgot-password', bossController.sendLinkReset)
 router.get('/create-account', loggedin, bossController.indexCreateAccount)
 router.post('/register', bossController.createAccount)
 
+router.get('/complete-bill/:maphong', loggedin, bossController.completeBill)
 
 
 

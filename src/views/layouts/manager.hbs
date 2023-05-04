@@ -72,12 +72,14 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100 d-flex justify-content-around">
                         {{#unless manager}}
                         <li class="nav-item">
-                            <a style="font-size: 150%;  width: 100%;" class="nav-link " href="/host/create-account">Tạo tài khoản</a>
+                            <a style="font-size: 150%;  width: 100%;" class="nav-link " href="/host/create-account">Tạo
+                                tài khoản</a>
                         </li>
                         {{/unless }}
 
                         <li class="nav-item">
-                            <a style="font-size: 150%;  width: 100%;" class="nav-link" href="/host/send-announcement">Gửi
+                            <a style="font-size: 150%;  width: 100%;" class="nav-link"
+                                href="/host/send-announcement">Gửi
                                 thông báo</a>
                         </li>
 
@@ -103,8 +105,10 @@
                                     {{/unless }}
                                     <li><a class="dropdown-item" href="/host/manage-customer">Quản lý thông tin khách
                                             trọ</a></li>
-                                    <li><a class="dropdown-item" href="/host/hop-dong-thue-tro">Quản lý hợp đồng thuê trọ</a></li>
-                                    <li><a class="dropdown-item" href="/host/manage-bills">Quản lý tiền phòng</a></li>
+                                    <li><a class="dropdown-item" href="/host/hop-dong-thue-tro">Quản lý hợp đồng thuê
+                                            trọ</a></li>
+                                    <li><a class="dropdown-item" id="current" href="/host/manage-bills">Quản lý tiền
+                                            phòng</a></li>
 
                             </div>
                         </li>
@@ -133,6 +137,12 @@
 
 </body>
 <script>
+    $(document).ready(function () {
+        const date = new Date();
+        const year = date.getFullYear()
+        const month = date.getMonth() + 1
+        $("#current").attr("href", $("#current").attr("href") + "/" + year + "/" + month);
+    });
     // Lấy đối tượng flash message và nút tắt
     const flashMessage = document.getElementById('flash-alert');
 

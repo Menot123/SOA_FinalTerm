@@ -255,7 +255,12 @@ async function createAccount(inf) {
     return record.affectedRows
 }
 
-
+async function completeBill(maphong, date) {
+    const record = await dbClient.query(
+        `UPDATE hoadon set thoigianthanhtoan = ? WHERE maphong = ? LIMIT 1`, [date, maphong]
+    )
+    return record.affectedRows
+}
 
 async function getRoomMail() {
     const record = await dbClient.query(
@@ -294,5 +299,6 @@ module.exports = {
     getHDTTByMaPhong,
     findUserByEmail,
     createAccount,
-    getRoomMail
+    getRoomMail,
+    completeBill
 }

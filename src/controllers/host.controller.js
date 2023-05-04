@@ -8,7 +8,7 @@ async function index(req, res, next) {
     try {
         let response = await fetch("http://localhost:3000/host/api/rooms")
         const rooms = await response.json()
-        console.log(rooms[0])
+            // console.log(rooms[0])
         if (req.session.admin) {
             res.render('admin', { layout: 'manager', rooms: rooms });
         } else {
@@ -246,7 +246,7 @@ async function updateCustomerAPI(req, res, next) {
 async function createCustomerAPI(req, res, next) {
     try {
         let data = req.body
-        console.log(data);
+            // console.log(data);
         if (data.cccd) {
             const result = await hostServices.createCustomer(data)
             req.session.flash = { message: `Khách trọ có CCCD là ${data.cccd} đã được thêm` }
@@ -345,8 +345,9 @@ async function manageBills(req, res, next) {
                 const khu = rooms[i];
                 for (let j = 0; j < khu.phong.length; j++) {
                     const phong = khu.phong[j];
+                    // console.log(phong.maphong)
                     const bill = bills.bills.find((b) => b.maphong === phong.maphong);
-                    const hoadon = bill ? "Đã tạo" : "Chưa tạo";
+                    const hoadon = bill ? `<a href="/check-bill?input__code=${phong.maphong}">Đã tạo<a>` : "Chưa tạo";
                     const trangthai = bill && bill.thoigianthanhtoan ? "Đã đóng tiền" : "Chưa đóng tiền";
                     billResult.push({
                         maphong: phong.maphong,
@@ -616,6 +617,17 @@ async function sendAnnouncement(req, res, next) {
     }
 }
 
+async function completeBill(req, res, next) {
+    try {
+        const date = new Date();
+        const result = await hostServices.completeBill(req.params.maphong, date);
+        res.redirect('/host/manage-bills/' + date.getFullYear() + '/' + (date.getMonth() + 1));
+    } catch (err) {
+        console.error('Error', err.message);
+        next(err);
+    }
+}
+
 module.exports = {
     index,
     manageCustomer,
@@ -653,5 +665,6 @@ module.exports = {
     indexCreateAccount,
     createAccount,
     getSendAnnouncementPage,
-    sendAnnouncement
+    sendAnnouncement,
+    completeBill
 };
