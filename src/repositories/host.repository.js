@@ -172,7 +172,7 @@ async function getBillByYearMonth(year, month) {
 };
 async function getHopDongByMaphong(maphong) {
     const record = await dbClient.query(
-        `SELECT * FROM hopdongthuetro WHERE maphong = '${maphong}'`
+        `SELECT * FROM hopdongthuetro WHERE maphong = '${maphong}' AND trangthai is NULL`
     );
     return record;
 };

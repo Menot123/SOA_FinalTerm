@@ -128,7 +128,7 @@ CREATE TABLE `hopdongthuetro` (
   `tenchutro` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT 'Nguyễn Văn Tùng',
   `giatiendien` float DEFAULT NULL,
   `giatiennuoc` float DEFAULT NULL,
-  `giatieninternet` float DEFAULT NULL,
+  `giatieninternet` float NOT NULL DEFAULT 0,
   `soluongnguoi` int(11) DEFAULT NULL,
   `tinhtrangphong` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `trangthai` varchar(20) DEFAULT NULL
