@@ -57,7 +57,8 @@
                 <td class="align-middle" style="width: 30%;">
                     <button onclick="extractBill(this)" class="text-white btn btn-success" data-bs-toggle="modal"
                         data-bs-target="#extractBillModal" {{checkBill hoadon}}>Xuất hóa đơn</button>
-                    <a href="/host/complete-bill/{{maphong}}" onclick="completeBill(this)" class="text-white btn btn-danger {{checkCompleteBill trangthai}}">Xác nhận đã đóng tiền</a>
+                    <a href="/host/complete-bill/{{maphong}}" onclick="completeBill(this)"
+                        class="text-white btn btn-danger {{checkCompleteBill trangthai}}">Xác nhận đã đóng tiền</a>
                 </td>
             </tr>
             {{/each}}
@@ -151,6 +152,26 @@
     function chooseMonth(btnMonth) {
         window.location.href = "/host/manage-bills/{{year}}/" + btnMonth.value
     }
+    function splitThoiHan(thoihan) {
+
+        const [start, end] = thoihan.split(" đến ");
+        const [startDay, startMonth, startYear] = start.replace(/\//g, "-").split("-");
+        const [endDay, endMonth, endYear] = end.replace(/\//g, "-").split("-");
+
+        return {
+            ngayBatDau: startDay,
+            thangBatDau: startMonth,
+            namBatDau: startYear,
+            ngayKetThuc: endDay,
+            thangKetThuc: endMonth,
+            namKetThuc: endYear
+        };
+    }
+    function getDaysInMonth(month,year) {
+        let date = new Date(year, month, 1); // Tạo đối tượng Date với ngày là 1 và tháng, năm được cung cấp
+        let daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate(); // Lấy số ngày trong tháng
+        return daysInMonth
+    }
     async function extractBill(btnExtractBill) {
         let tr = btnExtractBill.parentNode.parentNode
         let maphong = tr.children[0].innerHTML
@@ -174,12 +195,41 @@
 
         $("#priceInternet").val(dataHopdong.result[0].giatieninternet)
 
+        const han = splitThoiHan(dataHopdong.result[0].ngaybatdauvangayketthuc)
+
         $('#confirmExtract').click(async function (e) {
             if ($("#roomIdExtract").val() == '' || $("#cccdExtract").val() == '' || $("#firstNumberElectric").val() == '' || $("#finalNumberElectric").val() == '' || $("#priceElectric").val() == '' || $("#firstNumberWater") == '' || $("#finalNumberWater").val() == '' || $("#priceWater").val() == '') {
                 alert("Hãy nhập đầy đủ thông tin");
                 return;
             }
+
             tongtienthanhtoan = parseFloat(($("#finalNumberElectric").val() - $("#firstNumberEletric").val()) * parseFloat($("#priceEletric").val()) + (parseFloat($("#finalNumberWater").val()) - parseFloat($("#firstNumberWater").val())) * parseFloat($("#priceWater").val()) + parseFloat($("#priceInternet").val())) + parseFloat(dataHopdong.result[0].giathue)
+            tienphong = dataHopdong.result[0].giathue
+
+            let year = 0, month = 0;
+            {{#if year}}
+                year = {{year}};
+            {{/if}}
+            {{#if month}}
+                month = {{month}};
+            {{/if}}
+            if(year >= han.namBatDau && year <= han.namKetThuc){
+                if(year == han.namBatDau || year == han.namKetThuc){
+                    if(month == han.thangBatDau){
+                        numberDay = getDaysInMonth(month, year)
+                        tienphong = parseFloat(tienphong) * parseFloat((numberDay - han.ngayBatDau) / numberDay)
+                        tongtienthanhtoan = parseFloat(($("#finalNumberElectric").val() - $("#firstNumberEletric").val()) * parseFloat($("#priceEletric").val()) + (parseFloat($("#finalNumberWater").val()) - parseFloat($("#firstNumberWater").val())) * parseFloat($("#priceWater").val()) + parseFloat($("#priceInternet").val())) + tienphong
+                        console.log(tienphong)
+                    }
+                    else if(month == han.thangKetThuc){
+                        numberDay = getDaysInMonth(month, year)
+                        tienphong = parseFloat(tienphong) * parseFloat(han.ngayKetThuc / numberDay)
+                        tongtienthanhtoan = parseFloat(($("#finalNumberElectric").val() - $("#firstNumberEletric").val()) * parseFloat($("#priceEletric").val()) + (parseFloat($("#finalNumberWater").val()) - parseFloat($("#firstNumberWater").val())) * parseFloat($("#priceWater").val()) + parseFloat($("#priceInternet").val())) + tienphong
+                        console.log(tienphong)
+                    }
+                }
+            }
+
             const data = {
                 maphong: $("#roomIdExtract").val(),
                 cccd: $("#cccdExtract").val(),
@@ -190,7 +240,7 @@
                 sotiendien: $("#priceEletric").val(),
                 sotiennuoc: $("#priceWater").val(),
                 sotieninternet: $("#priceInternet").val(),
-                tienphong: dataHopdong.result[0].giathue,
+                tienphong: tienphong,
                 tongtienthanhtoan: tongtienthanhtoan
             };
             console.log(0)

@@ -447,7 +447,7 @@ async function extractBill(req, res, next) {
         const billDetail = await response2.json();
 
         // console.log(billDetail.result[0])
-        res.render('manage-extract-bill', { layout: false, data: billDetail.result[0], hopdong: mp });
+        res.render('manage-extract-bill', { layout: false, data: billDetail.result[0], hopdong: mp, tienphong: parseFloat(data.tienphong) });
 
     } catch (err) {
         console.error('Error', err.message);
